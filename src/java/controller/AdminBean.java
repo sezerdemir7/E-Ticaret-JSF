@@ -4,26 +4,26 @@
  */
 package controller;
 
-import dao.CategoryDAO;
-import entity.Category;
+import dao.AdminDAO;
+import entity.Admin;
 
 /**
  *
- * @author Demirr
+ * @author serki
  */
-public class CategoryBean extends BaseBean<Category, CategoryDAO>{
+public class AdminBean extends BaseBean<Admin, AdminDAO>{
 
-    public CategoryBean(Category entity, CategoryDAO dao) {
+    public AdminBean(Admin entity, AdminDAO dao) {
         super(entity, dao);
     }
 
     @Override
-    protected Category createEntityInstance() {
+    protected Admin createEntityInstance() {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
     @Override
-    protected CategoryDAO createDAOInstance() {
+    protected AdminDAO createDAOInstance() {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
     
