@@ -6,11 +6,15 @@ package controller;
 
 import dao.FavoriteDAO;
 import entity.Favorite;
+import jakarta.enterprise.context.SessionScoped;
+import jakarta.inject.Named;
 
 /**
  *
  * @author serki
  */
+@Named
+@SessionScoped
 public class FavoriteBean  extends  BaseBean<Favorite, FavoriteDAO>{
 
     public FavoriteBean(Favorite entity, FavoriteDAO dao) {

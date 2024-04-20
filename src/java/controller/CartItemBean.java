@@ -6,11 +6,15 @@ package controller;
 
 import dao.CartItemDAO;
 import entity.CartItem;
+import jakarta.enterprise.context.SessionScoped;
+import jakarta.inject.Named;
 
 /**
  *
  * @author serki
  */
+@Named
+@SessionScoped
 public class CartItemBean extends BaseBean<CartItem,CartItemDAO> {
 
     public CartItemBean(CartItem entity, CartItemDAO dao) {

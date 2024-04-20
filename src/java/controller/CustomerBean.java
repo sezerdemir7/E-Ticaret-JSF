@@ -6,11 +6,15 @@ package controller;
 
 import dao.CustomerDAO;
 import entity.Customer;
+import jakarta.enterprise.context.SessionScoped;
+import jakarta.inject.Named;
 
 /**
  *
  * @author serki
  */
+@Named
+@SessionScoped
 public class CustomerBean extends BaseBean<Customer,CustomerDAO>{
 
     public CustomerBean(Customer entity, CustomerDAO dao) {
