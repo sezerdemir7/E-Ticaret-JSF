@@ -26,15 +26,16 @@ public class ProductDAO extends DBConnect implements BaseDAO<Product> {
         try {
             // PreparedStatement oluştur
             PreparedStatement pst = this.getConnect().prepareStatement(
-                    "INSERT INTO Product (name, stock, category_id, price, store_id, created_date, last_modified_date) "
+                    "INSERT INTO Product (name, stock, detail,category_id, price, store_id, created_date, last_modified_date) "
                     + "VALUES (?, ?, ?, ?, ?, ?, ?)");
 
             // Parametreleri ayarla
             pst.setString(1, product.getName());
             pst.setInt(2, product.getStock());
-            pst.setLong(3, product.getCategory().getId()); // Kategoriye referans
-            pst.setInt(4, product.getPrice());
-            pst.setLong(5, product.getStore().getId()); // Mağazaya referans
+            pst.setString(3, product.getDetail());
+            pst.setLong(4, product.getCategory().getId()); // Kategoriye referans
+            pst.setInt(5, product.getPrice());
+            pst.setLong(6, product.getStore().getId()); // Mağazaya referans
 
             // Sorguyu çalıştır
             pst.executeUpdate();

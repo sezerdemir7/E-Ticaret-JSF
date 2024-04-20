@@ -36,7 +36,7 @@ public class SellerBean extends BaseBean<Seller, SellerDAO>{
        
         if(sellerTest!=null && sellerTest.getPassword().equals(this.getEntity().getPassword())){
             this.setEntity(sellerTest);
-          return "/index.xhtml?faces-redirect=true";
+          return "/panel/seller/seller-home.xhtml?faces-redirect=true";
         }
         else{
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Şifre Yanlış", "Şifre yanlış."));

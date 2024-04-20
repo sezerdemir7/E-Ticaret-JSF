@@ -13,6 +13,24 @@
     <h:body>
         
         <!-- cretate store -->
+         <div class="container">
+            <h:form>
+                <div class="mb-3">
+                    <label for="exampleInputFirstName" class="form-label">Store Name</label>
+                    <h:inputText id="exampleInputFirstName" class="form-control" value="#{storeBean.entity.name}" />
+                </div>
+               
+              
+                <h:commandButton value="Mağaza Oluştur" class="btn btn-primary" action="#{storeBean.create(sellerBean.entity)}" />
+
+               
+
+
+
+
+
+            </h:form>
+        </div>
 
 
 
