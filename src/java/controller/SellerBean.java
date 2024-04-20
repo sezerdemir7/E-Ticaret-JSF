@@ -9,6 +9,8 @@ import dao.SellerDAO;
 import entity.Category;
 import entity.Seller;
 import jakarta.enterprise.context.SessionScoped;
+import jakarta.faces.application.FacesMessage;
+import jakarta.faces.context.FacesContext;
 import jakarta.inject.Named;
 import java.util.List;
 
@@ -29,6 +31,18 @@ public class SellerBean extends BaseBean<Seller, SellerDAO>{
     public SellerBean() {
         super(null, null);
     }
+    public String login(){
+        Seller sellerTest=this.getDao().login(this.getEntity());
+       
+        if(sellerTest!=null && sellerTest.getPassword().equals(this.getEntity().getPassword())){
+            this.setEntity(sellerTest);
+          return "/index.xhtml?faces-redirect=true";
+        }
+        else{
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Şifre Yanlış", "Şifre yanlış."));
+            return null; // Başarısız giriş durumunda null döndürüyoruz
+        }
+    }
 
     @Override
     protected Seller createEntityInstance() {
@@ -40,50 +54,6 @@ public class SellerBean extends BaseBean<Seller, SellerDAO>{
         return new SellerDAO();
     }
 
-    @Override
-    public void setList(List<Seller> list) {
-        super.setList(list); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/OverriddenMethodBody
-    }
-
-    @Override
-    public List<Seller> getList() {
-        return super.getList(); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/OverriddenMethodBody
-    }
-
-    @Override
-    public void setDao(SellerDAO dao) {
-        super.setDao(dao); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/OverriddenMethodBody
-    }
-
-    @Override
-    public SellerDAO getDao() {
-        return super.getDao(); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/OverriddenMethodBody
-    }
-
-    @Override
-    public void setEntity(Seller entity) {
-        super.setEntity(entity); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/OverriddenMethodBody
-    }
-
-    @Override
-    public Seller getEntity() {
-        return super.getEntity(); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/OverriddenMethodBody
-    }
-
-    @Override
-    public void delete() {
-        super.delete(); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/OverriddenMethodBody
-    }
-
-    @Override
-    public void update() {
-        super.update(); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/OverriddenMethodBody
-    }
-
-    @Override
-    public void create() {
-        super.create(); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/OverriddenMethodBody
-    }
     
     
 }

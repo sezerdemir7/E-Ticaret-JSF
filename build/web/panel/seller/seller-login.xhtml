@@ -11,23 +11,24 @@
         <title>Seller Login</title>
     </h:head>
     <h:body>
-<div class="container">
-    <h:form>
+        <div class="container">
+            <h:form>
+                <h:messages />
 
-        <div class="mb-3">
-            <label for="exampleInputEmail1" class="form-label">Email address</label>
-            <h:inputText id="exampleInputEmail1" class="form-control" value="#{sellerBean.entity.email}" />
-            <small id="emailHelp" class="form-text">We'll never share your email with anyone else.</small>
-        </div>
-        <div class="mb-3">
-            <label for="exampleInputPassword1" class="form-label">Password</label>
-            <h:inputSecret id="exampleInputPassword1" class="form-control" value="#{sellerBean.entity.password}" />
-        </div>
+                <div class="mb-3">
+                    <label for="exampleInputEmail1" class="form-label">Email address</label>
+                    <h:inputText id="exampleInputEmail1" class="form-control" value="#{sellerBean.entity.email}" />
+                    <small id="emailHelp" class="form-text">We'll never share your email with anyone else.</small>
+                </div>
+                <div class="mb-3">
+                    <label for="exampleInputPassword1" class="form-label">Password</label>
+                    <h:inputSecret id="exampleInputPassword1" class="form-control" value="#{sellerBean.entity.password}" />
+                </div>
 
-        <h:commandButton value="Giriş Yap" class="btn btn-primary" action="#{sellerBean.login()}" />
-        <h:button value="Login Page" outcome="login.xhtml" class="btn btn-secondary" />
-    </h:form>
-</div>
+                <h:commandButton value="Giriş Yap" class="btn btn-primary" action="#{sellerBean.login()}" />
+            </h:form>
+
+        </div>
 
 
     </h:body>
