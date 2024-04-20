@@ -28,8 +28,7 @@ public abstract class BaseBean<T, D extends BaseDAO<T>> implements Serializable 
     }
     
 
-    public void create() {
-        
+    public void create() {        
         getDao().create(getEntity());
         clearForm();
     }

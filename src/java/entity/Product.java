@@ -14,6 +14,7 @@ public class Product extends BaseEntity{
 
     private String name;
     private int stock;
+    private String detail;
     private Category category;
     private int price;
     private Store store;
@@ -21,7 +22,7 @@ public class Product extends BaseEntity{
     public Product() {
     }
 
-    public Product(Long id, Timestamp createdDate, Timestamp lastModifiedDate, String name, int stock, Category category, int price, Store store) {
+    public Product(Long id, Timestamp createdDate, Timestamp lastModifiedDate, String name, int stock,String details, Category category, int price, Store store) {
         super(id, createdDate, lastModifiedDate);
         this.name = name;
         this.stock = stock;
@@ -29,6 +30,15 @@ public class Product extends BaseEntity{
         this.price = price;
         this.store = store;
     }
+
+    public String getDetail() {
+        return detail;
+    }
+
+    public void setDetail(String detail) {
+        this.detail = detail;
+    }
+    
 
     public String getName() {
         return name;

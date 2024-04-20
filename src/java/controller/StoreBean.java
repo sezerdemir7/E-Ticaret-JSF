@@ -5,6 +5,7 @@
 package controller;
 
 import dao.StoreDAO;
+import entity.Seller;
 import entity.Store;
 import jakarta.enterprise.context.SessionScoped;
 import jakarta.inject.Named;
@@ -20,15 +21,28 @@ public class StoreBean extends BaseBean<Store, StoreDAO> {
     public StoreBean(Store entity, StoreDAO dao) {
         super(entity, dao);
     }
+    
+    public StoreBean() {
+        super(null, null);
+    }
+    
+    
+
+    
+    public void create(Seller seller) {
+        this.getEntity().setSeller(seller);
+        super.create(); 
+    }
+    
 
     @Override
     protected Store createEntityInstance() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        return new Store();
     }
 
     @Override
     protected StoreDAO createDAOInstance() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        return new StoreDAO();
     }
     
 }
