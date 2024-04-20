@@ -1,0 +1,51 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="jakarta.faces.html"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+
+
+    <h:head>
+        <h:outputStylesheet library="css" name="bootstrap.min.css" />
+
+        <title>Seller Kayit</title>
+    </h:head>
+    <h:body>
+        <div class="container">
+            <p class="text-center fs-4">Satıcı Kayıt Sayfası</p>
+        </div>
+
+        <div class="container">
+            <h:form>
+                <div class="mb-3">
+                    <label for="exampleInputFirstName" class="form-label">First Name</label>
+                    <h:inputText id="exampleInputFirstName" class="form-control" value="#{sellerBean.entity.firstName}" />
+                </div>
+                <div class="mb-3">
+                    <label for="exampleInputLastName" class="form-label">Last Name</label>
+                    <h:inputText id="exampleInputLastName" class="form-control" value="#{sellerBean.entity.lastName}" />
+                </div>
+                <div class="mb-3">
+                    <label for="exampleInputEmail1" class="form-label">Email address</label>
+                    <h:inputText id="exampleInputEmail1" class="form-control" value="#{sellerBean.entity.email}" />
+                    <small id="emailHelp" class="form-text">We'll never share your email with anyone else.</small>
+                </div>
+                <div class="mb-3">
+                    <label for="exampleInputPassword1" class="form-label">Password</label>
+                    <h:inputSecret id="exampleInputPassword1" class="form-control" value="#{sellerBean.entity.password}" />
+                </div>
+                <h:commandButton value="Kayıt Ol" class="btn btn-primary" action="#{sellerBean.create()}" />
+
+                <br/>
+
+
+                <p>Hesabınız var mı , giriş yapmak için <a href="/panel/seller/seller-login?faces-redirect=true">buraya tıklayın</a>.</p>
+
+
+
+            </h:form>
+        </div>
+
+
+    </h:body>
+</html>
