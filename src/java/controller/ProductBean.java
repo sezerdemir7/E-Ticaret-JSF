@@ -22,6 +22,19 @@ public class ProductBean extends BaseBean<Product, ProductDAO> {
         super(entity, dao);
     }
     
+     public ProductBean() {
+        super(null, null);
+    }
+
+    @Override
+    public void create() {
+        
+        super.create(); 
+    }
+     
+     
+    
+    
 
     @Override
     protected Product createEntityInstance() {

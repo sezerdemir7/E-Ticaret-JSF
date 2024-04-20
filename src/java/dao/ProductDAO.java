@@ -26,16 +26,22 @@ public class ProductDAO extends DBConnect implements BaseDAO<Product> {
         try {
             // PreparedStatement oluştur
             PreparedStatement pst = this.getConnect().prepareStatement(
-                    "INSERT INTO Product (name, stock, detail,category_id, price, store_id, created_date, last_modified_date) "
-                    + "VALUES (?, ?, ?, ?, ?, ?, ?)");
+                    "INSERT INTO product (name, stock, detail,category_id, price, store_id) "
+                    + "VALUES (?, ?, ?, ?, ?, ?)");
 
             // Parametreleri ayarla
+            Category category = new Category(1L, "Teknoloji", Timestamp.valueOf("2024-04-18 17:08:26.247016"), Timestamp.valueOf("2024-04-18 17:08:26.247016"));
+
+            Seller seller = new Seller(22L, "deneme", "tes", "kjsadkvask", "debb@lhsd.com", Timestamp.valueOf("2024-04-18 17:08:26.247016"), Timestamp.valueOf("2024-04-18 17:08:26.247016"));
+
+            Store store = new Store("teknomarket", seller, 22L, Timestamp.valueOf("2024-04-18 17:08:26.247016"), Timestamp.valueOf("2024-04-18 17:08:26.247016"));
+
             pst.setString(1, product.getName());
             pst.setInt(2, product.getStock());
             pst.setString(3, product.getDetail());
-            pst.setLong(4, product.getCategory().getId()); // Kategoriye referans
+            pst.setLong(4, category.getId()); // Kategoriye referans
             pst.setInt(5, product.getPrice());
-            pst.setLong(6, product.getStore().getId()); // Mağazaya referans
+            pst.setLong(6,store.getId()); // Mağazaya referans
 
             // Sorguyu çalıştır
             pst.executeUpdate();
@@ -74,29 +80,24 @@ public class ProductDAO extends DBConnect implements BaseDAO<Product> {
                 product.setId(rs.getLong("id"));
                 product.setName(rs.getString("name"));
                 product.setStock(rs.getInt("stock"));
+                product.setDetail(rs.getString("detail"));
 
-              
                 //Category category = getCategoryById(rs.getLong("category_id"));
                 Category category = new Category(1L, "Teknoloji", Timestamp.valueOf("2024-04-18 17:08:26.247016"), Timestamp.valueOf("2024-04-18 17:08:26.247016"));
                 product.setCategory(category);
 
                 //Store store = getStoreById(rs.getLong("store_id"));
-                Seller seller=new Seller(1L,"deneme","tes","kjsadkvask","debb@lhsd.com",Timestamp.valueOf("2024-04-18 17:08:26.247016"),Timestamp.valueOf("2024-04-18 17:08:26.247016"));
-                Store store=new Store("teknomarket",seller,1L,Timestamp.valueOf("2024-04-18 17:08:26.247016"),Timestamp.valueOf("2024-04-18 17:08:26.247016"));
-                
+                Seller seller = new Seller(1L, "deneme", "tes", "kjsadkvask", "debb@lhsd.com", Timestamp.valueOf("2024-04-18 17:08:26.247016"), Timestamp.valueOf("2024-04-18 17:08:26.247016"));
+                Store store = new Store("teknomarket", seller, 1L, Timestamp.valueOf("2024-04-18 17:08:26.247016"), Timestamp.valueOf("2024-04-18 17:08:26.247016"));
+
                 product.setStore(store);
 
                 product.setPrice(rs.getInt("price"));
-              //  product.setCreatedDate(rs.getTimestamp("created_date").toLocalDateTime());
-               // product.setLastModifiedDate(rs.getTimestamp("last_modified_date").toLocalDateTime());
+                //  product.setCreatedDate(rs.getTimestamp("created_date").toLocalDateTime());
+                // product.setLastModifiedDate(rs.getTimestamp("last_modified_date").toLocalDateTime());
 
                 productList.add(product);
-                System.err.println("*******************");
-                System.err.println("*******************");
-                System.err.println("*******************");
-                System.err.println("*******************");
-                
-                
+
                 System.out.println("product listeleme işlemei başarılı");
             }
 
