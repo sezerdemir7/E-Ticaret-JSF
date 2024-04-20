@@ -4,26 +4,26 @@
  */
 package controller;
 
-import dao.CategoryDAO;
-import entity.Category;
+import dao.CartDAO;
+import entity.Cart;
 
 /**
  *
- * @author Demirr
+ * @author serki
  */
-public class CategoryBean extends BaseBean<Category, CategoryDAO>{
+public class CartBean extends BaseBean<Cart, CartDAO> {
 
-    public CategoryBean(Category entity, CategoryDAO dao) {
+    public CartBean(Cart entity, CartDAO dao) {
         super(entity, dao);
     }
 
     @Override
-    protected Category createEntityInstance() {
+    protected Cart createEntityInstance() {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
     @Override
-    protected CategoryDAO createDAOInstance() {
+    protected CartDAO createDAOInstance() {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
     

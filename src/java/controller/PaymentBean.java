@@ -4,26 +4,26 @@
  */
 package controller;
 
-import dao.CategoryDAO;
-import entity.Category;
+import dao.PaymentDAO;
+import entity.Payment;
 
 /**
  *
- * @author Demirr
+ * @author serki
  */
-public class CategoryBean extends BaseBean<Category, CategoryDAO>{
+public class PaymentBean extends BaseBean<Payment, PaymentDAO>{
 
-    public CategoryBean(Category entity, CategoryDAO dao) {
+    public PaymentBean(Payment entity, PaymentDAO dao) {
         super(entity, dao);
     }
 
     @Override
-    protected Category createEntityInstance() {
+    protected Payment createEntityInstance() {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
     @Override
-    protected CategoryDAO createDAOInstance() {
+    protected PaymentDAO createDAOInstance() {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
     

@@ -4,26 +4,26 @@
  */
 package controller;
 
-import dao.CategoryDAO;
-import entity.Category;
+import dao.OrderDAO;
+import entity.Order;
 
 /**
  *
- * @author Demirr
+ * @author serki
  */
-public class CategoryBean extends BaseBean<Category, CategoryDAO>{
+public class OrderBean  extends  BaseBean<Order, OrderDAO>{
 
-    public CategoryBean(Category entity, CategoryDAO dao) {
+    public OrderBean(Order entity, OrderDAO dao) {
         super(entity, dao);
     }
 
     @Override
-    protected Category createEntityInstance() {
+    protected Order createEntityInstance() {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
     @Override
-    protected CategoryDAO createDAOInstance() {
+    protected OrderDAO createDAOInstance() {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
     
