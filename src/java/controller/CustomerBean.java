@@ -4,10 +4,27 @@
  */
 package controller;
 
+import dao.CustomerDAO;
+import entity.Customer;
+
 /**
  *
  * @author serki
  */
-public class CustomerBean {
+public class CustomerBean extends BaseBean<Customer,CustomerDAO>{
+
+    public CustomerBean(Customer entity, CustomerDAO dao) {
+        super(entity, dao);
+    }
+
+    @Override
+    protected Customer createEntityInstance() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    protected CustomerDAO createDAOInstance() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
     
 }

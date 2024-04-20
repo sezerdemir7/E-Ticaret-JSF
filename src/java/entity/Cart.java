@@ -9,5 +9,5 @@ package entity;
  * @author serki
  */
 public class Cart {
-    
+    private Customer customer;
 }
