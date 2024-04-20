@@ -11,24 +11,33 @@
         <title>Product List</title>
     </h:head>
     <h:body>
-        
-        <div>Merhaba ürünler</div>
-        <div class="container">
+
+        <div class="container mt-1">
             <h:form>
-                <ui:repeat value="#{productBean.list}" var="e">
-                    <div class="card">
-                        <div class="card-header">
-                            #{e.name}
+                <div class="row row-cols-1 row-cols-md-3 g-4">
+                    <ui:repeat value="#{productBean.list}" var="product">
+                        <div class="col">
+                            <div class="card h-100">
+
+                                <div class="card-body">
+                                    <h5 class="card-title">#{product.name}</h5>
+                                    <p class="card-text">#{product.detail}</p>
+                                    <p class="card-text"><strong>Price: #{product.price}</strong></p>
+                                    <p class="card-text"><small class="text-muted">Stock: #{product.stock}</small></p>
+
+                                   <h:commandLink action="/panel/seller/seller-login.xhtml" styleClass="btn btn-primary"
+               rendered="#{not empty customerBean.entity.id}">
+    Sepete Ekle
+</h:commandLink>
+
+                                </div>
+                            </div>
                         </div>
-                        <div class="card-body">
-                            <h5 class="card-title">#{e.price}</h5>
-                            <p class="card-text">#{e.stock}</p>
-                            <a href="#" class="btn btn-primary">Go somewhere</a>
-                        </div>
-                    </div>
-                </ui:repeat>
+                    </ui:repeat>
+                </div>
             </h:form>
         </div>
+
 
 
 

@@ -11,19 +11,19 @@
         <title>Product List</title>
     </h:head>
     <h:body>
-        
-        <!-- cretate store -->
-         <div class="container">
+
+        <!-- cretate store 
+        <div class="container">
             <h:form>
                 <div class="mb-3">
                     <label for="exampleInputFirstName" class="form-label">Store Name</label>
                     <h:inputText id="exampleInputFirstName" class="form-control" value="#{storeBean.entity.name}" />
                 </div>
-               
-              
+
+
                 <h:commandButton value="Mağaza Oluştur" class="btn btn-primary" action="#{storeBean.create(sellerBean.entity)}" />
 
-               
+
 
 
 
@@ -31,6 +31,33 @@
 
             </h:form>
         </div>
+        -->
+        <div class="container">
+            <h:form>
+                <div class="mb-3">
+                    <label for="productName" class="form-label">Ürün İsmi</label>
+                    <h:inputText id="productName" class="form-control" value="#{productBean.entity.name}" />
+                </div>
+                <div class="mb-3">
+                    <label for="stock" class="form-label">Stok sayısı</label>
+                    <h:inputText id="stock" class="form-control" value="#{productBean.entity.stock}" />
+                </div>
+                <div class="mb-3">
+                    <label for="price" class="form-label">Ürün Fiyatı</label>
+                    <h:inputText id="price" class="form-control" value="#{productBean.entity.price}" />
+                </div>
+
+
+                <div class="mb-3">
+                    <label for="detail" class="form-label">Ürün Detayı</label>
+                    <h:inputTextarea id="detail" class="form-control" value="#{productBean.entity.detail}" />
+                </div>
+
+                <h:commandButton value="Ürün Oluştur" class="btn btn-primary" action="#{productBean.create()}" />
+            </h:form>
+        </div>
+
+
 
 
 
