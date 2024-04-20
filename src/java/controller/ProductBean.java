@@ -15,6 +15,7 @@ import jakarta.inject.Named;
  */
 @Named
 @SessionScoped
+
 public class ProductBean extends BaseBean<Product, ProductDAO> {
 
     public ProductBean(Product entity, ProductDAO dao) {

@@ -40,7 +40,7 @@ public class SellerBean extends BaseBean<Seller, SellerDAO>{
         }
         else{
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Şifre Yanlış", "Şifre yanlış."));
-            return null; // Başarısız giriş durumunda null döndürüyoruz
+            return null; // Başarısız giriş durumunda null döndürüyor
         }
     }
 

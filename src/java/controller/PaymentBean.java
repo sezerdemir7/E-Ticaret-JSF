@@ -6,11 +6,15 @@ package controller;
 
 import dao.PaymentDAO;
 import entity.Payment;
+import jakarta.enterprise.context.SessionScoped;
+import jakarta.inject.Named;
 
 /**
  *
  * @author serki
  */
+@Named
+@SessionScoped
 public class PaymentBean extends BaseBean<Payment, PaymentDAO>{
 
     public PaymentBean(Payment entity, PaymentDAO dao) {

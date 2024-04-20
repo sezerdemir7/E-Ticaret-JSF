@@ -6,11 +6,15 @@ package controller;
 
 import dao.CategoryDAO;
 import entity.Category;
+import jakarta.enterprise.context.SessionScoped;
+import jakarta.inject.Named;
 
 /**
  *
  * @author Demirr
  */
+@Named
+@SessionScoped
 public class CategoryBean extends BaseBean<Category, CategoryDAO>{
 
     public CategoryBean(Category entity, CategoryDAO dao) {

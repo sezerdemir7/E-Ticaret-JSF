@@ -6,11 +6,15 @@ package controller;
 
 import dao.AdminDAO;
 import entity.Admin;
+import jakarta.enterprise.context.SessionScoped;
+import jakarta.inject.Named;
 
 /**
  *
  * @author serki
  */
+@Named
+@SessionScoped
 public class AdminBean extends BaseBean<Admin, AdminDAO>{
 
     public AdminBean(Admin entity, AdminDAO dao) {

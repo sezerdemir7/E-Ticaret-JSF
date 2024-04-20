@@ -6,11 +6,15 @@ package controller;
 
 import dao.OrderDAO;
 import entity.Order;
+import jakarta.enterprise.context.SessionScoped;
+import jakarta.inject.Named;
 
 /**
  *
  * @author serki
  */
+@Named
+@SessionScoped
 public class OrderBean  extends  BaseBean<Order, OrderDAO>{
 
     public OrderBean(Order entity, OrderDAO dao) {
