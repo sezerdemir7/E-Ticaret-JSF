@@ -16,7 +16,9 @@ public class CustomerDAO extends DBConnect implements BaseDAO<Customer> {
 
     @Override
     public void create(Customer entity) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        
+        //customer veri tabanına kayıt işlemleri
+        
     }
 
     @Override
