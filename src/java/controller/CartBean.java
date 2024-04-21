@@ -16,6 +16,10 @@ import jakarta.inject.Named;
 @Named
 @SessionScoped
 public class CartBean extends BaseBean<Cart, CartDAO> {
+    
+    public CartBean() {
+        super(null,null);
+    }
 
     public CartBean(Cart entity, CartDAO dao) {
         super(entity, dao);
@@ -23,12 +27,14 @@ public class CartBean extends BaseBean<Cart, CartDAO> {
 
     @Override
     protected Cart createEntityInstance() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        
+        return new Cart();
     }
 
     @Override
     protected CartDAO createDAOInstance() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+
+        return new CartDAO();
     }
     
 }

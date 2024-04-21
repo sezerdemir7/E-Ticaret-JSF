@@ -16,6 +16,10 @@ import jakarta.inject.Named;
 @Named
 @SessionScoped
 public class CategoryBean extends BaseBean<Category, CategoryDAO>{
+    
+    public CategoryBean(){
+        super(null,null);
+    }
 
     public CategoryBean(Category entity, CategoryDAO dao) {
         super(entity, dao);
@@ -23,12 +27,12 @@ public class CategoryBean extends BaseBean<Category, CategoryDAO>{
 
     @Override
     protected Category createEntityInstance() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        return new Category();
     }
 
     @Override
     protected CategoryDAO createDAOInstance() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        return new CategoryDAO();
     }
     
 }

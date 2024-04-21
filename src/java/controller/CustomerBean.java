@@ -18,6 +18,10 @@ import jakarta.inject.Named;
 @Named
 @SessionScoped
 public class CustomerBean extends BaseBean<Customer,CustomerDAO>{
+    
+    public CustomerBean(){
+        super(null,null);
+    }
 
     public CustomerBean(Customer entity, CustomerDAO dao) {
         super(entity, dao);
@@ -38,12 +42,14 @@ public class CustomerBean extends BaseBean<Customer,CustomerDAO>{
 
     @Override
     protected Customer createEntityInstance() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        return new Customer ();
     }
 
     @Override
     protected CustomerDAO createDAOInstance() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        
+        return new CustomerDAO();
+        
     }
     
 }
