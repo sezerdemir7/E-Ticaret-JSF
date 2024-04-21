@@ -7,6 +7,8 @@ package controller;
 import dao.CustomerDAO;
 import entity.Customer;
 import jakarta.enterprise.context.SessionScoped;
+import jakarta.faces.application.FacesMessage;
+import jakarta.faces.context.FacesContext;
 import jakarta.inject.Named;
 
 /**
@@ -20,6 +22,19 @@ public class CustomerBean extends BaseBean<Customer,CustomerDAO>{
     public CustomerBean(Customer entity, CustomerDAO dao) {
         super(entity, dao);
     }
+    public String login(){
+        Customer customerTest=this.getDao().login(this.getEntity());
+       
+        if(customerTest!=null && customerTest.getPassword().equals(this.getEntity().getPassword())){
+            this.setEntity(customerTest);
+          return "/panel/product/product-list.xhtml?faces-redirect=true";
+        }
+        else{
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Şifre Yanlış", "Şifre yanlış."));
+            return null; // Başarısız giriş durumunda null döndürüyor
+        }
+    }
+
 
     @Override
     protected Customer createEntityInstance() {
