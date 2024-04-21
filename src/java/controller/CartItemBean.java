@@ -25,6 +25,13 @@ public class CartItemBean extends BaseBean<CartItem,CartItemDAO> {
         super(entity, dao);
     }
 
+    
+    public void create() {
+        super.create(); 
+    }
+    
+    
+
     @Override
     protected CartItem createEntityInstance() {
         return new CartItem();
