@@ -8,6 +8,8 @@ import dao.ProductDAO;
 import entity.Product;
 import jakarta.enterprise.context.SessionScoped;
 import jakarta.inject.Named;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
@@ -34,7 +36,11 @@ public class ProductBean extends BaseBean<Product, ProductDAO> {
         super.create(); 
     }
      
-     
+     public List<Product> getProductListByCategoryId(Long categoryId){
+         List<Product> productList=new ArrayList<>();
+         productList=getDao().getProductListByCategoryId(categoryId);
+         return productList;
+     }
     
     
 
