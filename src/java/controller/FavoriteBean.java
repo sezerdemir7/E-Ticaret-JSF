@@ -5,9 +5,12 @@
 package controller;
 
 import dao.FavoriteDAO;
+import dao.ProductDAO;
 import entity.Favorite;
+import entity.Product;
 import jakarta.enterprise.context.SessionScoped;
 import jakarta.inject.Named;
+import java.util.List;
 
 /**
  *
@@ -15,14 +18,18 @@ import jakarta.inject.Named;
  */
 @Named
 @SessionScoped
-public class FavoriteBean  extends  BaseBean<Favorite, FavoriteDAO>{
-    
-    public FavoriteBean(){
-        super(null,null);
+public class FavoriteBean extends BaseBean<Favorite, FavoriteDAO> {
+
+    public FavoriteBean() {
+        super(null, null);
     }
 
     public FavoriteBean(Favorite entity, FavoriteDAO dao) {
         super(entity, dao);
+    }
+
+    public List<Product> getListProduct() {
+        return getDao().getFavoriteListByCustomerId(1L);
     }
 
     @Override
@@ -32,8 +39,7 @@ public class FavoriteBean  extends  BaseBean<Favorite, FavoriteDAO>{
 
     @Override
     protected FavoriteDAO createDAOInstance() {
-        return new FavoriteDAO();
+        return new FavoriteDAO(new ProductDAO());
     }
-    
-    
+
 }
