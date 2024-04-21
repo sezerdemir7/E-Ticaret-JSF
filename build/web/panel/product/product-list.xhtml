@@ -12,59 +12,91 @@
         <div class="row mt-3">
             <div class="col-md-3">
                 <div class="list-group">
-                    
+                    <!-- JSF ile kategori linklerini oluşturuyoruz -->
                     <h:form>
+                        <h:commandLink action="#{bean.showAllProducts}" styleClass="list-group-item list-group-item-action #{bean.selectedCategory == 'all' ? 'active' : ''}">
+                            Tüm Kategoriler
 
-
-                        <ui:repeat value="#{categoryBean.list}" var="category">
-                            <h:commandLink action="#{productBean.getProductsByCategoryId(category.id)}" styleClass="list-group-item list-group-item-action">
-                                deneme
-                            </h:commandLink>
-                            <h:commandLink action="#{productBean.getProductsByCategoryId(category.id)}" styleClass="list-group-item list-group-item-action">
-                                #{category.name}
-                            </h:commandLink>
-                        </ui:repeat>
-
+                        </h:commandLink>
+                        <h:commandLink action="#{bean.showElectronics}" styleClass="list-group-item list-group-item-action #{bean.selectedCategory == 'elektronik' ? 'active' : ''}">
+                            Elektronik
+                        </h:commandLink>
+                        <h:commandLink action="#{bean.showClothing}" styleClass="list-group-item list-group-item-action #{bean.selectedCategory == 'giyim' ? 'active' : ''}">
+                            Giyim
+                        </h:commandLink>
+                        <h:commandLink action="#{bean.showHome}" styleClass="list-group-item list-group-item-action #{bean.selectedCategory == 'ev' ? 'active' : ''}">
+                            Ev
+                        </h:commandLink>
+                        <!-- Diğer kategoriler buraya eklenebilir -->
                     </h:form>
                 </div>
             </div>
-        </div>
 
+            <!-- Sağ taraftaki ürün listesi -->
+            <div class="col-md-9">
+               <div class="container mt-3">
+            <h:form>
+                <div class="row row-cols-1 row-cols-md-3 g-4">
+                    <ui:repeat value="#{productBean.list}" var="product">
+                        <div class="col">
+                            <div class="card h-100">
 
-        <!-- Sağ taraftaki ürün listesi -->
-        <div class="col-md-9">
-            <div class="container mt-3">
-                <h:form>
-                    <div class="row row-cols-1 row-cols-md-3 g-4">
-                        <ui:repeat value="#{productBean.list}" var="product">
-                            <div class="col">
-                                <div class="card h-100">
+                                <div class="card-body">
+                                    <h5 class="card-title">#{product.name}</h5>
+                                    <p class="card-text">#{product.detail}</p>
+                                    <p class="card-text"><strong>Price: #{product.price}</strong></p>
+                                    <p class="card-text"><small class="text-muted">Stock: #{product.stock}</small></p>
 
-                                    <div class="card-body">
-                                        <h5 class="card-title">#{product.name}</h5>
-                                        <p class="card-text">#{product.detail}</p>
-                                        <p class="card-text"><strong>Price: #{product.price}</strong></p>
-                                        <p class="card-text"><small class="text-muted">Stock: #{product.stock}</small></p>
+                                    <h:commandLink action="/panel/seller/seller-login.xhtml" styleClass="btn btn-primary"
+                                                   rendered="#{not empty customerBean.entity.id}">
+                                        Sepete Ekle
+                                    </h:commandLink>
+                                    
 
-                                        <h:commandLink action="/panel/seller/seller-login.xhtml" styleClass="btn btn-primary"
-                                                       rendered="#{not empty customerBean.entity.id}">
-                                            Sepete Ekle
-                                        </h:commandLink>
-
-
-                                    </div>
                                 </div>
                             </div>
-                        </ui:repeat>
-                    </div>
-                </h:form>
+                        </div>
+                    </ui:repeat>
+                </div>
+            </h:form>
+        </div>
             </div>
         </div>
-        
 
     </ui:define>
 
-    
+    <!-- comment 
+
+    <ui:define name="content">
+        <div class="container mt-3">
+            <h:form>
+                <div class="row row-cols-1 row-cols-md-3 g-4">
+                    <ui:repeat value="#{productBean.list}" var="product">
+                        <div class="col">
+                            <div class="card h-100">
+
+                                <div class="card-body">
+                                    <h5 class="card-title">#{product.name}</h5>
+                                    <p class="card-text">#{product.detail}</p>
+                                    <p class="card-text"><strong>Price: #{product.price}</strong></p>
+                                    <p class="card-text"><small class="text-muted">Stock: #{product.stock}</small></p>
+
+                                    <h:commandLink action="/panel/seller/seller-login.xhtml" styleClass="btn btn-primary"
+                                                   rendered="#{not empty customerBean.entity.id}">
+                                        Sepete Ekle
+                                    </h:commandLink>
+                                    
+
+                                </div>
+                            </div>
+                        </div>
+                    </ui:repeat>
+                </div>
+            </h:form>
+        </div>
+
+    </ui:define>
+    -->
 
 </ui:composition>
 
