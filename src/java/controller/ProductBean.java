@@ -29,11 +29,6 @@ public class ProductBean extends BaseBean<Product, ProductDAO> {
     }
 
      
-     public List<Product> getProductsByCategoryId(Long categoryId){
-         List<Product> productList=new ArrayList<>();
-         productList=getDao().getProductByCategoryId(categoryId);
-         
-     }
      
      
     @Override
