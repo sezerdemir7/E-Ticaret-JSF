@@ -16,6 +16,10 @@ import jakarta.inject.Named;
 @Named
 @SessionScoped
 public class PaymentBean extends BaseBean<Payment, PaymentDAO>{
+    
+    public PaymentBean(){
+        super(null,null);
+    }
 
     public PaymentBean(Payment entity, PaymentDAO dao) {
         super(entity, dao);
@@ -23,12 +27,12 @@ public class PaymentBean extends BaseBean<Payment, PaymentDAO>{
 
     @Override
     protected Payment createEntityInstance() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        return new Payment();
     }
 
     @Override
     protected PaymentDAO createDAOInstance() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        return new PaymentDAO();
     }
     
 }

@@ -16,6 +16,10 @@ import jakarta.inject.Named;
 @Named
 @SessionScoped
 public class FavoriteBean  extends  BaseBean<Favorite, FavoriteDAO>{
+    
+    public FavoriteBean(){
+        super(null,null);
+    }
 
     public FavoriteBean(Favorite entity, FavoriteDAO dao) {
         super(entity, dao);
@@ -23,12 +27,13 @@ public class FavoriteBean  extends  BaseBean<Favorite, FavoriteDAO>{
 
     @Override
     protected Favorite createEntityInstance() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        return new Favorite();
     }
 
     @Override
     protected FavoriteDAO createDAOInstance() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        return new FavoriteDAO();
     }
+    
     
 }

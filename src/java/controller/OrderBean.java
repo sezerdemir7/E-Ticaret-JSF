@@ -16,6 +16,10 @@ import jakarta.inject.Named;
 @Named
 @SessionScoped
 public class OrderBean  extends  BaseBean<Order, OrderDAO>{
+    
+    public OrderBean(){
+        super(null,null);
+    }
 
     public OrderBean(Order entity, OrderDAO dao) {
         super(entity, dao);
@@ -23,12 +27,12 @@ public class OrderBean  extends  BaseBean<Order, OrderDAO>{
 
     @Override
     protected Order createEntityInstance() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        return new Order();
     }
 
     @Override
     protected OrderDAO createDAOInstance() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        return new OrderDAO();
     }
     
 }

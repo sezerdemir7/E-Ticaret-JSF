@@ -16,19 +16,24 @@ import jakarta.inject.Named;
 @Named
 @SessionScoped
 public class AdminBean extends BaseBean<Admin, AdminDAO>{
-
+    
+    public AdminBean () {
+        super(null,null);
+    }
+    
+    
     public AdminBean(Admin entity, AdminDAO dao) {
         super(entity, dao);
     }
 
     @Override
     protected Admin createEntityInstance() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+           return new Admin();
     }
 
     @Override
     protected AdminDAO createDAOInstance() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        return new AdminDAO();
     }
     
 }
