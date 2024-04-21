@@ -1,0 +1,35 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="jakarta.faces.html"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+
+
+    <h:head>
+        <h:outputStylesheet library="css" name="bootstrap.min.css" />
+
+        <title>Customer Login</title>
+    </h:head>
+    <h:body>
+        <div class="container">
+            <h:form>
+                <h:messages />
+
+                <div class="mb-3">
+                    <label for="exampleInputEmail1" class="form-label">Email address</label>
+                    <h:inputText id="exampleInputEmail1" class="form-control" value="#{customerBean.entity.email}" />
+                    <small id="emailHelp" class="form-text">We'll never share your email with anyone else.</small>
+                </div>
+                <div class="mb-3">
+                    <label for="exampleInputPassword1" class="form-label">Password</label>
+                    <h:inputSecret id="exampleInputPassword1" class="form-control" value="#{customerBean.entity.password}" />
+                </div>
+
+                <h:commandButton value="Giriş Yap" class="btn btn-primary" action="#{customerBean.login()}" />
+            </h:form>
+
+        </div>
+
+
+    </h:body>
+</html>
