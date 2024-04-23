@@ -20,6 +20,11 @@ public class Store extends BaseEntity{
         this.name = name;
         this.seller = seller;
     }
+    public Store(String name, Seller seller, Timestamp createdDate, Timestamp lastModifiedDate) {
+        super( createdDate, lastModifiedDate);
+        this.name = name;
+        this.seller = seller;
+    }
 
     public Store() {
     }

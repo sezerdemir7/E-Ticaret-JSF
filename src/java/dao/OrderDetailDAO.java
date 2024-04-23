@@ -4,7 +4,13 @@
  */
 package dao;
 
+
+import entity.Order;
 import entity.OrderDetail;
+import entity.Product;
+import java.sql.ResultSet;
+import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.List;
 import util.DBConnect;
 
@@ -12,31 +18,140 @@ import util.DBConnect;
  *
  * @author serki
  */
-public class OrderDetailDAO extends DBConnect implements BaseDAO<OrderDetail>{
+public class OrderDetailDAO extends DBConnect implements BaseDAO<OrderDetail> {
+
+    private ProductDAO productDAO;
+    private OrderDAO orderDAO;
 
     @Override
     public void create(OrderDetail entity) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+
+        try {
+            Statement st = this.getConnect().createStatement();
+
+            st.executeUpdate("insert into OrderDetail (adet, Product, Order, createdDate, lastModifiedDate) "
+                    + "values ("
+                    + "'" + entity.getAdet() + "',"
+                    + "'" + entity.getProduct().getId() + "',"
+                    + "'" + entity.getOrder().getId() + "',"
+                    + "'" + entity.getCreatedDate() + "',"
+                    + "'" + entity.getLastModifiedDate() + "')");
+
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+
     }
 
     @Override
     public void update(OrderDetail entity) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        try {
+            Statement st = this.getConnect().createStatement();
+            st.executeUpdate("update OrderDetail set adet = '" + entity.getAdet() + "'"
+                    + "product_id ='" + entity.getProduct().getId() + "'  "
+                    + "order_id = '" + entity.getOrder().getId() + "'"
+                    + "createDate ='" + entity.getCreatedDate() + "'"
+                    + "lastModifiedDate ='" + entity.getLastModifiedDate() + "' "
+                    + "where id = '" + entity.getId() + "'"
+                    + "");
+
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+
     }
 
     @Override
     public void delete(OrderDetail entity) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        try {
+            Statement st = this.getConnect().createStatement();
+
+            st.executeUpdate("delete from OrderDetail where id = " + entity.getId());
+
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
     }
 
     @Override
     public List<OrderDetail> readList() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        List<OrderDetail> orderDetailList = new ArrayList<>();
+        try {
+            Statement st = this.getConnect().createStatement();
+
+            ResultSet rs = st.executeQuery("select * from OrderDetail");
+
+            while (rs.next()) {
+                Product product = this.productDAO.getEntityById(rs.getLong("product_id"));
+                Order order = this.orderDAO.getEntityById(rs.getLong("order_id"));
+                orderDetailList.add(new OrderDetail(
+                        rs.getInt("adet"),
+                        product,
+                        order,
+                        rs.getTimestamp("createdDate"),
+                        rs.getTimestamp("lastModifiedDate")
+                ));
+            }
+
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+
+        return orderDetailList;
+
     }
 
     @Override
     public OrderDetail getEntityById(Long id) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+
+        OrderDetail orderDetail = null;
+
+        try {
+            Statement st = this.getConnect().createStatement();
+
+            ResultSet rs = st.executeQuery("select * from OrderDeatil where id = " + id);
+
+            rs.next();
+
+            Product product = this.productDAO.getEntityById(rs.getLong("product_id"));
+            Order order = this.orderDAO.getEntityById(rs.getLong("order_id"));
+            orderDetail = new OrderDetail(
+                    rs.getInt("adet"),
+                    product,
+                    order,
+                    rs.getTimestamp("createdDate"),
+                    rs.getTimestamp("lastModifiedDate")
+            );
+
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+
+        return orderDetail;
+
     }
-    
+
+    public ProductDAO getProductDAO() {
+        if (productDAO == null) {
+            this.productDAO = new ProductDAO();
+        }
+        return productDAO;
+    }
+
+    public void setProductDAO(ProductDAO productDAO) {
+        this.productDAO = productDAO;
+    }
+
+    public OrderDAO getOrderDAO() {
+        if (orderDAO == null) {
+            this.orderDAO = new OrderDAO();
+
+        }
+        return orderDAO;
+    }
+
+    public void setOrderDAO(OrderDAO orderDAO) {
+        this.orderDAO = orderDAO;
+    }
+
 }

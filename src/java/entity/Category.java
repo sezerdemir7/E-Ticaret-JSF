@@ -10,17 +10,17 @@ import java.sql.Timestamp;
  *
  * @author Demirr
  */
-public class Category extends BaseEntity{
+public class Category extends BaseEntity {
+
     private String name;
 
     public Category() {
-    }
-    
- 
 
-    public Category(Long id,String name, Timestamp createdDate, Timestamp lastModifiedDate) {
+    }
+
+    public Category(Long id, String name, Timestamp createdDate, Timestamp lastModifiedDate) {
         super(id, createdDate, lastModifiedDate);
-        this.name=name;
+        this.name = name;
     }
 
     public Category(String name) {
@@ -34,7 +34,5 @@ public class Category extends BaseEntity{
     public void setName(String name) {
         this.name = name;
     }
-    
-    
-}
 
+}

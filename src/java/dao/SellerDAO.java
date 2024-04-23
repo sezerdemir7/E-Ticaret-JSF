@@ -70,7 +70,8 @@ public class SellerDAO extends DBConnect implements BaseDAO<Seller> {
         try {
 
             Statement st = this.getConnect().createStatement();
-            st.executeUpdate("insert into seller(first_name,last_name,email,password) values ('" + seller.getFirstName() + "','" + seller.getLastName() + "',"
+            st.executeUpdate("insert into seller(first_name,last_name,email,password) values ('" 
+                    + seller.getFirstName() + "','" + seller.getLastName() + "',"
                     + "'" + seller.getEmail() + "','" + seller.getPassword() + "')");
         } catch (Exception e) {
             System.out.println(e.getMessage());
