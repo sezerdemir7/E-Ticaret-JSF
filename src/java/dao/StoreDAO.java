@@ -4,9 +4,13 @@
  */
 package dao;
 
+import entity.Seller;
 import entity.Store;
+import java.sql.ResultSet;
+import java.sql.Statement;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 import util.DBConnect;
 
@@ -15,6 +19,8 @@ import util.DBConnect;
  * @author serki
  */
 public class StoreDAO extends DBConnect implements BaseDAO<Store> {
+
+    private SellerDAO sellerDAO;
 
     @Override
     public void create(Store entity) {
@@ -41,22 +47,99 @@ public class StoreDAO extends DBConnect implements BaseDAO<Store> {
 
     @Override
     public void update(Store entity) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+
+        try {
+            Statement st = this.getConnect().createStatement();
+            st.executeUpdate("update Store set"
+                    + " name = '" + entity.getName() + "'"
+                    + "seller_id ='" + entity.getSeller().getId() + "' "
+                    + "createDate ='" + entity.getCreatedDate() + "'"
+                    + "lastModifiedDate ='" + entity.getLastModifiedDate() + "' "
+                    + "where id = '" + entity.getId() + "'"
+                    + "");
+
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+
     }
 
     @Override
     public void delete(Store entity) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+
+        try {
+            Statement st = this.getConnect().createStatement();
+            st.executeUpdate("delete from Store where id =" + entity.getId());
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+
     }
 
     @Override
     public List<Store> readList() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+
+        List<Store> storeList = new ArrayList<>();
+
+        try {
+            Statement st = this.getConnect().createStatement();
+            ResultSet rs = st.executeQuery("select * from Store");
+
+            while (rs.next()) {
+                Seller seller = this.sellerDAO.getEntityById(rs.getLong("seller_id"));
+
+                storeList.add(new Store(
+                        rs.getString("name"),
+                        seller,
+                        rs.getTimestamp("created"),
+                        rs.getTimestamp("lastModifiedDate")
+                ));
+
+            }
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+        return storeList;
+
     }
 
     @Override
     public Store getEntityById(Long id) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        Store store =null;
+        
+        try{
+            Statement st = this.getConnect().createStatement();
+            ResultSet rs = st.executeQuery("select * from Store where id ="+id);
+            
+            rs.next();
+            Seller seller = this.sellerDAO.getEntityById(rs.getLong("seller_id"));
+
+                store =new Store(
+                        rs.getString("name"),
+                        seller,
+                        rs.getTimestamp("created"),
+                        rs.getTimestamp("lastModifiedDate")
+                );
+            
+            
+        }catch(Exception e){
+            System.out.println(e.getMessage());
+        }
+        
+        return store;
+
+
+    }
+
+    public SellerDAO getSellerDAO() {
+        if (sellerDAO == null) {
+            this.sellerDAO = new SellerDAO();
+        }
+        return sellerDAO;
+    }
+
+    public void setSellerDAO(SellerDAO sellerDAO) {
+        this.sellerDAO = sellerDAO;
     }
 
 }

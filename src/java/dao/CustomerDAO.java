@@ -4,7 +4,11 @@
  */
 package dao;
 
+import entity.Admin;
 import entity.Customer;
+import java.sql.ResultSet;
+import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.List;
 import util.DBConnect;
 
@@ -16,29 +20,123 @@ public class CustomerDAO extends DBConnect implements BaseDAO<Customer> {
 
     @Override
     public void create(Customer entity) {
-        
-        //customer veri tabanına kayıt işlemleri
-        
+
+        try {
+            Statement st = this.getConnect().createStatement();
+            String query = "insert into Customer(firstName, lastName, password, email, addres, createdDate, lastModifiedDate) values ('"
+                    + entity.getFirstName() + "',"
+                    + "'" + entity.getLastName() + "',"
+                    + "'" + entity.getPassword() + "'"
+                    + ",'" + entity.getEmail() + "',"
+                    + ",'" + entity.getAddres() + "',"
+                    + "'" + entity.getCreatedDate() + "'"
+                    + ",'" + entity.getLastModifiedDate() + "')";
+
+            st.executeUpdate(query);
+
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+
     }
 
     @Override
     public void update(Customer entity) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+
+        try {
+            Statement st = this.getConnect().createStatement();
+            String query = "update Customer set "
+                    + "firstname ='" + entity.getFirstName() + "'  "
+                    + "lastName = '" + entity.getLastName() + "' "
+                    + "password = '" + entity.getPassword() + "' "
+                    + "email = '" + entity.getEmail() + "' "
+                    + "addres = '" + entity.getAddres() + "'"
+                    + "createDate ='" + entity.getCreatedDate() + "'"
+                    + "lastModifiedDate ='" + entity.getLastModifiedDate() + "' "
+                    + "where id = '" + entity.getId() + "'"
+                    + "";
+
+            st.executeUpdate(query);
+
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+
     }
 
     @Override
     public void delete(Customer entity) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+
+        try {
+            Statement st = this.getConnect().createStatement();
+
+            st.executeUpdate("delete from Customer where id = " + entity.getId());
+
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+
     }
 
     @Override
     public List<Customer> readList() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+
+        List<Customer> customerList = new ArrayList<>();
+
+        try {
+            Statement st = this.getConnect().createStatement();
+
+            ResultSet rs = st.executeQuery("select * from Customer");
+
+            while (rs.next()) {
+                customerList.add(new Customer(
+                        rs.getString("addres"),
+                        rs.getLong("id"),
+                        rs.getString("firstName"),
+                        rs.getString("lastName"),
+                        rs.getString("password"),
+                        rs.getString("email"),
+                        rs.getTimestamp("createdDate"),
+                        rs.getTimestamp("lastModifiedDate")
+                ));
+
+            }
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+
+        return customerList;
+
     }
 
     @Override
     public Customer getEntityById(Long id) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+
+        Customer customer = null;
+        try {
+            Statement st = this.getConnect().createStatement();
+
+            ResultSet rs = st.executeQuery("select * from Customer where id = " + id);
+
+            rs.next();
+
+            customer = new Customer(
+                    rs.getString("addres"),
+                    rs.getLong("id"),
+                    rs.getString("firstName"),
+                    rs.getString("lastName"),
+                    rs.getString("password"),
+                    rs.getString("email"),
+                    rs.getTimestamp("createdDate"),
+                    rs.getTimestamp("lastModifiedDate")
+            );
+
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+
+        return customer;
+
     }
-    
+
 }
