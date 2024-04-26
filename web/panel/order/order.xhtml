@@ -56,9 +56,9 @@
                         <h:outputText value="#{order.teslimatAdresi}" />
                     </h:column>
                     <h:column>
-                        <div class="text-right">
-                            <h:commandButton value="Sipariş Detayı" styleClass="btn btn-danger"/>
-                        </div>
+                         <div class="text-right">
+                            <h:button outcome="/panel/order/order_detay.xhtml" value="Sipariş Detayı" styleClass="btn btn-danger" />
+                         </div>
                     </h:column>
                 </h:dataTable>
             </tbody>
