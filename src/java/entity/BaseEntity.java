@@ -16,13 +16,13 @@ public abstract class BaseEntity {
 
     public BaseEntity(Long id, Timestamp createdDate, Timestamp lastModifiedDate) {
         this.id = id;
-        this.createdDate = createdDate;
-        this.lastModifiedDate = lastModifiedDate;
+        this.createdDate =  new Timestamp(System.currentTimeMillis());
+        this.lastModifiedDate =  new Timestamp(System.currentTimeMillis());
     }
 
     public BaseEntity(Timestamp createdDate, Timestamp lastModifiedDate) {
-        this.createdDate = createdDate;
-        this.lastModifiedDate = lastModifiedDate;
+        this.createdDate =  new Timestamp(System.currentTimeMillis());
+        this.lastModifiedDate =  new Timestamp(System.currentTimeMillis());
     }
     
 
@@ -35,7 +35,7 @@ public abstract class BaseEntity {
     }
 
     public Timestamp getCreatedDate() {
-        return createdDate;
+        return  new Timestamp(System.currentTimeMillis());
     }
 
     public void setCreatedDate(Timestamp createdDate) {
@@ -43,7 +43,7 @@ public abstract class BaseEntity {
     }
 
     public Timestamp getLastModifiedDate() {
-        return lastModifiedDate;
+        return  new Timestamp(System.currentTimeMillis());
     }
 
     public void setLastModifiedDate(Timestamp lastModifiedDate) {

@@ -21,8 +21,13 @@ import java.util.List;
  */
 public class ProductDAO extends DBConnect implements BaseDAO<Product> {
 
+    private CategoryDAO categoryDAO;
+    private SellerDAO SellerDAO;
+    private StoreDAO storeDAO;
+
     @Override
     public void create(Product product) {
+        
         try {
             // PreparedStatement oluştur
             PreparedStatement pst = this.getConnect().prepareStatement(
@@ -32,16 +37,14 @@ public class ProductDAO extends DBConnect implements BaseDAO<Product> {
             // Parametreleri ayarla
             Category category = new Category(1L, "Teknoloji", Timestamp.valueOf("2024-04-18 17:08:26.247016"), Timestamp.valueOf("2024-04-18 17:08:26.247016"));
 
-            Seller seller = new Seller(22L, "deneme", "tes", "kjsadkvask", "debb@lhsd.com", Timestamp.valueOf("2024-04-18 17:08:26.247016"), Timestamp.valueOf("2024-04-18 17:08:26.247016"));
-
-            Store store = new Store("teknomarket", seller, 22L, Timestamp.valueOf("2024-04-18 17:08:26.247016"), Timestamp.valueOf("2024-04-18 17:08:26.247016"));
-
+            Store store=null;
+                    
             pst.setString(1, product.getName());
             pst.setInt(2, product.getStock());
             pst.setString(3, product.getDetail());
             pst.setLong(4, category.getId()); // Kategoriye referans
             pst.setInt(5, product.getPrice());
-            pst.setLong(6,store.getId()); // Mağazaya referans
+            pst.setLong(6, store.getId()); // Mağazaya referans
 
             // Sorguyu çalıştır
             pst.executeUpdate();
@@ -66,56 +69,129 @@ public class ProductDAO extends DBConnect implements BaseDAO<Product> {
     @Override
     public List<Product> readList() {
         List<Product> productList = new ArrayList<>();
+        Category category = null;
+        Store store = null;
         try {
-            // PreparedStatement oluştur
             PreparedStatement pst = this.getConnect().prepareStatement("SELECT * FROM Product");
 
-            // Sorguyu çalıştır ve sonuçları al
             ResultSet rs = pst.executeQuery();
 
-            // Her bir satırı işle
             while (rs.next()) {
-                // Product nesnesini oluştur ve listeye ekle
                 Product product = new Product();
                 product.setId(rs.getLong("id"));
                 product.setName(rs.getString("name"));
                 product.setStock(rs.getInt("stock"));
                 product.setDetail(rs.getString("detail"));
 
-                //Category category = getCategoryById(rs.getLong("category_id"));
-                Category category = new Category(1L, "Teknoloji", Timestamp.valueOf("2024-04-18 17:08:26.247016"), Timestamp.valueOf("2024-04-18 17:08:26.247016"));
+                category = getCategoryDAO().getEntityById(rs.getLong("category_id"));
                 product.setCategory(category);
-
-                //Store store = getStoreById(rs.getLong("store_id"));
-                Seller seller = new Seller(1L, "deneme", "tes", "kjsadkvask", "debb@lhsd.com", Timestamp.valueOf("2024-04-18 17:08:26.247016"), Timestamp.valueOf("2024-04-18 17:08:26.247016"));
-                Store store = new Store("teknomarket", seller, 1L, Timestamp.valueOf("2024-04-18 17:08:26.247016"), Timestamp.valueOf("2024-04-18 17:08:26.247016"));
-
                 product.setStore(store);
 
                 product.setPrice(rs.getInt("price"));
-                //  product.setCreatedDate(rs.getTimestamp("created_date").toLocalDateTime());
-                // product.setLastModifiedDate(rs.getTimestamp("last_modified_date").toLocalDateTime());
+                 product.setCreatedDate(rs.getTimestamp("created_date"));
+                product.setLastModifiedDate(rs.getTimestamp("last_modified_date"));
 
                 productList.add(product);
 
                 System.out.println("product listeleme işlemei başarılı");
             }
 
-            // PreparedStatement'ı kapat
             pst.close();
         } catch (SQLException e) {
-            System.err.println("*******************");
-            System.err.println("*******************");
-            System.err.println("*******************");
-            System.err.println("*******************");
+            
             System.out.println("Error while reading product list: " + e.getMessage());
         }
         return productList;
     }
 
-    @Override
-    public Product getEntityById(Long id) {
-        return null;
+    public Product getEntityById(Long productId) {
+
+        Product product = null;
+        Category category = null;
+        Store store = null;
+
+        try {
+            Statement st = this.getConnect().createStatement();
+
+            ResultSet rs = st.executeQuery("select * from product where id = " + productId);
+
+            rs.next();
+
+            category = getCategoryDAO().getEntityById(rs.getLong("category_id"));
+            
+            System.out.println("*** simdi product daodayım");
+            
+            store = getStoreDAO().getEntityById(rs.getLong("store_id"));
+
+            product = new Product(
+                    rs.getLong("id"),
+                    rs.getTimestamp("created_date"),
+                    rs.getTimestamp("last_modified_date"),
+                    rs.getString("name"),
+                    rs.getInt("stock"),
+                    rs.getString("detail"),
+                    category,
+                    rs.getInt("price"),
+                    store
+            );
+
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+
+        return product;
+
+    }
+
+    public CategoryDAO getCategoryDAO() {
+        if (this.categoryDAO == null) {
+            categoryDAO = new CategoryDAO();
+        }
+        return categoryDAO;
+    }
+
+    public StoreDAO getStoreDAO() {
+        if (this.storeDAO == null) {
+            storeDAO = new StoreDAO();
+        }
+        return storeDAO;
+    }
+
+    public List<Product> getProductListByCategoryId(Long categoryId) {
+        List<Product> productList = new ArrayList<>();
+        Category category = null;
+        Store store = null;
+        try {
+            PreparedStatement pst = this.getConnect().prepareStatement("SELECT * FROM Product where category_id="+categoryId);
+
+            ResultSet rs = pst.executeQuery();
+
+            while (rs.next()) {
+                Product product = new Product();
+                product.setId(rs.getLong("id"));
+                product.setName(rs.getString("name"));
+                product.setStock(rs.getInt("stock"));
+                product.setDetail(rs.getString("detail"));
+
+                category = getCategoryDAO().getEntityById(rs.getLong("category_id"));
+                product.setCategory(category);
+                product.setStore(store);
+
+                product.setPrice(rs.getInt("price"));
+                 product.setCreatedDate(rs.getTimestamp("created_date"));
+                product.setLastModifiedDate(rs.getTimestamp("last_modified_date"));
+
+                productList.add(product);
+
+                System.out.println("product listeleme işlemei başarılı");
+            }
+
+            pst.close();
+        } catch (SQLException e) {
+            
+            System.out.println("Error while reading product list: " + e.getMessage());
+        }
+        return productList;
     }
 
 }

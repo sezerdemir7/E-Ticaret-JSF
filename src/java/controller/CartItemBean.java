@@ -6,8 +6,11 @@ package controller;
 
 import dao.CartItemDAO;
 import entity.CartItem;
+import entity.Customer;
+import entity.Product;
 import jakarta.enterprise.context.SessionScoped;
 import jakarta.inject.Named;
+import java.util.List;
 
 /**
  *
@@ -24,12 +27,20 @@ public class CartItemBean extends BaseBean<CartItem,CartItemDAO> {
     public CartItemBean(CartItem entity, CartItemDAO dao) {
         super(entity, dao);
     }
-
     
-    public void create() {
-        super.create(); 
+    public void addProductToCartItem(Product product,Customer customer){
+        this.getEntity().setProduct(product);
+        getDao().createCartItem(getEntity(),customer);
+    }
+
+    public List<CartItem> getCartItemsListByCartId(Long cartId){
+        return this.getDao().getCartItemsListByCartId(cartId);
     }
     
+    public void deleteAndSetEntity(CartItem cartItem){
+        setEntity(cartItem);
+        this.getDao().delete(getEntity());
+    }
     
 
     @Override

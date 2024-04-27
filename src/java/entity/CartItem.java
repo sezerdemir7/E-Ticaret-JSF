@@ -35,6 +35,40 @@ public class CartItem  extends BaseEntity{
         this.toplamFiyat = toplamFiyat;
         this.adet = adet;
     }
+
+    public Product getProduct() {
+        return product;
+    }
+
+    public void setProduct(Product product) {
+        this.product = product;
+    }
+
+    public Cart getCart() {
+        return cart;
+    }
+
+    public void setCart(Cart cart) {
+        this.cart = cart;
+    }
+
+    public int getToplamFiyat() {
+        return toplamFiyat;
+    }
+
+    public void setToplamFiyat(int toplamFiyat) {
+        this.toplamFiyat = toplamFiyat;
+    }
+
+    public int getAdet() {
+        return adet;
+    }
+
+    public void setAdet(int adet) {
+        this.adet = adet;
+    }
+    
+    
     
     
     
