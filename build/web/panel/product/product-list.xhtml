@@ -24,7 +24,7 @@
                         <h:commandLink action="#{bean.showClothing}" styleClass="list-group-item list-group-item-action #{bean.selectedCategory == 'giyim' ? 'active' : ''}">
                             Giyim
                         </h:commandLink>
-                        <h:commandLink action="#{bean.showHome}" styleClass="list-group-item list-group-item-action #{bean.selectedCategory == 'ev' ? 'active' : ''}">
+                        <h:commandLink action="#{productBean.getProductListByCategoryId(1)}" styleClass="list-group-item list-group-item-action #{bean.selectedCategory == 'ev' ? 'active' : ''}">
                             Ev
                         </h:commandLink>
                         <!-- Diğer kategoriler buraya eklenebilir -->
@@ -34,69 +34,44 @@
 
             <!-- Sağ taraftaki ürün listesi -->
             <div class="col-md-9">
-               <div class="container mt-3">
-            <h:form>
-                <div class="row row-cols-1 row-cols-md-3 g-4">
-                    <ui:repeat value="#{productBean.list}" var="product">
-                        <div class="col">
-                            <div class="card h-100">
+                <div class="container mt-3">
+                    <h:form>
+                        <div class="row row-cols-1 row-cols-md-3 g-4">
+                            <ui:repeat value="#{productBean.list}" var="product">
+                                <div class="col">
+                                    <div class="card h-100">
+                                        <div class="card-body">
+                                            <h5 class="card-title">#{product.name}</h5>
+                                            <p class="card-text">#{product.detail}</p>
+                                            <p class="card-text"><strong>Price:#{product.price}</strong></p>
+                                            <p class="card-text"><small class="text-muted">Stock: #{product.stock}</small></p>
+                                        </div>
 
-                                <div class="card-body">
-                                    <h5 class="card-title">#{product.name}</h5>
-                                    <p class="card-text">#{product.detail}</p>
-                                    <p class="card-text"><strong>Price: #{product.price}</strong></p>
-                                    <p class="card-text"><small class="text-muted">Stock: #{product.stock}</small></p>
-
-                                    <h:commandLink action="/panel/product/product-list.xhtml" styleClass="btn btn-primary"
-                                                   rendered="#{not empty customerBean.entity.id}">
-                                        Sepete Ekle
-                                    </h:commandLink>
-                                    
-
+                                        <!-- Card Actions -->
+                                        <div class="card-actions d-flex justify-content-between align-items-end p-3">
+                                            <h:commandLink action="#{cartItemBean.addProductToCartItem(product,customerBean.entity)}" styleClass="btn btn-primary">
+                                                Sepete Ekle
+                                            </h:commandLink>
+                                            <button type="button" class="btn btn-outline-danger btn-sm">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-heart" viewBox="0 0 16 16">
+                                                    <path d="M8 14s-6-3.5-6-7a4 4 0 0 1 6-3.464A4 4 0 0 1 14 7s-6 7-6 7z"/>
+                                                </svg>
+                                            </button>
+                                        </div>
+                                    </div>
                                 </div>
-                            </div>
+
+
+                            </ui:repeat>
                         </div>
-                    </ui:repeat>
+                    </h:form>
                 </div>
-            </h:form>
-        </div>
             </div>
         </div>
 
     </ui:define>
 
-    <!-- comment 
 
-    <ui:define name="content">
-        <div class="container mt-3">
-            <h:form>
-                <div class="row row-cols-1 row-cols-md-3 g-4">
-                    <ui:repeat value="#{productBean.list}" var="product">
-                        <div class="col">
-                            <div class="card h-100">
-
-                                <div class="card-body">
-                                    <h5 class="card-title">#{product.name}</h5>
-                                    <p class="card-text">#{product.detail}</p>
-                                    <p class="card-text"><strong>Price: #{product.price}</strong></p>
-                                    <p class="card-text"><small class="text-muted">Stock: #{product.stock}</small></p>
-
-                                    <h:commandLink action="/panel/seller/seller-login.xhtml" styleClass="btn btn-primary"
-                                                   rendered="#{not empty customerBean.entity.id}">
-                                        Sepete Ekle
-                                    </h:commandLink>
-                                    
-
-                                </div>
-                            </div>
-                        </div>
-                    </ui:repeat>
-                </div>
-            </h:form>
-        </div>
-
-    </ui:define>
-    -->
 
 </ui:composition>
 

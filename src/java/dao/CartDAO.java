@@ -5,8 +5,9 @@
 package dao;
 
 import entity.Cart;
+import entity.CartItem;
+import java.sql.PreparedStatement;
 import entity.Customer;
-import entity.Payment;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
@@ -17,24 +18,21 @@ import util.DBConnect;
  *
  * @author serki
  */
-public class CartDAO  extends DBConnect implements BaseDAO<Cart> {
+public class CartDAO extends DBConnect implements BaseDAO<Cart> {
 
-   
-    @Override
+    private CustomerDAO customerDAO;
+    private CartItemDAO cartItemDAO;
+
     public void create(Cart entity) {
 
         try {
-            Statement st = this.getConnect().createStatement();
-
-            st.executeUpdate("insert into Cart (toplamFiyat, createdDate, lastModifiedDate) "
-                    + "values ("
-                    + "'" + entity.getToplamFiyat() + "',"
-                    + "'" + entity.getCreatedDate() + "',"
-                    + "'" + entity.getLastModifiedDate() + "')");
-
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-        }
+        String query = "INSERT INTO cart (customer_id) VALUES (?)";
+        PreparedStatement ps = this.getConnect().prepareStatement(query);
+        ps.setLong(1, entity.getCustomer().getId());
+        ps.executeUpdate();
+    } catch (Exception e) {
+        System.out.println(e.getMessage());
+    }
 
     }
 
@@ -42,11 +40,11 @@ public class CartDAO  extends DBConnect implements BaseDAO<Cart> {
     public void update(Cart entity) {
         try {
             Statement st = this.getConnect().createStatement();
-            st.executeUpdate("update Payment set "
+            st.executeUpdate("update cart set "
                     + "customer_id ='" + entity.getCustomer().getId() + "'  "
-                    + "odenenTutar = '" + entity.getOdenenTutar() + "'"
-                    + "createDate ='" + entity.getCreatedDate() + "'"
-                    + "lastModifiedDate ='" + entity.getLastModifiedDate() + "' "
+                    + "odenenTutar = '" + entity.getToplamFiyat() + "'"
+                    + "createddate ='" + entity.getCreatedDate() + "'"
+                    + "lastmodifieddate ='" + entity.getLastModifiedDate() + "' "
                     + "where id = '" + entity.getId() + "'"
                     + "");
 
@@ -71,53 +69,87 @@ public class CartDAO  extends DBConnect implements BaseDAO<Cart> {
     @Override
     public List<Cart> readList() {
         List<Cart> cartList = new ArrayList<>();
+        /*Cart cart=null;
         try {
             Statement st = this.getConnect().createStatement();
 
             ResultSet rs = st.executeQuery("select * from Cart");
-
-            while (rs.next()) {
-                paymentList.add(new Payment(
-                        rs.getInt("odenenTutar"),
-                        rs.getTimestamp("createdDate"),
-                        rs.getTimestamp("lastModifiedDate")
-                ));
-            }
+           while(rs.next()){
+               
+           }
 
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
+*/
 
         return cartList;
 
     }
 
     @Override
-    public Cart getEntityById(Long id) {
+    public Cart getEntityById(Long customerId) {
 
-        Payment payment = null;
+        Cart cart = null;
+        Customer customer = null;
+        List<CartItem> cartItems = new ArrayList<>();
 
         try {
             Statement st = this.getConnect().createStatement();
 
-            ResultSet rs = st.executeQuery("select * from Payment where id = " + id);
+            ResultSet rs = st.executeQuery("SELECT * FROM cart WHERE customer_id = " + customerId);
 
-            rs.next();
+            if (rs.next()) {
+                customer = getCustomerDAO().getEntityById(customerId);
 
-            Customer customer = this.getCustomerDAO().getEntityById(rs.getLong("id"));
-            payment = new Payment(
-                    customer,
-                    rs.getInt("odenenTutar"),
-                    rs.getTimestamp("createdDate"),
-                    rs.getTimestamp("lastModifiedDate")
-            );
+                cartItems = getCartItemDAO().getCartItemsListByCartId(rs.getLong("id"));
+                cart = new Cart(
+                        rs.getLong("id"),
+                        customer,
+                        cartItems,
+                        rs.getInt("toplamfiyat"),
+                        rs.getTimestamp("createddate"),
+                        rs.getTimestamp("lastmodifieddate")
+                );
+            } else {
+                customer = getCustomerDAO().getEntityById(customerId);
+                cart = new Cart();
+                cart.setCustomer(customer);
+                create(cart);
+            }
 
         } catch (Exception e) {
-            System.out.println(e.getMessage());
+            System.out.println("sepet bos anlana"+e.getMessage());
         }
 
-        return payment;
+        return cart;
+    }
+
+    public Cart getCartByCustomerId(Long customerId) {
+        return getEntityById(customerId);
 
     }
-    
+
+    public CustomerDAO getCustomerDAO() {
+        if (this.customerDAO == null) {
+            this.customerDAO = new CustomerDAO();
+        }
+        return customerDAO;
+    }
+
+    public void setCustomerDAO(CustomerDAO customerDAO) {
+        this.customerDAO = customerDAO;
+    }
+
+    public CartItemDAO getCartItemDAO() {
+        if (this.cartItemDAO == null) {
+            this.cartItemDAO = new CartItemDAO();
+        }
+        return cartItemDAO;
+    }
+
+    public void setCartItemDAO(CartItemDAO cartItemDAO) {
+        this.cartItemDAO = cartItemDAO;
+    }
+
 }
