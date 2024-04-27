@@ -16,7 +16,7 @@ public class Customer extends BaseUser {
     public Customer() {
     }
 
-    public Customer(String addres, Long id, String firstName, String lastName, String password, String email, Timestamp createdDate, Timestamp lastModifiedDate) {
+    public Customer(Long id, String firstName, String lastName, String password, String email,String addres, Timestamp createdDate, Timestamp lastModifiedDate) {
         super(id, firstName, lastName, password, email, createdDate, lastModifiedDate);
         this.addres = addres;
     }

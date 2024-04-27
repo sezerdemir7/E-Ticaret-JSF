@@ -82,18 +82,18 @@ public abstract class BaseUser {
     }
 
     public Timestamp getCreatedDate() {
-        return createdDate;
+        return new Timestamp(System.currentTimeMillis());
     }
 
     public void setCreatedDate(Timestamp createdDate) {
-        this.createdDate = createdDate;
+        this.createdDate = new Timestamp(System.currentTimeMillis());
     }
 
     public Timestamp getLastModifiedDate() {
-        return lastModifiedDate;
+        return new Timestamp(System.currentTimeMillis());
     }
 
     public void setLastModifiedDate(Timestamp lastModifiedDate) {
-        this.lastModifiedDate = lastModifiedDate;
+        this.lastModifiedDate = new Timestamp(System.currentTimeMillis());
     }
 }

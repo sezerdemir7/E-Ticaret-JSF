@@ -6,6 +6,7 @@ package dao;
 
 import entity.Cart;
 import entity.CartItem;
+import entity.Customer;
 import entity.Product;
 import java.sql.ResultSet;
 import java.sql.Statement;
@@ -24,17 +25,45 @@ public class CartItemDAO extends DBConnect implements BaseDAO<CartItem> {
 
     @Override
     public void create(CartItem entity) {
+        
+        Cart cart=null;
 
         try {
             Statement st = this.getConnect().createStatement();
-
-            st.executeUpdate("insert into CartItem (Product, Cart, toplamFiyat, adet, createdDate, lastModifiedDate) "
+            
+            st.executeUpdate("insert into CartItem (product_id, cart_id, toplamfiyat, adet, createddate, lastmodifieddate) "
                     + "values ('" + entity.getProduct().getId() + "',"
-                    + "'" + entity.getCart().getId() + "',"
-                    + "'" + entity.getToplamFiyat() + "',"
-                    + "'" + entity.getAdet() + "',"
-                    + "'" + entity.getCreatedDate() + "',"
-                    + "'" + entity.getLastModifiedDate() + "')");
+                    + "'" + 2 + "',"
+                    + "'" + entity.getProduct().getPrice() + "',"
+                    + "'" + 1 + "',"
+                    + "'" + "2024-04-21 19:00:37.898743" + "',"
+                    + "'" + "2024-04-21 19:00:37.898743" + "')");
+            
+            
+
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+
+    }
+    public void createCartItem(CartItem entity,Customer customer) {
+        
+        Cart cart=null;
+
+        try {
+            Statement st = this.getConnect().createStatement();
+            
+            cart=getCartDAO().getCartByCustomerId(customer.getId());
+            
+            st.executeUpdate("insert into CartItem (product_id, cart_id, toplamfiyat, adet, createddate, lastmodifieddate) "
+                    + "values ('" + entity.getProduct().getId() + "',"
+                    + "'" + cart.getId()+ "',"
+                    + "'" + entity.getProduct().getPrice() + "',"
+                    + "'" + 1 + "',"
+                    + "'" + "2024-04-21 19:00:37.898743" + "',"
+                    + "'" + "2024-04-21 19:00:37.898743" + "')");
+            
+            
 
         } catch (Exception e) {
             System.out.println(e.getMessage());
@@ -67,7 +96,7 @@ public class CartItemDAO extends DBConnect implements BaseDAO<CartItem> {
         try {
             Statement st = this.getConnect().createStatement();
 
-            st.executeUpdate("delete from CartItem where id = " + entity.getId());
+            st.executeUpdate("delete from cartitem where id = " + entity.getId());
 
         } catch (Exception e) {
             System.out.println(e.getMessage());
@@ -86,12 +115,14 @@ public class CartItemDAO extends DBConnect implements BaseDAO<CartItem> {
                 Product product = this.productDAO.getEntityById(rs.getLong("product_id"));
                 Cart cart = this.cartDAO.getEntityById(rs.getLong("cart_id"));
                 cartItemList.add(new CartItem(
+                        
                         product,
                         cart,
                         rs.getInt("toplamFiyat"),
                         rs.getInt("adet"),
-                        rs.getTimestamp("createdDate"),
-                        rs.getTimestamp("lastModifiedDate")
+                        rs.getLong("id"),
+                        rs.getTimestamp("createddate"),
+                        rs.getTimestamp("lastmodifieddate")
                 ));
             }
 
@@ -122,8 +153,9 @@ public class CartItemDAO extends DBConnect implements BaseDAO<CartItem> {
                     cart,
                     rs.getInt("toplamFiyat"),
                     rs.getInt("adet"),
-                    rs.getTimestamp("createdDate"),
-                    rs.getTimestamp("lastModifiedDate")
+                     rs.getLong("id"),
+                    rs.getTimestamp("createddate"),
+                    rs.getTimestamp("lastmodifieddate")
             );
 
         } catch (Exception e) {
@@ -131,6 +163,48 @@ public class CartItemDAO extends DBConnect implements BaseDAO<CartItem> {
         }
 
         return cartItem;
+
+    }
+
+    public List<CartItem> getCartItemsListByCartId(Long cartId) {
+
+        List<CartItem> cartItems = new ArrayList<>();
+        CartItem cartItem = new CartItem();
+        Cart cart=getCartDAO().getEntityById(cartId);
+        
+        if(cart.getId()==null){
+            System.out.println("********");
+            System.out.println("********");
+            System.out.println("burası cartItem Daao");
+            System.out.println("********");
+        }
+        
+
+        try {
+            Statement st = this.getConnect().createStatement();
+
+            ResultSet rs = st.executeQuery("select * from cartitem where cart_id = " + cartId);
+
+            while (rs.next()) {
+                Product product = this.getProductDAO().getEntityById(rs.getLong("product_id"));
+                cartItem = new CartItem(
+                        product,
+                        cart,
+                        rs.getInt("toplamFiyat"),
+                        rs.getInt("adet"),
+                        rs.getLong("id"),
+                        rs.getTimestamp("createddate"),
+                        rs.getTimestamp("lastmodifieddate")
+                );
+                cartItems.add(cartItem);
+
+            }
+
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+
+        return cartItems;
 
     }
 
