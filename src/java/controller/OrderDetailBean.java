@@ -8,7 +8,6 @@ import dao.OrderDetailDAO;
 import entity.OrderDetail;
 import jakarta.enterprise.context.SessionScoped;
 import jakarta.inject.Named;
-import java.util.List;
 
 /**
  *
@@ -24,10 +23,6 @@ public class OrderDetailBean extends  BaseBean<OrderDetail, OrderDetailDAO>{
 
     public OrderDetailBean(OrderDetail entity, OrderDetailDAO dao) {
         super(entity, dao);
-    }
-    // readList() metodu DAO üzerinden çağrılır ve sipariş detaylarını döndürür.
-    public List<OrderDetail> readList() {
-        return getDao().readList();
     }
 
     @Override

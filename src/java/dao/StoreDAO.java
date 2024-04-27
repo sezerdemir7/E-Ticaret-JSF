@@ -109,16 +109,16 @@ public class StoreDAO extends DBConnect implements BaseDAO<Store> {
         
         try{
             Statement st = this.getConnect().createStatement();
-            ResultSet rs = st.executeQuery("select * from Store where id ="+id);
+            ResultSet rs = st.executeQuery("select * from store where id ="+id);
             
             rs.next();
-            Seller seller = this.sellerDAO.getEntityById(rs.getLong("seller_id"));
+            Seller seller = getSellerDAO().getEntityById(rs.getLong("seller_id"));
 
                 store =new Store(
                         rs.getString("name"),
                         seller,
-                        rs.getTimestamp("created"),
-                        rs.getTimestamp("lastModifiedDate")
+                        rs.getTimestamp("created_date"),
+                        rs.getTimestamp("last_modified_date")
                 );
             
             

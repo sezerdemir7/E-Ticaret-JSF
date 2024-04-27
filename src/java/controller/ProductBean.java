@@ -19,30 +19,26 @@ import java.util.List;
 @SessionScoped
 
 public class ProductBean extends BaseBean<Product, ProductDAO> {
-    
-    
 
     public ProductBean(Product entity, ProductDAO dao) {
         super(entity, dao);
     }
-    
-     public ProductBean() {
+
+    public ProductBean() {
         super(null, null);
     }
 
     @Override
     public void create() {
-        
-        super.create(); 
+
+        super.create();
     }
-     
-     public List<Product> getProductListByCategoryId(Long categoryId){
-         List<Product> productList=new ArrayList<>();
-         productList=getDao().getProductListByCategoryId(categoryId);
-         return productList;
-     }
-    
-    
+
+    public List<Product> getProductListByCategoryId(Long categoryId) {
+        List<Product> productList = new ArrayList<>();
+        productList = getDao().getProductListByCategoryId(categoryId);
+        return productList;
+    }
 
     @Override
     protected Product createEntityInstance() {
@@ -55,5 +51,4 @@ public class ProductBean extends BaseBean<Product, ProductDAO> {
         return new ProductDAO();
     }
 
-    
 }

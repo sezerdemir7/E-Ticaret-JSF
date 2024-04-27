@@ -56,7 +56,7 @@ public class SellerDAO extends DBConnect implements BaseDAO<Seller> {
             ResultSet rs = st.executeQuery("select * from seller");
 
             while (rs.next()) {
-                list.add(new Seller(rs.getLong("id"), rs.getString("firstname"), rs.getString("lastname"), rs.getString("email"),
+                list.add(new Seller(rs.getLong("id"), rs.getString("first_name"), rs.getString("last_name"), rs.getString("email"),
                         rs.getString("password"), rs.getTimestamp("created_date"), rs.getTimestamp("last_modified_date")));
             }
         } catch (Exception e) {
@@ -90,7 +90,32 @@ public class SellerDAO extends DBConnect implements BaseDAO<Seller> {
 
     @Override
     public Seller getEntityById(Long id) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        Seller seller =null;
+        
+        try{
+            Statement st = this.getConnect().createStatement();
+            ResultSet rs = st.executeQuery("select * from seller where id ="+id);
+            
+            rs.next();
+            
+
+                seller =new Seller(
+                        rs.getLong("id"),
+                        rs.getString("first_name"),
+                        rs.getString("last_name"),
+                        rs.getString("password"),
+                        rs.getString("email"),
+                        rs.getTimestamp("created_date"),
+                        rs.getTimestamp("last_modified_date")
+                );
+            
+            
+        }catch(Exception e){
+            System.out.println(e.getMessage());
+        }
+        
+        return seller;
+
     }
 
 }

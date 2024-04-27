@@ -42,7 +42,7 @@ public class CategoryDAO extends DBConnect implements BaseDAO<Category>{
         
          try {
             Statement st = this.getConnect().createStatement();
-            String query = "update admin set "
+            String query = "update category set "
                     + "name = '"+entity.getName()+"' "
                     + "createDate ='"+entity.getCreatedDate()+ "'"
                     + "lastModifiedDate ='"+entity.getLastModifiedDate()+"' "
