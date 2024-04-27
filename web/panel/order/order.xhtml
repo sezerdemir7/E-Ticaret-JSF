@@ -50,7 +50,7 @@
                         <td>#{order.status ? 'Teslim Edildi' : 'Hazırlanıyor'} </td>
                         <td>#{order.teslimatAdresi} </td>
                         <td><div class="text-right">
-                                <h:button outcome="/panel/order/order_detay.xhtml" value="Sipariş Detayı" action="#{orderDetailBean.entity.product}" styleClass="btn btn-danger" />
+                                <h:button outcome="/panel/order/order_detay.xhtml" value="Sipariş Detayı" action="#{orderDetailBean.entity.setAdet(adet)}" styleClass="btn btn-danger" />
                          </div></td>
                          
                     
