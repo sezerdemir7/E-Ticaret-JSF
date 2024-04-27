@@ -2,7 +2,8 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:f="http://xmlns.jcp.org/jsf/core"
-      xmlns:p="http://primefaces.org/ui">
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
 <h:head>
     <title>Siparişlerim</title>
     <!-- Bootstrap CSS -->
@@ -42,31 +43,25 @@
                 </tr>
             </thead>
             <tbody>
-                <h:dataTable value="#{orderBean.list}" var="order" styleClass="table">
-                    <h:column>
-                        <h:outputText value="#{order.orderDate}" />
-                    </h:column>
-                    <h:column>
-                        <h:outputText value="#{order.toplamTutar}" />
-                    </h:column>
-                    <h:column>
-                        <h:outputText value="#{order.status ? 'Teslim Edildi' : 'Hazırlanıyor'}" />
-                    </h:column>
-                    <h:column>
-                        <h:outputText value="#{order.teslimatAdresi}" />
-                    </h:column>
-                    <h:column>
-                         <div class="text-right">
-                            <h:button outcome="/panel/order/order_detay.xhtml" value="Sipariş Detayı" styleClass="btn btn-danger" />
-                         </div>
-                    </h:column>
-                </h:dataTable>
+                <ui:repeat value="#{orderBean.list}" var="order">
+                    <tr>
+                        <td>#{order.orderDate} </td>
+                        <td>#{order.toplamTutar} </td>
+                        <td>#{order.status ? 'Teslim Edildi' : 'Hazırlanıyor'} </td>
+                        <td>#{order.teslimatAdresi} </td>
+                        <td><div class="text-right">
+                                <h:button outcome="/panel/order/order_detay.xhtml" value="Sipariş Detayı" action="#{orderDetailBean.entity.product}" styleClass="btn btn-danger" />
+                         </div></td>
+                         
+                    
+                    
+                        </tr>
+                </ui:repeat>
             </tbody>
         </table>
     </h:form>
 
-    <!-- Optional JavaScript -->
-    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>

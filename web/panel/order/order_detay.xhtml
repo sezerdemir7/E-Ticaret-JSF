@@ -10,7 +10,7 @@
 <h:body>
     <h1>Sipariş Detayları</h1>
     <h:form>
-        <p:dataTable var="detay" value="#{orderDetailBean.readList()}" widgetVar="siparisDetaylariTablosu"
+        <p:dataTable var="detay" value="#{orderDetailBean.entity}" widgetVar="siparisDetaylariTablosu"
                      emptyMessage="Sipariş detayı bulunamadı">
             <p:column headerText="Sipariş ID">
                 <h:outputText value="#{detay.order.id}" />
