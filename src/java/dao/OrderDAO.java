@@ -95,8 +95,8 @@ public class OrderDAO extends DBConnect implements BaseDAO<Order> {
             ResultSet rs = st.executeQuery("select * from orders");
 
             while (rs.next()) {
-                Customer customer = this.customerDAO.getEntityById(rs.getLong("customer_id"));
-                Payment payment = this.paymentDAO.getEntityById(rs.getLong("payment_id"));
+                Customer customer = this.getCustomerDAO().getEntityById(rs.getLong("customer_id"));
+                Payment payment = this.getPaymentDAO().getEntityById(rs.getLong("payment_id"));
                 orderList.add(new Order(
                         customer,
                         rs.getTimestamp("orderDate"),
