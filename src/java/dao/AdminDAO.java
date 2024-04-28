@@ -28,12 +28,12 @@ public class AdminDAO extends DBConnect implements BaseDAO<Admin> {
             if (rs.next()) {
                 admin = new Admin(
                         rs.getLong("id"),
-                        rs.getString("first_name"),
-                        rs.getString("last_name"),
+                        rs.getString("firstname"),
+                        rs.getString("lastname"),
                         rs.getString("password"),
                         rs.getString("email"),
-                        rs.getTimestamp("created_date"),
-                        rs.getTimestamp("last_modified_date")
+                        rs.getTimestamp("createddate"),
+                        rs.getTimestamp("lastmodifieddate")
                 );
             }
 

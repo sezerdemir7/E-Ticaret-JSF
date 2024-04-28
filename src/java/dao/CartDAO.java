@@ -125,7 +125,7 @@ public class CartDAO extends DBConnect implements BaseDAO<Cart> {
             }
 
         } catch (Exception e) {
-            System.out.println("sepet bos anlana" + e.getMessage());
+            System.out.println( e.getMessage());
         }
 
         return cart;

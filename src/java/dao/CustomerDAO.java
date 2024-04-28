@@ -116,13 +116,13 @@ public class CustomerDAO extends DBConnect implements BaseDAO<Customer> {
             while (rs.next()) {
                 customerList.add(new Customer(
                         rs.getLong("id"),
-                        rs.getString("first_name"),
-                        rs.getString("last_name"),
+                        rs.getString("firstname"),
+                        rs.getString("lastname"),
                         rs.getString("password"),
                         rs.getString("email"),
                         rs.getString("addres"),
-                        rs.getTimestamp("created_date"),
-                        rs.getTimestamp("last_modified_date")
+                        rs.getTimestamp("createddate"),
+                        rs.getTimestamp("lastmodifieddate")
                 ));
 
             }

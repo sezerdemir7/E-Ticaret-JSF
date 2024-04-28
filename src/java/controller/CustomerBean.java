@@ -29,6 +29,11 @@ public class CustomerBean extends BaseBean<Customer, CustomerDAO> {
     public CustomerBean(Customer entity, CustomerDAO dao) {
         super(entity, dao);
     }
+    
+    public void deleteCustomer(Customer customer){
+        setEntity(customer);
+        getDao().delete(getEntity());
+    }
 
     public String login() {
         Customer customerTest = this.getDao().login(this.getEntity());
