@@ -30,6 +30,23 @@ public class Payment extends BaseEntity {
         this.odenenTutar = odenenTutar;
     }
 
+    public Customer getCustomer() {
+        return customer;
+    }
+
+    public void setCustomer(Customer customer) {
+        this.customer = customer;
+    }
+
+    public int getOdenenTutar() {
+        return odenenTutar;
+    }
+
+    public void setOdenenTutar(int odenenTutar) {
+        this.odenenTutar = odenenTutar;
+    }
+
+    
     
 
    
