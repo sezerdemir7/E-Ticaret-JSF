@@ -43,7 +43,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <ui:repeat value="#{orderBean.list}" var="order">
+                    <ui:repeat value="#{orderBean.getListByCustomerId(customerBean.entity.id)}" var="order">
                         <tr>
                             <td>#{order.orderDate} </td>
                             <td>#{order.toplamTutar} </td>

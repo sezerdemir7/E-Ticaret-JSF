@@ -52,13 +52,12 @@ public class CustomerDAO extends DBConnect implements BaseDAO<Customer> {
 
         try {
             Statement st = this.getConnect().createStatement();
-            String query = "insert into Customer(first_name, last_name, password, email, addres, last_modified_date) "
+            String query = "insert into Customer(firstname, lastname, password, email, addres) "
                     + "values ('" + entity.getFirstName() + "',"
                     + "'" + entity.getLastName() + "',"
                     + "'" + entity.getPassword() + "',"
                     + "'" + entity.getEmail() + "',"
-                    + "'" + entity.getAddres() + "',"
-                    + "'" + "2024-04-21 19:00:37.898743+03" + "')";
+                    + "'" + entity.getAddres() + "')";
 
             st.executeUpdate(query);
 

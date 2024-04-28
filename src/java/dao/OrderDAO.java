@@ -149,6 +149,37 @@ public class OrderDAO extends DBConnect implements BaseDAO<Order> {
         
     }
     
+    public List<Order> readListByCustumerId(Long customerId) {
+        
+        List<Order> orderList = new ArrayList<>();
+        try {
+            Statement st = this.getConnect().createStatement();
+            
+            ResultSet rs = st.executeQuery("select * from orders where customer_id="+customerId);
+            
+            while (rs.next()) {
+                Customer customer = this.getCustomerDAO().getEntityById(rs.getLong("customer_id"));
+                Payment payment = this.getPaymentDAO().getEntityById(rs.getLong("payment_id"));
+                orderList.add(new Order(
+                        customer,
+                        rs.getTimestamp("orderDate"),
+                        rs.getBoolean("status"),
+                        rs.getString("teslimatAdresi"),
+                        payment,
+                        rs.getInt("toplamTutar"),
+                        rs.getLong("id"),
+                        rs.getTimestamp("createdDate"),
+                        rs.getTimestamp("lastModifiedDate")
+                ));
+            }
+            
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+        
+        return orderList;
+    }
+    
     @Override
     public List<Order> readList() {
         
@@ -156,7 +187,7 @@ public class OrderDAO extends DBConnect implements BaseDAO<Order> {
         try {
             Statement st = this.getConnect().createStatement();
             
-            ResultSet rs = st.executeQuery("select * from orders");
+            ResultSet rs = st.executeQuery("select * from orders ");
             
             while (rs.next()) {
                 Customer customer = this.getCustomerDAO().getEntityById(rs.getLong("customer_id"));

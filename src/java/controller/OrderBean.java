@@ -9,6 +9,7 @@ import entity.Customer;
 import entity.Order;
 import jakarta.enterprise.context.SessionScoped;
 import jakarta.inject.Named;
+import java.util.List;
 
 /**
  *
@@ -35,6 +36,12 @@ public class OrderBean  extends  BaseBean<Order, OrderDAO>{
         getDao().saveOrder(order);
         return true;
     }
+
+    
+    public List<Order> getListByCustomerId(Long cutomerId) {
+        return getDao().readListByCustumerId(cutomerId);
+    }
+    
 
     @Override
     protected Order createEntityInstance() {
