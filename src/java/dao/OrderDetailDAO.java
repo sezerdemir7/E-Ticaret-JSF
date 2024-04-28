@@ -4,7 +4,6 @@
  */
 package dao;
 
-
 import entity.Order;
 import entity.OrderDetail;
 import entity.Product;
@@ -23,22 +22,57 @@ public class OrderDetailDAO extends DBConnect implements BaseDAO<OrderDetail> {
     private ProductDAO productDAO;
     private OrderDAO orderDAO;
 
+    public List<OrderDetail> listOrderDetailByOrder(Order order) {
+        
+        System.out.println("*********");
+        System.out.println("*********");System.out.println("*********");
+        System.out.println("order id====="+order.getId());
+        System.out.println("*********");
+        
+
+        List<OrderDetail> orderDetailList = new ArrayList<>();
+        try {
+            Statement st = this.getConnect().createStatement();
+
+            ResultSet rs = st.executeQuery("select * from orderdetail where orders_id=" + order.getId());
+
+            while (rs.next()) {
+                Product product = getProductDAO().getEntityById(rs.getLong("product_id"));
+                orderDetailList.add(new OrderDetail(rs.getInt("adet"), product, order,
+                        rs.getLong("id"),
+                        rs.getTimestamp("createddate"),
+                        rs.getTimestamp("lastmodifieddate"))
+                );
+            
+         
+                
+                
+            }
+
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+
+        return orderDetailList;
+
+    }
+
     @Override
     public void create(OrderDetail entity) {
 
         try {
             Statement st = this.getConnect().createStatement();
 
-            st.executeUpdate("insert into OrderDetail (adet, Product, Order, createdDate, lastModifiedDate) "
+            st.executeUpdate("insert into OrderDetail (adet, Product_id, Orders_id, createdDate, lastModifiedDate) "
                     + "values ("
-                    + "'" + entity.getAdet() + "',"
-                    + "'" + entity.getProduct().getId() + "',"
-                    + "'" + entity.getOrder().getId() + "',"
-                    + "'" + entity.getCreatedDate() + "',"
-                    + "'" + entity.getLastModifiedDate() + "')");
+                    + "'" + entity.getAdet() + "', "
+                    + "'" + entity.getProduct().getId() + "', "
+                    + "'" + entity.getOrder().getId() + "', "
+                    + "'" + "2024-04-21 19:00:37.89874" + "', "
+                    + "'" + "2024-04-21 19:00:37.89874" + "')");
 
         } catch (Exception e) {
-            System.out.println(e.getMessage());
+            e.printStackTrace();
         }
 
     }

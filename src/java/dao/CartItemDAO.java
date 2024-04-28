@@ -112,8 +112,8 @@ public class CartItemDAO extends DBConnect implements BaseDAO<CartItem> {
             ResultSet rs = st.executeQuery("select * from CartItem");
 
             while (rs.next()) {
-                Product product = this.productDAO.getEntityById(rs.getLong("product_id"));
-                Cart cart = this.cartDAO.getEntityById(rs.getLong("cart_id"));
+                Product product =getProductDAO().getEntityById(rs.getLong("product_id"));
+                Cart cart =getCartDAO().getEntityById(rs.getLong("cart_id"));
                 cartItemList.add(new CartItem(
                         
                         product,

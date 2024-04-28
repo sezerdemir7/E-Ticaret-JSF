@@ -5,9 +5,12 @@
 package controller;
 
 import dao.OrderDetailDAO;
+import entity.Order;
 import entity.OrderDetail;
 import jakarta.enterprise.context.SessionScoped;
 import jakarta.inject.Named;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
@@ -15,14 +18,39 @@ import jakarta.inject.Named;
  */
 @Named
 @SessionScoped
-public class OrderDetailBean extends  BaseBean<OrderDetail, OrderDetailDAO>{
-    
-    public OrderDetailBean(){
-        super(null,null);
+public class OrderDetailBean extends BaseBean<OrderDetail, OrderDetailDAO> {
+
+    public OrderDetailBean() {
+        super(null, null);
     }
 
     public OrderDetailBean(OrderDetail entity, OrderDetailDAO dao) {
         super(entity, dao);
+    }
+
+    public List<OrderDetail> listOrderDetailByOrder() {
+        List<OrderDetail> details=new ArrayList<>();
+        details=getDao().listOrderDetailByOrder(getEntity().getOrder());
+        for(OrderDetail detail:details){
+             System.out.println("*********");
+        System.out.println("*********");
+        System.out.println("*********");
+        System.out.println("detail id=====" +detail.getProduct().getName() );
+        System.out.println("*********");
+        }
+        return details;
+
+    }
+
+    public String goToOrderDetailPage(Order order) {
+        getEntity().setOrder(order);
+        System.out.println("*********");
+        System.out.println("*********");
+        System.out.println("*********");
+        System.out.println("order id=====" + getEntity().getOrder().getId());
+        System.out.println("*********");
+        
+        return "/panel/order/order_detay.xhtml?faces-redirect=true";
     }
 
     @Override
@@ -32,7 +60,7 @@ public class OrderDetailBean extends  BaseBean<OrderDetail, OrderDetailDAO>{
 
     @Override
     protected OrderDetailDAO createDAOInstance() {
-        return new OrderDetailDAO ();
+        return new OrderDetailDAO();
     }
-    
+
 }

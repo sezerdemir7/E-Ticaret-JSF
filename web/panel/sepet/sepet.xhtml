@@ -36,6 +36,11 @@
                                 </div>
                             </div>
                         </ui:repeat>
+                        <div>
+                            <h:commandLink action="#{orderBean.saveOrder(customerBean.entity)}" rendered="#{customerBean.entity.id!=null}" styleClass="btn btn-danger">
+                                            Sipariş ver
+                                        </h:commandLink>
+                        </div>
                     </div>
                 </h:form>
             </div>
