@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/XHtml.xhtml to edit this template
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="jakarta.faces.html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      template="/panel/template/navbar.xhtml">
+    <head>
+        <h:outputStylesheet library="css" name="bootstrap.min.css" />
+
+        <title>Admin Sipariş İşlemleri</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    </head>
+    <body>
+        <h:form>
+            <h:commandButton value="Sipariş Ekle"  class="buton-color"  action="/panel/order/order.xhtml"  />    
+            <h:commandButton value="Sipariş Güncelle" styleClass="btn btn-succes" action="/panel/order/order.xhtml"/>
+
+            <h:commandButton value="Sipariş Listele"  class="buton-color"  action="#{orderBean.getList()}" />
+        </h:form>
+
+
+
+
+        <div class="container-mt-3">
+
+            <div class="col-md-5">
+                <form>
+                    <table class="table table-scriped table-hover">
+                        <thead>
+
+                            <tr>
+                                <th>
+                                    ID
+                                </th>
+                                <th>
+                                    Toplam Tutar
+                                </th>
+                                <th>
+                                    Teslimat Adresi
+                                </th>
+                                <th>
+                                    Kullanıcı ID
+                                </th>
+                                <th>
+                                    Ödeme ID
+                                </th>
+                                <th>
+                                    Durumu
+                                </th><th>
+                                    Sipariş Tarihi
+                                </th> <th>
+                                    Created Date
+                                </th><th>
+                                    Last Modified Date
+                                </th><th>
+                                    Delete
+                                </th>
+
+
+
+                            </tr>
+
+                        </thead>
+                        <tbody>
+                            <ui:repeat value="#{orderBean.getList()}" var="order" >
+                                <tr>
+                                    <td>#{order.id}</td>
+                                    <td>#{order.toplamTutar}</td>
+                                    <td>#{order.teslimatAdresi}</td>
+                                    <td>#{order.customer_id}</td>
+                                    <td>#{order.payment_id}</td>
+                                    <td>#{order.status}</td>
+                                    <td>#{order.orderDate}</td>
+                                    <td>#{order.createdDate}</td>
+                                    <td>#{order.lastModifiedDate}</td>
+                                    <td>
+                                        <h:commandButton class="btn btn-danger" action="#{orderBean.delete()}" value="Sil"/>
+                                    </td>
+
+
+                                </tr>
+
+                            </ui:repeat>
+
+                        </tbody>
+
+
+                    </table>
+                </form>
+            </div>
+
+
+        </div>
+
+
+
+
+
+
+
+    </body>
+</html>

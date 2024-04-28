@@ -7,6 +7,8 @@ package controller;
 import dao.AdminDAO;
 import entity.Admin;
 import jakarta.enterprise.context.SessionScoped;
+import jakarta.faces.application.FacesMessage;
+import jakarta.faces.context.FacesContext;
 import jakarta.inject.Named;
 
 /**
@@ -20,6 +22,23 @@ public class AdminBean extends BaseBean<Admin, AdminDAO>{
     public AdminBean () {
         super(null,null);
     }
+    
+    
+    public String login(){
+        Admin adminTest=this.getDao().login(this.getEntity());
+       
+        if(adminTest!=null && adminTest.getPassword().equals(this.getEntity().getPassword())){
+            this.setEntity(adminTest);
+          return "/panel/admin/admin-home.xhtml?faces-redirect=true";
+        }
+        else{
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Şifre Yanlış", "Şifre yanlış."));
+            return null; // Başarısız giriş durumunda null döndürüyor
+        }
+    }
+    
+    
+    
     
     
     public AdminBean(Admin entity, AdminDAO dao) {

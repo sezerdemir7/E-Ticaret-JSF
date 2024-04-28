@@ -18,22 +18,48 @@ import util.DBConnect;
  */
 public class AdminDAO extends DBConnect implements BaseDAO<Admin> {
 
+    public Admin login(Admin entity) {
+        Admin admin = null;
+
+        Statement st;
+        try {
+            st = this.getConnect().createStatement();
+            ResultSet rs = st.executeQuery("select * from admin where email='" + entity.getEmail() + "'");
+            if (rs.next()) {
+                admin = new Admin(
+                        rs.getLong("id"),
+                        rs.getString("first_name"),
+                        rs.getString("last_name"),
+                        rs.getString("password"),
+                        rs.getString("email"),
+                        rs.getTimestamp("created_date"),
+                        rs.getTimestamp("last_modified_date")
+                );
+            }
+
+            return admin;
+
+        } catch (Exception e) {
+            System.out.println("giriş yapılamadı"+e.getMessage());
+        }
+        return null;
+    }
+
     @Override
     public void create(Admin entity) {
         try {
             Statement st = this.getConnect().createStatement();
-            String query = "insert into Admin(firstName, lastName, password, email, createdDate, lastModifiedDate) values ('"
+
+            st.executeUpdate("insert into Admin(first_name, last_name, password, email, created_date, last_modified_date) values ('"
                     + entity.getFirstName() + "',"
                     + "'" + entity.getLastName() + "',"
                     + "'" + entity.getPassword() + "'"
                     + ",'" + entity.getEmail() + "',"
-                    + "'" + entity.getCreatedDate() + "'"
-                    + ",'" + entity.getLastModifiedDate() + "')";
-
-            st.executeUpdate(query);
+                    + "'" + "2024-04-21 19:00:37.898743" + "'"
+                    + ",'" +" 2024-04-21 19:00:37.898743"+ "')");
 
         } catch (Exception e) {
-            System.out.println(e.getMessage());
+            System.out.println("Admin kayıt edilemedi"+e.getMessage());
         }
 
     }
@@ -43,7 +69,7 @@ public class AdminDAO extends DBConnect implements BaseDAO<Admin> {
 
         try {
             Statement st = this.getConnect().createStatement();
-            String query = "update Admin set "
+            String query = "update admin set "
                     + "firstname ='" + entity.getFirstName() + "'  "
                     + "lastName = '" + entity.getLastName() + "' "
                     + "password = '" + entity.getPassword() + "' "

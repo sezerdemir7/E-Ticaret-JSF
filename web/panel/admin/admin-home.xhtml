@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="jakarta.faces.html"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+
+    <style>
+        .buton-color{
+            background-color: blue;
+            border-color: #007bff;
+            color: #fff; /* Yazı rengi */
+            margin: 5px; /* Butonlar arasında 5 piksel boşluk bırakır */
+            border-radius: 5px; /* Kenarlık yuvarlaklığı */
+            padding: 10px 20px; /* Buton içeriğiyle kenarlık arasında boşluk bırakır */
+        }
+
+        .btn-secondary {
+            background-color: green;
+            border-color: #6c757d;
+            color: #fff; /* Yazı rengi */
+            margin: 5px; /* Butonlar arasında 5 piksel boşluk bırakır */
+            border-radius: 5px; /* Kenarlık yuvarlaklığı */
+            padding: 10px 20px; /* Buton içeriğiyle kenarlık arasında boşluk bırakır */
+        }
+    </style>
+    <head>
+        <h:outputStylesheet library="css" name="bootstrap.min.css" />
+
+        <title>Admin Anasayfa</title>
+    </head>
+    <h:body>
+        <div class="container">
+
+
+            <h:form>
+                <h:commandButton value="Kullanıcı işlemleri"  class="buton-color"  action="/panel/admin/admin-customer-home-page.xhtml"  />
+
+                <h:commandButton action="/panel/admin/admin-seller-home-page.xhtml"  class="buton-color" value="Satıcı İşlemleri" />
+
+
+                <h:commandButton action="/panel/admin/admin-order-home-page.xhtml" class="buton-color" value="Sipariş İşlemleri" />
+                <h:commandButton action="/panel/admin/admin-product-home-page.xhtml"   class="buton-color" value="Ürün İşlemleri" />
+
+                <h:commandButton action="/panel/sepet/sepet.xhtml"   class="buton-color" value="Sepet İşlemleri" />
+
+                <h:commandButton action="/panel/admin/admin-update.xhtml"   class="buton-color" value="Admin Profil İşlemleri" />
+
+            </h:form>
+        </div>
+    </h:body>
+</html>
+
+
+
+
