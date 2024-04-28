@@ -45,8 +45,8 @@ public class Payment extends BaseEntity {
     public void setOdenenTutar(int odenenTutar) {
         this.odenenTutar = odenenTutar;
     }
-
     
+
     
 
    
