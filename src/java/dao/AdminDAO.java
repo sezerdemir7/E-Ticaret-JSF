@@ -50,7 +50,7 @@ public class AdminDAO extends DBConnect implements BaseDAO<Admin> {
         try {
             Statement st = this.getConnect().createStatement();
 
-            st.executeUpdate("insert into Admin(first_name, last_name, password, email, created_date, last_modified_date) values ('"
+            st.executeUpdate("insert into Admin(firstname, lastname, password, email, createddate, lastmodifieddate) values ('"
                     + entity.getFirstName() + "',"
                     + "'" + entity.getLastName() + "',"
                     + "'" + entity.getPassword() + "'"
@@ -71,11 +71,11 @@ public class AdminDAO extends DBConnect implements BaseDAO<Admin> {
             Statement st = this.getConnect().createStatement();
             String query = "update admin set "
                     + "firstname ='" + entity.getFirstName() + "'  "
-                    + "lastName = '" + entity.getLastName() + "' "
+                    + "lastname = '" + entity.getLastName() + "' "
                     + "password = '" + entity.getPassword() + "' "
                     + "email = '" + entity.getEmail() + "' "
-                    + "createDate ='" + entity.getCreatedDate() + "'"
-                    + "lastModifiedDate ='" + entity.getLastModifiedDate() + "' "
+                    + "createdate ='" + entity.getCreatedDate() + "'"
+                    + "lastmodifieddate ='" + entity.getLastModifiedDate() + "' "
                     + "where id = '" + entity.getId() + "'"
                     + "";
 
@@ -115,12 +115,12 @@ public class AdminDAO extends DBConnect implements BaseDAO<Admin> {
             while (rs.next()) {
                 adminList.add(new Admin(
                         rs.getLong("id"),
-                        rs.getString("firstName"),
-                        rs.getString("lastName"),
+                        rs.getString("firstname"),
+                        rs.getString("lastname"),
                         rs.getString("password"),
                         rs.getString("email"),
-                        rs.getTimestamp("createdDate"),
-                        rs.getTimestamp("lastModifiedDate")));
+                        rs.getTimestamp("createddate"),
+                        rs.getTimestamp("lastmodifieddate")));
             }
         } catch (Exception e) {
             System.out.println(e.getMessage());
@@ -142,12 +142,12 @@ public class AdminDAO extends DBConnect implements BaseDAO<Admin> {
 
             admin = new Admin(
                     rs.getLong("id"),
-                    rs.getString("firstName"),
-                    rs.getString("lastName"),
+                    rs.getString("firstname"),
+                    rs.getString("lastname"),
                     rs.getString("password"),
                     rs.getString("email"),
-                    rs.getTimestamp("createdDate"),
-                    rs.getTimestamp("lastModifiedDate")
+                    rs.getTimestamp("createddate"),
+                    rs.getTimestamp("lastmodifieddate")
             );
 
         } catch (Exception e) {

@@ -28,7 +28,7 @@ public class StoreDAO extends DBConnect implements BaseDAO<Store> {
         try {
             // PreparedStatement oluştur
             PreparedStatement pst = this.getConnect().prepareStatement(
-                    "INSERT INTO store (name,seller_id) "
+                    "INSERT INTO store (name,sellerid) "
                     + "VALUES (?, ?)");
 
             // Parametreleri ayarla
@@ -52,9 +52,9 @@ public class StoreDAO extends DBConnect implements BaseDAO<Store> {
             Statement st = this.getConnect().createStatement();
             st.executeUpdate("update Store set"
                     + " name = '" + entity.getName() + "'"
-                    + "seller_id ='" + entity.getSeller().getId() + "' "
-                    + "createDate ='" + entity.getCreatedDate() + "'"
-                    + "lastModifiedDate ='" + entity.getLastModifiedDate() + "' "
+                    + "sellerid ='" + entity.getSeller().getId() + "' "
+                    + "createddate ='" + entity.getCreatedDate() + "'"
+                    + "lastmodifieddate ='" + entity.getLastModifiedDate() + "' "
                     + "where id = '" + entity.getId() + "'"
                     + "");
 
@@ -86,13 +86,13 @@ public class StoreDAO extends DBConnect implements BaseDAO<Store> {
             ResultSet rs = st.executeQuery("select * from Store");
 
             while (rs.next()) {
-                Seller seller = this.sellerDAO.getEntityById(rs.getLong("seller_id"));
+                Seller seller = this.sellerDAO.getEntityById(rs.getLong("sellerid"));
 
                 storeList.add(new Store(
                         rs.getString("name"),
                         seller,
-                        rs.getTimestamp("created"),
-                        rs.getTimestamp("lastModifiedDate")
+                        rs.getTimestamp("createddate"),
+                        rs.getTimestamp("lastmodifieddate")
                 ));
 
             }
@@ -112,13 +112,13 @@ public class StoreDAO extends DBConnect implements BaseDAO<Store> {
             ResultSet rs = st.executeQuery("select * from store where id ="+id);
             
             rs.next();
-            Seller seller = getSellerDAO().getEntityById(rs.getLong("seller_id"));
+            Seller seller = getSellerDAO().getEntityById(rs.getLong("sellerid"));
 
                 store =new Store(
                         rs.getString("name"),
                         seller,
-                        rs.getTimestamp("created_date"),
-                        rs.getTimestamp("last_modified_date")
+                        rs.getTimestamp("createddate"),
+                        rs.getTimestamp("lastmodifieddate")
                 );
             
             

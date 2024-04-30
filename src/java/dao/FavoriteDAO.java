@@ -30,7 +30,7 @@ public class FavoriteDAO extends DBConnect implements BaseDAO<Favorite> {
         try {
 
             Statement st = this.getConnect().createStatement();
-            st.executeUpdate("insert into favorite(product_id,customer_id) values ('" + favorite.getProduct().getId() + "','" + favorite.getCustomer().getId() + "')");
+            st.executeUpdate("insert into favorite(productid,customerid) values ('" + favorite.getProduct().getId() + "','" + favorite.getCustomer().getId() + "')");
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
@@ -45,7 +45,7 @@ public class FavoriteDAO extends DBConnect implements BaseDAO<Favorite> {
 
             while (rs.next()) {
 
-                productList.add(rs.getLong("product_id"));
+                productList.add(rs.getLong("productid"));
 
             }
 

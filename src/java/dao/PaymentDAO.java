@@ -26,7 +26,7 @@ public class PaymentDAO extends DBConnect implements BaseDAO<Payment> {
         try {
             Statement st = this.getConnect().createStatement();
 
-            st.executeUpdate("insert into Payment (Customer, odenenTutar, createdDate, lastModifiedDate) "
+            st.executeUpdate("insert into Payment (customer_id, odenentutar, createddate, lastmodifieddate) "
                     + "values ('" + entity.getCustomer().getId() + "',"
                     + "'" + entity.getOdenenTutar() + "',"
                     + "'" + entity.getCreatedDate() + "',"
@@ -43,10 +43,10 @@ public class PaymentDAO extends DBConnect implements BaseDAO<Payment> {
         try {
             Statement st = this.getConnect().createStatement();
             st.executeUpdate("update Payment set "
-                    + "customer_id ='" + entity.getCustomer().getId() + "'  "
-                    + "odenenTutar = '" + entity.getOdenenTutar() + "'"
-                    + "createDate ='" + entity.getCreatedDate() + "'"
-                    + "lastModifiedDate ='" + entity.getLastModifiedDate() + "' "
+                    + "customerid ='" + entity.getCustomer().getId() + "'  "
+                    + "odenentutar = '" + entity.getOdenenTutar() + "'"
+                    + "createdate ='" + entity.getCreatedDate() + "'"
+                    + "lastmodifieddate ='" + entity.getLastModifiedDate() + "' "
                     + "where id = '" + entity.getId() + "'"
                     + "");
 
@@ -77,12 +77,12 @@ public class PaymentDAO extends DBConnect implements BaseDAO<Payment> {
             ResultSet rs = st.executeQuery("select * from Payment");
 
             while (rs.next()) {
-                Customer customer = this.customerDAO.getEntityById(rs.getLong("customer_id"));
+                Customer customer = this.customerDAO.getEntityById(rs.getLong("customerid"));
                 paymentList.add(new Payment(
                         customer,
-                        rs.getInt("odenenTutar"),
-                        rs.getTimestamp("createdDate"),
-                        rs.getTimestamp("lastModifiedDate")
+                        rs.getInt("odenentutar"),
+                        rs.getTimestamp("createddate"),
+                        rs.getTimestamp("lastmodifieddate")
                 ));
             }
 
@@ -109,9 +109,9 @@ public class PaymentDAO extends DBConnect implements BaseDAO<Payment> {
             Customer customer = this.getCustomerDAO().getEntityById(rs.getLong("id"));
             payment = new Payment(
                     customer,
-                    rs.getInt("odenenTutar"),
-                    rs.getTimestamp("createdDate"),
-                    rs.getTimestamp("lastModifiedDate")
+                    rs.getInt("odenentutar"),
+                    rs.getTimestamp("createddate"),
+                    rs.getTimestamp("lastmodifieddate")
             );
 
         } catch (Exception e) {

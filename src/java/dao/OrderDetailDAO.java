@@ -37,7 +37,7 @@ public class OrderDetailDAO extends DBConnect implements BaseDAO<OrderDetail> {
             ResultSet rs = st.executeQuery("select * from orderdetail where orders_id=" + order.getId());
 
             while (rs.next()) {
-                Product product = getProductDAO().getEntityById(rs.getLong("product_id"));
+                Product product = getProductDAO().getEntityById(rs.getLong("productid"));
                 orderDetailList.add(new OrderDetail(rs.getInt("adet"), product, order,
                         rs.getLong("id"),
                         rs.getTimestamp("createddate"),
@@ -63,7 +63,7 @@ public class OrderDetailDAO extends DBConnect implements BaseDAO<OrderDetail> {
         try {
             Statement st = this.getConnect().createStatement();
 
-            st.executeUpdate("insert into OrderDetail (adet, Product_id, Orders_id, createdDate, lastModifiedDate) "
+            st.executeUpdate("insert into OrderDetail (adet, Productid, Ordersid, createddate, lastmodifieddate) "
                     + "values ("
                     + "'" + entity.getAdet() + "', "
                     + "'" + entity.getProduct().getId() + "', "
@@ -82,10 +82,10 @@ public class OrderDetailDAO extends DBConnect implements BaseDAO<OrderDetail> {
         try {
             Statement st = this.getConnect().createStatement();
             st.executeUpdate("update OrderDetail set adet = '" + entity.getAdet() + "'"
-                    + "product_id ='" + entity.getProduct().getId() + "'  "
-                    + "order_id = '" + entity.getOrder().getId() + "'"
-                    + "createDate ='" + entity.getCreatedDate() + "'"
-                    + "lastModifiedDate ='" + entity.getLastModifiedDate() + "' "
+                    + "productid ='" + entity.getProduct().getId() + "'  "
+                    + "orderid = '" + entity.getOrder().getId() + "'"
+                    + "createdate ='" + entity.getCreatedDate() + "'"
+                    + "lastmodifieddate ='" + entity.getLastModifiedDate() + "' "
                     + "where id = '" + entity.getId() + "'"
                     + "");
 
@@ -116,14 +116,14 @@ public class OrderDetailDAO extends DBConnect implements BaseDAO<OrderDetail> {
             ResultSet rs = st.executeQuery("select * from OrderDetail");
 
             while (rs.next()) {
-                Product product = this.productDAO.getEntityById(rs.getLong("product_id"));
-                Order order = this.orderDAO.getEntityById(rs.getLong("order_id"));
+                Product product = this.productDAO.getEntityById(rs.getLong("productid"));
+                Order order = this.orderDAO.getEntityById(rs.getLong("orderid"));
                 orderDetailList.add(new OrderDetail(
                         rs.getInt("adet"),
                         product,
                         order,
-                        rs.getTimestamp("createdDate"),
-                        rs.getTimestamp("lastModifiedDate")
+                        rs.getTimestamp("createddate"),
+                        rs.getTimestamp("lastmodifieddate")
                 ));
             }
 
@@ -147,14 +147,14 @@ public class OrderDetailDAO extends DBConnect implements BaseDAO<OrderDetail> {
 
             rs.next();
 
-            Product product = this.productDAO.getEntityById(rs.getLong("product_id"));
-            Order order = this.orderDAO.getEntityById(rs.getLong("order_id"));
+            Product product = this.productDAO.getEntityById(rs.getLong("productid"));
+            Order order = this.orderDAO.getEntityById(rs.getLong("orderid"));
             orderDetail = new OrderDetail(
                     rs.getInt("adet"),
                     product,
                     order,
-                    rs.getTimestamp("createdDate"),
-                    rs.getTimestamp("lastModifiedDate")
+                    rs.getTimestamp("createddate"),
+                    rs.getTimestamp("lastmodifieddate")
             );
 
         } catch (Exception e) {

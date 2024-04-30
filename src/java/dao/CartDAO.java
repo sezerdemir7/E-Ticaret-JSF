@@ -27,7 +27,7 @@ public class CartDAO extends DBConnect implements BaseDAO<Cart> {
     public void create(Cart entity) {
 
         try {
-            String query = "INSERT INTO cart (customer_id,toplamfiyat,createddate,lastmodifieddate) VALUES (?,?,?,?)";
+            String query = "INSERT INTO cart (customerid,toplamfiyat,createddate,lastmodifieddate) VALUES (?,?,?,?)";
             PreparedStatement ps = this.getConnect().prepareStatement(query);
             ps.setLong(1, entity.getCustomer().getId());
             ps.setInt(2,0);
@@ -46,7 +46,7 @@ public class CartDAO extends DBConnect implements BaseDAO<Cart> {
         try {
             Statement st = this.getConnect().createStatement();
             st.executeUpdate("update cart set "
-                    + "customer_id ='" + entity.getCustomer().getId() + "',  "
+                    + "customerid ='" + entity.getCustomer().getId() + "',  "
                     + "toplamfiyat = " + entity.getToplamFiyat() + ", "
                     + "createddate ='" + "2024-04-21 19:00:37.89874" + "', "
                     + "lastmodifieddate ='" + "2024-04-21 19:00:37.89874" + "' "
@@ -103,7 +103,7 @@ public class CartDAO extends DBConnect implements BaseDAO<Cart> {
         try {
             Statement st = this.getConnect().createStatement();
 
-            ResultSet rs = st.executeQuery("SELECT * FROM cart WHERE customer_id = " + customerId);
+            ResultSet rs = st.executeQuery("SELECT * FROM cart WHERE customerid = " + customerId);
 
             if (rs.next()) {
                 customer = getCustomerDAO().getEntityById(customerId);

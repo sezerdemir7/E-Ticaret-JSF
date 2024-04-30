@@ -31,12 +31,12 @@ public class SellerDAO extends DBConnect implements BaseDAO<Seller> {
             if (rs.next()) {
                 seller = new Seller(
                         rs.getLong("id"),
-                        rs.getString("first_name"),
-                        rs.getString("last_name"),
+                        rs.getString("firstname"),
+                        rs.getString("lastname"),
                         rs.getString("password"),
                         rs.getString("email"),
-                        rs.getTimestamp("created_date"),
-                        rs.getTimestamp("last_modified_date")
+                        rs.getTimestamp("createddate"),
+                        rs.getTimestamp("lastmodifieddate")
                 );
             }
 
@@ -56,8 +56,8 @@ public class SellerDAO extends DBConnect implements BaseDAO<Seller> {
             ResultSet rs = st.executeQuery("select * from seller");
 
             while (rs.next()) {
-                list.add(new Seller(rs.getLong("id"), rs.getString("first_name"), rs.getString("last_name"), rs.getString("email"),
-                        rs.getString("password"), rs.getTimestamp("created_date"), rs.getTimestamp("last_modified_date")));
+                list.add(new Seller(rs.getLong("id"), rs.getString("firstname"), rs.getString("lastname"), rs.getString("email"),
+                        rs.getString("password"), rs.getTimestamp("createddate"), rs.getTimestamp("lastmodifieddate")));
             }
         } catch (Exception e) {
             System.out.println(e.getMessage());
@@ -70,7 +70,7 @@ public class SellerDAO extends DBConnect implements BaseDAO<Seller> {
         try {
 
             Statement st = this.getConnect().createStatement();
-            st.executeUpdate("insert into seller(first_name,last_name,email,password) values ('" 
+            st.executeUpdate("insert into seller(firstname,lastname,email,password) values ('" 
                     + seller.getFirstName() + "','" + seller.getLastName() + "',"
                     + "'" + seller.getEmail() + "','" + seller.getPassword() + "')");
         } catch (Exception e) {
@@ -101,12 +101,12 @@ public class SellerDAO extends DBConnect implements BaseDAO<Seller> {
 
                 seller =new Seller(
                         rs.getLong("id"),
-                        rs.getString("first_name"),
-                        rs.getString("last_name"),
+                        rs.getString("firstname"),
+                        rs.getString("lastname"),
                         rs.getString("password"),
                         rs.getString("email"),
-                        rs.getTimestamp("created_date"),
-                        rs.getTimestamp("last_modified_date")
+                        rs.getTimestamp("createddate"),
+                        rs.getTimestamp("lastmodifieddate")
                 );
             
             

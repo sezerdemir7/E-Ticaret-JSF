@@ -61,9 +61,9 @@ public class OrderDAO extends DBConnect implements BaseDAO<Order> {
         try {
             Statement st = this.getConnect().createStatement();
             
-            st.executeUpdate("insert into Orders (Customer_id, orderDate,"
-                    + " status, teslimatAdresi, Payment_id, toplamTutar,"
-                    + " createdDate, lastModifiedDate) values('"
+            st.executeUpdate("insert into Orders (Customerid, orderdate,"
+                    + " status, teslimatadresi, Paymentid, toplamtutar,"
+                    + " createddate, lastmodifieddate) values('"
                     + entity.getCustomer().getId() + "',"
                     + " '" + "2024-04-21 19:00:37.89874" + "',"
                     + " '" + entity.isStatus() + "',"
@@ -93,9 +93,9 @@ public class OrderDAO extends DBConnect implements BaseDAO<Order> {
         try {
             Statement st = this.getConnect().createStatement();
             
-            st.executeUpdate("insert into Orders (Customer_id, orderDate,"
-                    + " status, teslimatAdresi, Payment_id, toplamTutar,"
-                    + " createdDate, lastModifiedDate) values('"
+            st.executeUpdate("insert into Orders (customerid, orderdate,"
+                    + " status, teslimatadresi, paymentid, toplamtutar,"
+                    + " createddate, lastmodifieddate) values('"
                     + entity.getCustomer().getId() + "',"
                     + " '" + "2024-04-21 19:00:37.89874" + "',"
                     + " '" + entity.isStatus() + "',"
@@ -117,14 +117,14 @@ public class OrderDAO extends DBConnect implements BaseDAO<Order> {
         try {
             Statement st = this.getConnect().createStatement();
             String query = "update Orders set "
-                    + "customer_id ='" + entity.getCustomer().getId() + "'  "
-                    + "orderDate = '" + entity.getOrderDate() + "' "
+                    + "customerid ='" + entity.getCustomer().getId() + "'  "
+                    + "orderdate = '" + entity.getOrderDate() + "' "
                     + "status = '" + entity.isStatus() + "' "
-                    + "teslimatAdresi = '" + entity.getTeslimatAdresi() + "' "
-                    + "payment_id = '" + entity.getPayment().getId() + "'"
-                    + "toplamTutar = '" + entity.getToplamTutar() + "'"
-                    + "createDate ='" + entity.getCreatedDate() + "'"
-                    + "lastModifiedDate ='" + entity.getLastModifiedDate() + "' "
+                    + "teslimatadresi = '" + entity.getTeslimatAdresi() + "' "
+                    + "paymentid = '" + entity.getPayment().getId() + "'"
+                    + "toplamtutar = '" + entity.getToplamTutar() + "'"
+                    + "createdate ='" + entity.getCreatedDate() + "'"
+                    + "lastmodifieddate ='" + entity.getLastModifiedDate() + "' "
                     + "where id = '" + entity.getId() + "'"
                     + "";
             
@@ -155,21 +155,21 @@ public class OrderDAO extends DBConnect implements BaseDAO<Order> {
         try {
             Statement st = this.getConnect().createStatement();
             
-            ResultSet rs = st.executeQuery("select * from orders where customer_id="+customerId);
+            ResultSet rs = st.executeQuery("select * from orders where customerid="+customerId);
             
             while (rs.next()) {
-                Customer customer = this.getCustomerDAO().getEntityById(rs.getLong("customer_id"));
-                Payment payment = this.getPaymentDAO().getEntityById(rs.getLong("payment_id"));
+                Customer customer = this.getCustomerDAO().getEntityById(rs.getLong("customerid"));
+                Payment payment = this.getPaymentDAO().getEntityById(rs.getLong("paymentid"));
                 orderList.add(new Order(
                         customer,
-                        rs.getTimestamp("orderDate"),
+                        rs.getTimestamp("orderdate"),
                         rs.getBoolean("status"),
-                        rs.getString("teslimatAdresi"),
+                        rs.getString("teslimatadresi"),
                         payment,
-                        rs.getInt("toplamTutar"),
+                        rs.getInt("toplamtutar"),
                         rs.getLong("id"),
-                        rs.getTimestamp("createdDate"),
-                        rs.getTimestamp("lastModifiedDate")
+                        rs.getTimestamp("createddate"),
+                        rs.getTimestamp("lastmodifieddate")
                 ));
             }
             
@@ -190,18 +190,18 @@ public class OrderDAO extends DBConnect implements BaseDAO<Order> {
             ResultSet rs = st.executeQuery("select * from orders ");
             
             while (rs.next()) {
-                Customer customer = this.getCustomerDAO().getEntityById(rs.getLong("customer_id"));
-                Payment payment = this.getPaymentDAO().getEntityById(rs.getLong("payment_id"));
+                Customer customer = this.getCustomerDAO().getEntityById(rs.getLong("customerid"));
+                Payment payment = this.getPaymentDAO().getEntityById(rs.getLong("paymentid"));
                 orderList.add(new Order(
                         customer,
-                        rs.getTimestamp("orderDate"),
+                        rs.getTimestamp("orderdate"),
                         rs.getBoolean("status"),
-                        rs.getString("teslimatAdresi"),
+                        rs.getString("teslimatadresi"),
                         payment,
-                        rs.getInt("toplamTutar"),
+                        rs.getInt("toplamtutar"),
                         rs.getLong("id"),
-                        rs.getTimestamp("createdDate"),
-                        rs.getTimestamp("lastModifiedDate")
+                        rs.getTimestamp("createddate"),
+                        rs.getTimestamp("lastmodifieddate")
                 ));
             }
             
@@ -228,14 +228,14 @@ public class OrderDAO extends DBConnect implements BaseDAO<Order> {
             Payment payment = this.getPaymentDAO().getEntityById(rs.getLong("id"));
             order = new Order(
                     customer,
-                    rs.getTimestamp("orderDate"),
+                    rs.getTimestamp("orderdate"),
                     rs.getBoolean("status"),
-                    rs.getString("teslimatAdresi"),
+                    rs.getString("teslimatadresi"),
                     payment,
-                    rs.getInt("toplamTutar"),
+                    rs.getInt("toplamtutar"),
                     rs.getLong("id"),
-                    rs.getTimestamp("createdDate"),
-                    rs.getTimestamp("lastModifiedDate")
+                    rs.getTimestamp("createddate"),
+                    rs.getTimestamp("lastmodifieddate")
             );
             
         } catch (Exception e) {

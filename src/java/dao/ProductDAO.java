@@ -31,7 +31,7 @@ public class ProductDAO extends DBConnect implements BaseDAO<Product> {
         try {
             // PreparedStatement oluştur
             PreparedStatement pst = this.getConnect().prepareStatement(
-                    "INSERT INTO product (name, stock, detail,category_id, price, store_id) "
+                    "INSERT INTO product (name, stock, detail,categoryid, price, storeid) "
                     + "VALUES (?, ?, ?, ?, ?, ?)");
 
             // Parametreleri ayarla
@@ -83,13 +83,13 @@ public class ProductDAO extends DBConnect implements BaseDAO<Product> {
                 product.setStock(rs.getInt("stock"));
                 product.setDetail(rs.getString("detail"));
 
-                category = getCategoryDAO().getEntityById(rs.getLong("category_id"));
+                category = getCategoryDAO().getEntityById(rs.getLong("categoryid"));
                 product.setCategory(category);
                 product.setStore(store);
 
                 product.setPrice(rs.getInt("price"));
-                 product.setCreatedDate(rs.getTimestamp("created_date"));
-                product.setLastModifiedDate(rs.getTimestamp("last_modified_date"));
+                 product.setCreatedDate(rs.getTimestamp("createddate"));
+                product.setLastModifiedDate(rs.getTimestamp("lastmodifieddate"));
 
                 productList.add(product);
 
@@ -117,16 +117,16 @@ public class ProductDAO extends DBConnect implements BaseDAO<Product> {
 
             rs.next();
 
-            category = getCategoryDAO().getEntityById(rs.getLong("category_id"));
+            category = getCategoryDAO().getEntityById(rs.getLong("categoryid"));
             
             System.out.println("*** simdi product daodayım");
             
-            store = getStoreDAO().getEntityById(rs.getLong("store_id"));
+            store = getStoreDAO().getEntityById(rs.getLong("storeid"));
 
             product = new Product(
                     rs.getLong("id"),
-                    rs.getTimestamp("created_date"),
-                    rs.getTimestamp("last_modified_date"),
+                    rs.getTimestamp("createddate"),
+                    rs.getTimestamp("lastmodifieddate"),
                     rs.getString("name"),
                     rs.getInt("stock"),
                     rs.getString("detail"),
@@ -162,7 +162,7 @@ public class ProductDAO extends DBConnect implements BaseDAO<Product> {
         Category category = null;
         Store store = null;
         try {
-            PreparedStatement pst = this.getConnect().prepareStatement("SELECT * FROM Product where category_id="+categoryId);
+            PreparedStatement pst = this.getConnect().prepareStatement("SELECT * FROM Product where categoryid="+categoryId);
 
             ResultSet rs = pst.executeQuery();
 
@@ -173,13 +173,13 @@ public class ProductDAO extends DBConnect implements BaseDAO<Product> {
                 product.setStock(rs.getInt("stock"));
                 product.setDetail(rs.getString("detail"));
 
-                category = getCategoryDAO().getEntityById(rs.getLong("category_id"));
+                category = getCategoryDAO().getEntityById(rs.getLong("categoryid"));
                 product.setCategory(category);
                 product.setStore(store);
 
                 product.setPrice(rs.getInt("price"));
-                 product.setCreatedDate(rs.getTimestamp("created_date"));
-                product.setLastModifiedDate(rs.getTimestamp("last_modified_date"));
+                 product.setCreatedDate(rs.getTimestamp("createddate"));
+                product.setLastModifiedDate(rs.getTimestamp("lastmodifieddate"));
 
                 productList.add(product);
 

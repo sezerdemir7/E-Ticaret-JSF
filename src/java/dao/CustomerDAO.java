@@ -72,13 +72,13 @@ public class CustomerDAO extends DBConnect implements BaseDAO<Customer> {
         try {
             Statement st = this.getConnect().createStatement();
             String query = "update customer set "
-                    + "first_name ='" + entity.getFirstName() + "'  "
-                    + "last_name = '" + entity.getLastName() + "' "
+                    + "firstname ='" + entity.getFirstName() + "'  "
+                    + "lastname = '" + entity.getLastName() + "' "
                     + "password = '" + entity.getPassword() + "' "
                     + "email = '" + entity.getEmail() + "' "
                     + "addres = '" + entity.getAddres() + "'"
-                    + "created_date ='" + entity.getCreatedDate() + "'"
-                    + "last_modified_date ='" + entity.getLastModifiedDate() + "' "
+                    + "createddate ='" + entity.getCreatedDate() + "'"
+                    + "lastmodifieddate ='" + entity.getLastModifiedDate() + "' "
                     + "where id = '" + entity.getId() + "'"
                     + "";
 

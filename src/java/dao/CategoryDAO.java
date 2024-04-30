@@ -24,7 +24,7 @@ public class CategoryDAO extends DBConnect implements BaseDAO<Category>{
 
         try {
             Statement st = this.getConnect().createStatement();
-            String query = "insert into admin( name, createdDate, lastModifiedDate) values ('" 
+            String query = "insert into admin( name, createddate, lastmodifieddate) values ('" 
                     + "'" + entity.getName() + "'"
                     + "'" + entity.getCreatedDate() + "'"
                     + ",'" + entity.getLastModifiedDate() + "')";
@@ -44,8 +44,8 @@ public class CategoryDAO extends DBConnect implements BaseDAO<Category>{
             Statement st = this.getConnect().createStatement();
             String query = "update category set "
                     + "name = '"+entity.getName()+"' "
-                    + "createDate ='"+entity.getCreatedDate()+ "'"
-                    + "lastModifiedDate ='"+entity.getLastModifiedDate()+"' "
+                    + "createdate ='"+entity.getCreatedDate()+ "'"
+                    + "lastmodifieddate ='"+entity.getLastModifiedDate()+"' "
                     + "where id = '"+entity.getId()+"'"
                     + "";
 
@@ -85,8 +85,8 @@ public class CategoryDAO extends DBConnect implements BaseDAO<Category>{
                 categoryList.add(new Category(
                         rs.getLong("id"), 
                         rs.getString("name"),
-                        rs.getTimestamp("createdDate"),
-                        rs.getTimestamp("lastModifiedDate")));
+                        rs.getTimestamp("createddate"),
+                        rs.getTimestamp("lastmodifieddate")));
             }
         } catch (Exception e) {
             System.out.println(e.getMessage());
@@ -108,8 +108,8 @@ public class CategoryDAO extends DBConnect implements BaseDAO<Category>{
             category = new Category(
                     rs.getLong("id"), 
                     rs.getString("name"),
-                    rs.getTimestamp("createdDate"),
-                    rs.getTimestamp("lastModifiedDate")
+                    rs.getTimestamp("createddate"),
+                    rs.getTimestamp("lastmodifieddate")
             );
             
         } catch (Exception e) {
