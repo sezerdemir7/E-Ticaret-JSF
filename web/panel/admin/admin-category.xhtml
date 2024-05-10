@@ -7,10 +7,26 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/XHtml.xhtml to edit t
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="jakarta.faces.html">
     <h:head>
-        <title>TODO supply a title</title>
-        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+        <h:outputStylesheet library="css" name="bootstrap.min.css" />
     </h:head>
     <h:body>
-        <div>TODO write content</div>
+        <div class="container">
+            <h:form>
+                <div class="mb-3">
+                    <label for="exampleInputFirstName" class="form-label">Category Name</label>
+                    <h:inputText id="exampleInputFirstName" class="form-control" value="#{categoryBean.entity.name}" />
+                </div>
+
+
+                <h:commandButton value="Kategori Oluştur" class="btn btn-primary" action="#{categoryBean.create()}" />
+
+
+
+
+
+
+
+            </h:form>
+        </div>
     </h:body>
 </html>

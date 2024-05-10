@@ -86,7 +86,7 @@ public class StoreDAO extends DBConnect implements BaseDAO<Store> {
             ResultSet rs = st.executeQuery("select * from Store");
 
             while (rs.next()) {
-                Seller seller = this.sellerDAO.getEntityById(rs.getLong("sellerid"));
+                Seller seller = this.getSellerDAO().getEntityById(rs.getLong("sellerid"));
 
                 storeList.add(new Store(
                         rs.getString("name"),
@@ -132,6 +132,33 @@ public class StoreDAO extends DBConnect implements BaseDAO<Store> {
 
 
     }
+    
+    public Store getStoreBySellerId(long sellerId) {
+        Store store =null;
+        
+        try{
+            Statement st = this.getConnect().createStatement();
+            ResultSet rs = st.executeQuery("select * from store where sellerid ="+sellerId);
+            
+            rs.next();
+            Seller seller = getSellerDAO().getEntityById(rs.getLong("sellerid"));
+
+                store =new Store(
+                        rs.getString("name"),
+                        seller,
+                        rs.getTimestamp("createddate"),
+                        rs.getTimestamp("lastmodifieddate")
+                );
+                 st.close();
+                 rs.close();
+            
+            
+        }catch(Exception e){
+            System.out.println(e.getMessage());
+        }
+        
+        return store;
+    }
 
     public SellerDAO getSellerDAO() {
         if (sellerDAO == null) {
@@ -143,5 +170,7 @@ public class StoreDAO extends DBConnect implements BaseDAO<Store> {
     public void setSellerDAO(SellerDAO sellerDAO) {
         this.sellerDAO = sellerDAO;
     }
+
+    
 
 }

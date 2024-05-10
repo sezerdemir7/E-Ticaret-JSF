@@ -30,7 +30,6 @@ public class CartItemBean extends BaseBean<CartItem, CartItemDAO> {
 
     public void addProductToCartItem(Product product, Customer customer) {
         Cart cart = null;
-        System.out.println("customer id ====="+customer.getId());
         cart = getCartDAO().getCartByCustomerId(customer.getId());
 
         this.getEntity().setProduct(product);

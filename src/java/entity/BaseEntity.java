@@ -4,6 +4,7 @@
  */
 package entity;
 import java.sql.Timestamp;
+import java.util.Objects;
 
 public abstract class BaseEntity {
 
@@ -49,4 +50,27 @@ public abstract class BaseEntity {
     public void setLastModifiedDate(Timestamp lastModifiedDate) {
         this.lastModifiedDate = lastModifiedDate;
     }
+
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 97 * hash + Objects.hashCode(this.id);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final BaseEntity other = (BaseEntity) obj;
+        return Objects.equals(this.id, other.id);
+    }
+    
 }
