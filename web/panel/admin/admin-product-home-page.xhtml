@@ -9,27 +9,22 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/XHtml.xhtml to edit t
       xmlns:f="http://xmlns.jcp.org/jsf/core"
       xmlns:ui="http://java.sun.com/jsf/facelets"
       template="/panel/template/navbar.xhtml">
-    <head>
+    <h:head>
         <h:outputStylesheet library="css" name="bootstrap.min.css" />
 
         <title>Admin Ürün İşlemleri</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    </head>
-    <body>
+    </h:head>
+    <h:body>
         <h:form>
-            <h:commandButton value="Ürün Ekle"  class="buton-color"  action="/panel/product/product.xhtml"  />    
-            <h:commandButton value="Ürün Güncelle" styleClass="btn btn-succes" action="/panel/product/product.xhtml"/>
+            <h:commandButton value="Ürün Ekle"  styleClass="bt btn-primary" action="/panel/product/product.xhtml"  />    
 
-            <h:commandButton value="Ürün Listele"  class="buton-color"  action="#{productBean.getList()}" />
         </h:form>
-
-
-
 
         <div class="container-mt-3">
 
-            <div class="col-md-5">
-                <form>
+            <div class="col-md-7">
+                <h:form>
                     <table class="table table-scriped table-hover">
                         <thead>
 
@@ -60,6 +55,9 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/XHtml.xhtml to edit t
                                 </th><th>
                                     Delete
                                 </th>
+                                <th>
+                                    Update
+                                </th>
 
 
 
@@ -67,7 +65,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/XHtml.xhtml to edit t
 
                         </thead>
                         <tbody>
-                            <ui:repeat value="#{productBean.getList()}" var="product" >
+                            <ui:repeat value="#{productBean.list}" var="product" >
                                 <tr>
                                     <td>#{product.id}</td>
                                     <td>#{product.name}</td>
@@ -79,9 +77,16 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/XHtml.xhtml to edit t
                                     <td>#{product.createdDate}</td>
                                     <td>#{product.lastModifiedDate}</td>
                                     <td>
-                                        <h:commandButton class="btn btn-danger" action="#{productBean.delete()}" value="Sil"/>
+                                        <h:form>
+                                            <h:commandButton styleClass="btn btn-danger" action="#{productBean.deleteProduct(product)}" value="Sil"/>
+                                        </h:form>
                                     </td>
+                                    <td>
 
+                                        <h:form>
+                                            <h:commandButton value="Ürün Güncelle" styleClass="btn btn-succes" action="/panel/product/product-update.xhtml}"  actionListener="#{productBean.setEntity(product)}"/>
+                                        </h:form>
+                                    </td>
 
                                 </tr>
 
@@ -91,7 +96,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/XHtml.xhtml to edit t
 
 
                     </table>
-                </form>
+                </h:form>
             </div>
 
 
@@ -103,5 +108,5 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/XHtml.xhtml to edit t
 
 
 
-    </body>
+    </h:body>
 </html>
