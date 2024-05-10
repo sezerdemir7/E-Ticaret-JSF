@@ -22,10 +22,6 @@ public class ProductBean extends BaseBean<Product, ProductDAO> {
 
 
 
-    public ProductBean(Product entity, ProductDAO dao) {
-        super(entity, dao);
-    }
-
     public ProductBean() {
         super(null, null);
     }
