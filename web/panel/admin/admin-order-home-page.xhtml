@@ -9,18 +9,15 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/XHtml.xhtml to edit t
       xmlns:f="http://xmlns.jcp.org/jsf/core"
       xmlns:ui="http://java.sun.com/jsf/facelets"
       template="/panel/template/navbar.xhtml">
-    <head>
+    <h:head>
         <h:outputStylesheet library="css" name="bootstrap.min.css" />
 
         <title>Admin Sipariş İşlemleri</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    </head>
-    <body>
+    </h:head>
+    <h:body>
         <h:form>
             <h:commandButton value="Sipariş Ekle"  class="buton-color"  action="/panel/order/order.xhtml"  />    
-            <h:commandButton value="Sipariş Güncelle" styleClass="btn btn-succes" action="/panel/order/order.xhtml"/>
-
-            <h:commandButton value="Sipariş Listele"  class="buton-color"  action="#{orderBean.getList()}" />
         </h:form>
 
 
@@ -29,7 +26,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/XHtml.xhtml to edit t
         <div class="container-mt-3">
 
             <div class="col-md-5">
-                <form>
+                <h:form>
                     <table class="table table-scriped table-hover">
                         <thead>
 
@@ -60,6 +57,9 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/XHtml.xhtml to edit t
                                 </th><th>
                                     Delete
                                 </th>
+                                <th>
+                                    Update
+                                </th>
 
 
 
@@ -67,7 +67,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/XHtml.xhtml to edit t
 
                         </thead>
                         <tbody>
-                            <ui:repeat value="#{orderBean.getList()}" var="order" >
+                            <ui:repeat value="#{orderBean.list}" var="order" >
                                 <tr>
                                     <td>#{order.id}</td>
                                     <td>#{order.toplamTutar}</td>
@@ -79,7 +79,15 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/XHtml.xhtml to edit t
                                     <td>#{order.createdDate}</td>
                                     <td>#{order.lastModifiedDate}</td>
                                     <td>
-                                        <h:commandButton class="btn btn-danger" action="#{orderBean.delete()}" value="Sil"/>
+                                        <h:form>
+                                            <h:commandButton class="btn btn-danger" action="#{orderBean.deleteOrder(order)}" value="Sil"/>
+                                        </h:form>
+                                    </td>
+
+                                    <td>
+                                        <h:form>
+                                            <h:commandButton class="btn btn-danger"  action="/panel/order/order-update.xhtml}"  actionListener="#{orderBean.setEntity(order)}"  value="Güncelle"></h:commandButton>
+                                        </h:form>
                                     </td>
 
 
@@ -91,7 +99,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/XHtml.xhtml to edit t
 
 
                     </table>
-                </form>
+                </h:form>
             </div>
 
 
@@ -103,5 +111,5 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/XHtml.xhtml to edit t
 
 
 
-    </body>
+    </h:body>
 </html>

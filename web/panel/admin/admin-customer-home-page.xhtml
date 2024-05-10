@@ -16,32 +16,30 @@
 
     </h:head>
     <h:body>
-        <h:form >
-            <h:commandButton value="Kullanıcı Ekle"  styleClass="btn btn-danger md-2"  action="/panel/customer/customer-kayit.xhtml"  />            
-            <h:commandButton value="Kullanıcı Güncelle"  styleClass="btn btn-danger md-2"  action="/panel/customer/customer-update.xhtml"  />
-            <h:commandButton value="Listele"  styleClass="btn btn-danger"  action="#{customerBean.getList()}" />
+        <h:form>
+
+            <h:commandButton value="Kullanıcı Ekle" styleClass="btn btn-primary" action="/panel/customer/customer-kayit.xhtml" />
+
         </h:form>
 
 
         <div class="container-mt-3">
 
             <div class="col-md-5">
-                <form>
+                <h:form>
                     <table class="table">
                         <thead>
 
                             <tr>
                                 <th>
                                     ID
-                                </th>
-                                <th>
+                                </th><th>
                                     First Name
-                                </th>
-                                <th>
+                                </th><th>
                                     Last Name
-                                </th>
-                               
-                                <th>
+                                </th><th>
+                                    Email
+                                </th><th>
                                     Addres
                                 </th><th>
                                     Created Date
@@ -49,8 +47,10 @@
                                     Last Modified Date
                                 </th><th>
                                     Delete
+                                </th><th>
+                                    Update
                                 </th>
-                              
+
 
 
                             </tr>
@@ -62,12 +62,18 @@
                                     <td>#{customer.id}</td>
                                     <td>#{customer.firstName}</td>
                                     <td>#{customer.lastName}</td>
+                                    <td>#{customer.email}</td>
                                     <td>#{customer.addres}</td>
                                     <td>#{customer.createdDate}</td>
                                     <td>#{customer.lastModifiedDate}</td>
                                     <td>
                                         <h:form>
                                             <h:commandButton class="btn btn-danger" action="#{customerBean.deleteCustomer(customer)}" value="Sil" />
+                                        </h:form>
+                                    </td>
+                                    <td>
+                                        <h:form>
+                                            <h:commandButton class="btn btn-danger"  action="/panel/customer/customer-update.xhtml}"  actionListener="#{customerBean.setEntity(customer)}"  value="Güncelle"></h:commandButton>
                                         </h:form>
                                     </td>
 
@@ -80,7 +86,7 @@
 
 
                     </table>
-                </form>
+                </h:form>
             </div>
 
 

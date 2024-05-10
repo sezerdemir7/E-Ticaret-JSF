@@ -9,28 +9,25 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/XHtml.xhtml to edit t
       xmlns:f="http://xmlns.jcp.org/jsf/core"
       xmlns:ui="http://java.sun.com/jsf/facelets"
       template="/panel/template/navbar.xhtml">
-    <head>
+    <h:head>
 
-      
+
 
         <h:outputStylesheet library="css" name="bootstrap.min.css" />
         <title>Admin Satıcı İşlemleri</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    </head>
-    <body>
+    </h:head>
+    <h:body>
 
 
         <h:form>
-            <h:commandButton value="Satıcı Ekle"  class="buton-color"  action="/panel/seller/seller-kayit.xhtml"  />    
-            <h:commandButton value="Satıcı Güncelle" styleClass="btn btn-succes" action="/panel/seller/seller-kayıt.xhtml"/>
-
-            <h:commandButton value="Listele"  class="buton-color"  action="#{sellerBean.getList()}" />
+            <h:commandButton value="Satıcı Ekle"  styleClass="buton-color"  action="/panel/seller/seller-kayit.xhtml"  />
         </h:form>
 
-       <div class="container-mt-3">
+        <div class="container-mt-3">
 
             <div class="col-md-5">
-                <form>
+                <h:form>
                     <table class="table table-scriped table-hover">
                         <thead>
 
@@ -44,33 +41,46 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/XHtml.xhtml to edit t
                                 <th>
                                     Last Name
                                 </th>
-                               
-                               <th>
+                                <th>
+                                    Email
+                                </th>
+
+                                <th>
                                     Created Date
                                 </th><th>
                                     Last Modified Date
                                 </th><th>
                                     Delete
                                 </th>
-                              
+                                <th>
+                                    Update
+                                </th>
+
 
 
                             </tr>
 
                         </thead>
                         <tbody>
-                            <ui:repeat value="#{customerBean.getList()}" var="user" >
+                            <ui:repeat value="#{sellerBean.list}" var="seller" >
                                 <tr>
-                                    <td>#{user.id}</td>
-                                    <td>#{user.firstName}</td>
-                                    <td>#{user.lastName}</td>
-                                    <td>#{user.createdDate}</td>
-                                    <td>#{user.lastModifiedDate}</td>
+                                    <td>#{seller.id}</td>
+                                    <td>#{seller.firstName}</td>
+                                    <td>#{seller.lastName}</td>
+                                    <td>#{seller.email}</td>
+                                    <td>#{seller.createdDate}</td>
+                                    <td>#{seller.lastModifiedDate}</td>
                                     <td>
-                                        <h:commandButton class="btn btn-danger" action="#{customerBean.delete()}" value="Sil"/>
+                                        <h:form>
+                                            <h:commandButton styleClass="btn btn-danger" action="#{sellerBean.deleteSeller(seller)}" value="Sil"/>
+                                        </h:form>
+
                                     </td>
-
-
+                                    <td>
+                                        <h:form>
+                                            <h:commandButton value="Güncelle" styleClass="btn btn-danger"  action="/panel/seller/seller-update.xhtml}"  actionListener="#{sellerBean.setEntity(seller)}"/>
+                                        </h:form>
+                                    </td>
                                 </tr>
 
                             </ui:repeat>
@@ -79,7 +89,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/XHtml.xhtml to edit t
 
 
                     </table>
-                </form>
+                </h:form>
             </div>
 
 
@@ -90,5 +100,5 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/XHtml.xhtml to edit t
 
 
 
-    </body>
+    </h:body>
 </html>
