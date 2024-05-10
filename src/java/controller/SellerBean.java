@@ -20,16 +20,14 @@ import java.util.List;
  */
 @Named
 @SessionScoped
-public class SellerBean extends BaseBean<Seller, SellerDAO>{
+public class SellerBean extends BaseBean<Seller, SellerDAO> {
 
-    public SellerBean(Seller entity, SellerDAO dao) {
-        super(entity, dao);
-    }
+
     
 
 
     public SellerBean() {
-        super(null, null);
+        super(Seller.class, SellerDAO.class);
     }
     public String login(){
         Seller sellerTest=this.getDao().login(this.getEntity());
@@ -44,15 +42,6 @@ public class SellerBean extends BaseBean<Seller, SellerDAO>{
         }
     }
 
-    @Override
-    protected Seller createEntityInstance() {
-        return new Seller();
-    }
-
-    @Override
-    protected SellerDAO createDAOInstance() {
-        return new SellerDAO();
-    }
 
     
     

@@ -5,8 +5,11 @@
 package controller;
 
 import dao.CartDAO;
+import dao.CartItemDAO;
+import dao.CustomerDAO;
 import entity.Cart;
 import entity.CartItem;
+import entity.Customer;
 import entity.Product;
 import jakarta.enterprise.context.SessionScoped;
 import jakarta.inject.Named;
@@ -19,38 +22,52 @@ import java.util.List;
 @Named
 @SessionScoped
 public class CartBean extends BaseBean<Cart, CartDAO> {
-    
+    private CustomerDAO customerDAO;
+    private CartItemDAO cartItemDAO;
+
     public CartBean() {
-        super(null,null);
+        super(Cart.class, CartDAO.class);
     }
 
-    public CartBean(Cart entity, CartDAO dao) {
-        super(entity, dao);
-    }
-    
-    //Eğer customerin sepeti yoksa sepet oluşturu  ve bunu döndürür varsa var olana sepeti döndürür
-    public List<CartItem>  getCartByCuctomerId(Long customerId){
-       Cart cart=new Cart();
-       cart=getDao().getEntityById(customerId);
-       this.setEntity(cart);
-       
-       return getEntity().getCartItems();
-    }
-    
-    public void addProductToCart(Product product){
+    public List<CartItem> getCartByCuctomerId(Customer customer) {
+        Cart cart = new Cart();
         
-    }
-
-    @Override
-    protected Cart createEntityInstance() {
         
-        return new Cart();
+        cart = getDao().getCartByCustomerId(customer.getId());
+        cart.setCustomer(customer);
+        this.setEntity(cart);
+        
+        List<CartItem> cartItems=getCartItemDAO().getCartItemsListByCartId(cart.getId());
+        return cartItems;
     }
 
-    @Override
-    protected CartDAO createDAOInstance() {
+    public void addProductToCart(Product product) {
 
-        return new CartDAO();
+    }
+
+    public CustomerDAO getCustomerDAO() {
+        if(this.customerDAO==null){
+            this.customerDAO=new CustomerDAO();
+        }
+        return customerDAO;
+    }
+
+    public void setCustomerDAO(CustomerDAO customerDAO) {
+        this.customerDAO = customerDAO;
+    }
+
+    public CartItemDAO getCartItemDAO() {
+        if(this.cartItemDAO==null){
+            cartItemDAO=new CartItemDAO();
+        }
+        return cartItemDAO;
+    }
+
+    public void setCartItemDAO(CartItemDAO cartItemDAO) {
+        this.cartItemDAO = cartItemDAO;
     }
     
+    
+    
+
 }

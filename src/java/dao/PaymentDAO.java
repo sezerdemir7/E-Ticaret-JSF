@@ -31,6 +31,7 @@ public class PaymentDAO extends DBConnect implements BaseDAO<Payment> {
                     + "'" + entity.getOdenenTutar() + "',"
                     + "'" + entity.getCreatedDate() + "',"
                     + "'" + entity.getLastModifiedDate() + "')");
+             st.close();
 
         } catch (Exception e) {
             System.out.println(e.getMessage());
@@ -49,6 +50,7 @@ public class PaymentDAO extends DBConnect implements BaseDAO<Payment> {
                     + "lastmodifieddate ='" + entity.getLastModifiedDate() + "' "
                     + "where id = '" + entity.getId() + "'"
                     + "");
+             st.close();
 
         } catch (Exception e) {
             System.out.println(e.getMessage());
@@ -62,6 +64,7 @@ public class PaymentDAO extends DBConnect implements BaseDAO<Payment> {
             Statement st = this.getConnect().createStatement();
 
             st.executeUpdate("delete from Payment where id = " + entity.getId());
+             st.close();
 
         } catch (Exception e) {
             System.out.println(e.getMessage());
@@ -85,6 +88,8 @@ public class PaymentDAO extends DBConnect implements BaseDAO<Payment> {
                         rs.getTimestamp("lastmodifieddate")
                 ));
             }
+             st.close();
+             rs.close();
 
         } catch (Exception e) {
             System.out.println(e.getMessage());
@@ -113,6 +118,8 @@ public class PaymentDAO extends DBConnect implements BaseDAO<Payment> {
                     rs.getTimestamp("createddate"),
                     rs.getTimestamp("lastmodifieddate")
             );
+             st.close();
+             rs.close();
 
         } catch (Exception e) {
             System.out.println(e.getMessage());

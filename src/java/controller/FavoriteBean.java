@@ -21,25 +21,11 @@ import java.util.List;
 public class FavoriteBean extends BaseBean<Favorite, FavoriteDAO> {
 
     public FavoriteBean() {
-        super(null, null);
-    }
-
-    public FavoriteBean(Favorite entity, FavoriteDAO dao) {
-        super(entity, dao);
+        super(Favorite.class, FavoriteDAO.class);
     }
 
     public List<Product> getListProduct() {
-        return getDao().getFavoriteListByCustomerId(1L);
-    }
-
-    @Override
-    protected Favorite createEntityInstance() {
-        return new Favorite();
-    }
-
-    @Override
-    protected FavoriteDAO createDAOInstance() {
-        return new FavoriteDAO(new ProductDAO());
+        return this.getDao().getFavoriteListByCustomerId(1L);
     }
 
 }

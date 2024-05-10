@@ -20,10 +20,18 @@ public class FavoriteDAO extends DBConnect implements BaseDAO<Favorite> {
     
     private ProductDAO productDAO;
 
-    // Constructor Injection
-    public FavoriteDAO(ProductDAO productDAO) {
+    public ProductDAO getProductDAO() {
+        if(this.productDAO==null){
+            productDAO=new ProductDAO();
+        }
+        return productDAO;
+    }
+
+    public void setProductDAO(ProductDAO productDAO) {
         this.productDAO = productDAO;
     }
+
+ 
 
     @Override
     public void create(Favorite favorite) {
@@ -31,6 +39,8 @@ public class FavoriteDAO extends DBConnect implements BaseDAO<Favorite> {
 
             Statement st = this.getConnect().createStatement();
             st.executeUpdate("insert into favorite(productid,customerid) values ('" + favorite.getProduct().getId() + "','" + favorite.getCustomer().getId() + "')");
+            st.close();
+           
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
@@ -48,6 +58,8 @@ public class FavoriteDAO extends DBConnect implements BaseDAO<Favorite> {
                 productList.add(rs.getLong("productid"));
 
             }
+            st.close();
+            rs.close();
 
         } catch (Exception e) {
 
@@ -56,7 +68,7 @@ public class FavoriteDAO extends DBConnect implements BaseDAO<Favorite> {
         
         //productDAO.getProductListByProductId(productList);
         
-        return productDAO.readList();
+        return getProductDAO().readList();
     }
 
     @Override

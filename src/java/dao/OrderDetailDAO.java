@@ -23,18 +23,18 @@ public class OrderDetailDAO extends DBConnect implements BaseDAO<OrderDetail> {
     private OrderDAO orderDAO;
 
     public List<OrderDetail> listOrderDetailByOrder(Order order) {
-        
+
         System.out.println("*********");
-        System.out.println("*********");System.out.println("*********");
-        System.out.println("order id====="+order.getId());
         System.out.println("*********");
-        
+        System.out.println("*********");
+        System.out.println("order id=====" + order.getId());
+        System.out.println("*********");
 
         List<OrderDetail> orderDetailList = new ArrayList<>();
         try {
             Statement st = this.getConnect().createStatement();
 
-            ResultSet rs = st.executeQuery("select * from orderdetail where orders_id=" + order.getId());
+            ResultSet rs = st.executeQuery("select * from orderdetail where orderid=" + order.getId());
 
             while (rs.next()) {
                 Product product = getProductDAO().getEntityById(rs.getLong("productid"));
@@ -43,11 +43,10 @@ public class OrderDetailDAO extends DBConnect implements BaseDAO<OrderDetail> {
                         rs.getTimestamp("createddate"),
                         rs.getTimestamp("lastmodifieddate"))
                 );
-            
-         
-                
-                
+
             }
+            st.close();
+            rs.close();
 
         } catch (Exception e) {
             System.out.println(e.getMessage());
@@ -63,13 +62,14 @@ public class OrderDetailDAO extends DBConnect implements BaseDAO<OrderDetail> {
         try {
             Statement st = this.getConnect().createStatement();
 
-            st.executeUpdate("insert into OrderDetail (adet, Productid, Ordersid, createddate, lastmodifieddate) "
+            st.executeUpdate("insert into OrderDetail (adet, Productid, Orderid, createddate, lastmodifieddate) "
                     + "values ("
                     + "'" + entity.getAdet() + "', "
                     + "'" + entity.getProduct().getId() + "', "
                     + "'" + entity.getOrder().getId() + "', "
                     + "'" + "2024-04-21 19:00:37.89874" + "', "
                     + "'" + "2024-04-21 19:00:37.89874" + "')");
+            st.close();
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -89,6 +89,8 @@ public class OrderDetailDAO extends DBConnect implements BaseDAO<OrderDetail> {
                     + "where id = '" + entity.getId() + "'"
                     + "");
 
+            st.close();
+
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
@@ -101,6 +103,7 @@ public class OrderDetailDAO extends DBConnect implements BaseDAO<OrderDetail> {
             Statement st = this.getConnect().createStatement();
 
             st.executeUpdate("delete from OrderDetail where id = " + entity.getId());
+            st.close();
 
         } catch (Exception e) {
             System.out.println(e.getMessage());
@@ -116,8 +119,8 @@ public class OrderDetailDAO extends DBConnect implements BaseDAO<OrderDetail> {
             ResultSet rs = st.executeQuery("select * from OrderDetail");
 
             while (rs.next()) {
-                Product product = this.productDAO.getEntityById(rs.getLong("productid"));
-                Order order = this.orderDAO.getEntityById(rs.getLong("orderid"));
+                Product product = getProductDAO().getEntityById(rs.getLong("productid"));
+                Order order = getOrderDAO().getEntityById(rs.getLong("orderid"));
                 orderDetailList.add(new OrderDetail(
                         rs.getInt("adet"),
                         product,
@@ -126,6 +129,8 @@ public class OrderDetailDAO extends DBConnect implements BaseDAO<OrderDetail> {
                         rs.getTimestamp("lastmodifieddate")
                 ));
             }
+            st.close();
+            rs.close();
 
         } catch (Exception e) {
             System.out.println(e.getMessage());
@@ -156,6 +161,8 @@ public class OrderDetailDAO extends DBConnect implements BaseDAO<OrderDetail> {
                     rs.getTimestamp("createddate"),
                     rs.getTimestamp("lastmodifieddate")
             );
+            st.close();
+            rs.close();
 
         } catch (Exception e) {
             System.out.println(e.getMessage());

@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="jakarta.faces.html"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+
+    <h:head>
+        <h:outputStylesheet library="css" name="bootstrap.min.css" />
+
+        <title>Admin Anasayfa</title>
+    </h:head>
+    <h:body>
+        <div class="container-mt-3">
+            <h:form>
+                <div class="px-4 mt-3">
+                    <div class=" mr-3">
+                        <h:commandButton value="Kullanıcı işlemleri" styleClass="btn btn-primary " action="/panel/admin/admin-customer-home-page.xhtml" />
+                        <h:commandButton action="/panel/admin/admin-seller-home-page.xhtml" styleClass="btn btn-primary " value="Satıcı İşlemleri" /> <!-- İkinci butona sağa 2 piksel boşluk ekleyelim -->
+                        <h:commandButton action="/panel/admin/admin-order-home-page.xhtml" styleClass="btn btn-primary " value="Sipariş İşlemleri" />
+                        <h:commandButton action="/panel/admin/admin-product-home-page.xhtml" styleClass="btn btn-primary " value="Ürün İşlemleri" /> <!-- Dördüncü butona sağa 2 piksel boşluk ekleyelim -->
+                        <h:commandButton action="/panel/sepet/sepet.xhtml" styleClass="btn btn-primary " value="Sepet İşlemleri" />
+                        <h:commandButton action="/panel/admin/admin-update.xhtml" styleClass="btn btn-primary " value="Admin Profil İşlemleri" />
+                    </div>
+                </div>
+                <!-- comment  <h:commandButton value="Kullanıcı işlemleri"  styleClass="btn btn-primary" action="/panel/admin/admin-customer-home-page.xhtml"  />
+
+                <h:commandButton action="/panel/admin/admin-seller-home-page.xhtml"  styleClass="btn btn-primary" value="Satıcı İşlemleri" />
+
+
+                <h:commandButton action="/panel/admin/admin-order-home-page.xhtml" styleClass="btn btn-primary" value="Sipariş İşlemleri" />
+                <h:commandButton action="/panel/admin/admin-product-home-page.xhtml"   styleClass="btn btn-primary" value="Ürün İşlemleri" />
+
+                <h:commandButton action="/panel/sepet/sepet.xhtml"   styleClass="btn btn-primary" value="Sepet İşlemleri" />
+
+                <h:commandButton action="/panel/admin/admin-update.xhtml"  styleClass="btn btn-primary" value="Admin Profil İşlemleri" />
+                -->
+            </h:form>
+        </div>
+    </h:body>
+</html>
+
+
+
+

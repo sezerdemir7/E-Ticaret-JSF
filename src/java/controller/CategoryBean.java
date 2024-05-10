@@ -15,24 +15,10 @@ import jakarta.inject.Named;
  */
 @Named
 @SessionScoped
-public class CategoryBean extends BaseBean<Category, CategoryDAO>{
-    
-    public CategoryBean(){
-        super(null,null);
+public class CategoryBean extends BaseBean<Category, CategoryDAO> {
+
+    public CategoryBean() {
+        super(Category.class, CategoryDAO.class);
     }
 
-    public CategoryBean(Category entity, CategoryDAO dao) {
-        super(entity, dao);
-    }
-
-    @Override
-    protected Category createEntityInstance() {
-        return new Category();
-    }
-
-    @Override
-    protected CategoryDAO createDAOInstance() {
-        return new CategoryDAO();
-    }
-    
 }

@@ -17,42 +17,22 @@ import jakarta.inject.Named;
  */
 @Named
 @SessionScoped
-public class AdminBean extends BaseBean<Admin, AdminDAO>{
-    
-    public AdminBean () {
-        super(null,null);
+public class AdminBean extends BaseBean<Admin, AdminDAO> {
+
+    public AdminBean() {
+        super(Admin.class, AdminDAO.class);
     }
-    
-    
-    public String login(){
-        Admin adminTest=this.getDao().login(this.getEntity());
-       
-        if(adminTest!=null && adminTest.getPassword().equals(this.getEntity().getPassword())){
+
+    public String login() {
+        Admin adminTest = this.getDao().login(this.getEntity());
+
+        if (adminTest != null && adminTest.getPassword().equals(this.getEntity().getPassword())) {
             this.setEntity(adminTest);
-          return "/panel/admin/admin-home.xhtml?faces-redirect=true";
-        }
-        else{
+            return "/panel/admin/admin-home.xhtml?faces-redirect=true";
+        } else {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Şifre Yanlış", "Şifre yanlış."));
             return null; // Başarısız giriş durumunda null döndürüyor
         }
     }
-    
-    
-    
-    
-    
-    public AdminBean(Admin entity, AdminDAO dao) {
-        super(entity, dao);
-    }
 
-    @Override
-    protected Admin createEntityInstance() {
-           return new Admin();
-    }
-
-    @Override
-    protected AdminDAO createDAOInstance() {
-        return new AdminDAO();
-    }
-    
 }

@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/XHtml.xhtml to edit this template
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="jakarta.faces.html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      template="/panel/template/navbar.xhtml">
+    <head>
+        <h:outputStylesheet library="css" name="bootstrap.min.css" />
+
+        <title>Admin Ürün İşlemleri</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    </head>
+    <body>
+        <h:form>
+            <h:commandButton value="Ürün Ekle"  class="buton-color"  action="/panel/product/product.xhtml"  />    
+            <h:commandButton value="Ürün Güncelle" styleClass="btn btn-succes" action="/panel/product/product.xhtml"/>
+
+            <h:commandButton value="Ürün Listele"  class="buton-color"  action="#{productBean.getList()}" />
+        </h:form>
+
+
+
+
+        <div class="container-mt-3">
+
+            <div class="col-md-5">
+                <form>
+                    <table class="table table-scriped table-hover">
+                        <thead>
+
+                            <tr>
+                                <th>
+                                    ID
+                                </th>
+                                <th>
+                                    Ürün Adı
+                                </th>
+                                <th>
+                                    Stok Adedi
+                                </th>
+                                <th>
+                                    Ürün Detayı
+                                </th>
+                                <th>
+                                    Fiyat
+                                </th>
+                                <th>
+                                    Kategori ID
+                                </th><th>
+                                    Store ID
+                                </th> <th>
+                                    Created Date
+                                </th><th>
+                                    Last Modified Date
+                                </th><th>
+                                    Delete
+                                </th>
+
+
+
+                            </tr>
+
+                        </thead>
+                        <tbody>
+                            <ui:repeat value="#{productBean.getList()}" var="product" >
+                                <tr>
+                                    <td>#{product.id}</td>
+                                    <td>#{product.name}</td>
+                                    <td>#{product.stock}</td>
+                                    <td>#{product.detail}</td>
+                                    <td>#{product.price}</td>
+                                    <td>#{product.category_id}</td>
+                                    <td>#{product.store_id}</td>
+                                    <td>#{product.createdDate}</td>
+                                    <td>#{product.lastModifiedDate}</td>
+                                    <td>
+                                        <h:commandButton class="btn btn-danger" action="#{productBean.delete()}" value="Sil"/>
+                                    </td>
+
+
+                                </tr>
+
+                            </ui:repeat>
+
+                        </tbody>
+
+
+                    </table>
+                </form>
+            </div>
+
+
+        </div>
+
+
+
+
+
+
+
+    </body>
+</html>

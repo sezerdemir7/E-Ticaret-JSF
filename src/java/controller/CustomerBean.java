@@ -18,18 +18,15 @@ import jakarta.inject.Named;
  */
 @Named
 @SessionScoped
-public class CustomerBean extends BaseBean<Customer, CustomerDAO> {
+public class CustomerBean extends BaseBean<Customer, CustomerDAO>  {
 
     private CartDAO cartDAO;
 
     public CustomerBean() {
-        super(null, null);
+        super(Customer.class, CustomerDAO.class);
     }
 
-    public CustomerBean(Customer entity, CustomerDAO dao) {
-        super(entity, dao);
-    }
-    
+
     public void deleteCustomer(Customer customer){
         setEntity(customer);
         getDao().delete(getEntity());
@@ -50,21 +47,9 @@ public class CustomerBean extends BaseBean<Customer, CustomerDAO> {
 
     @Override
     public void create() {
-
         super.create();
     }
 
-    @Override
-    protected Customer createEntityInstance() {
-        return new Customer();
-    }
-
-    @Override
-    protected CustomerDAO createDAOInstance() {
-
-        return new CustomerDAO();
-
-    }
 
     public CartDAO getCartDAO() {
         if (this.cartDAO == null) {

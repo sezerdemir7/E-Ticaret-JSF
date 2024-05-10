@@ -29,16 +29,15 @@ public class OrderDAO extends DBConnect implements BaseDAO<Order> {
     private CartItemDAO cartItemDAO;
     private OrderDetailDAO orderDetailDAO;
     
-    public boolean saveOrder(Order order) {
+    public boolean saveOrder(Order order,List<CartItem> cartItems) {
         
-        Cart cart = null;
+       
         OrderDetail orderDetail = new OrderDetail();
-        cart = getCartDAO().getCartByCustomerId(order.getCustomer().getId());
-        order.setToplamTutar(cart.getToplamFiyat());
+       
         
         Long orderId = createOrder(order);
         order.setId(orderId);
-        for (CartItem cartItem : cart.getCartItems()) {
+        for (CartItem cartItem : cartItems) {
             orderDetail.setAdet(cartItem.getAdet());
             orderDetail.setOrder(order);
             orderDetail.setProduct(cartItem.getProduct());
@@ -46,11 +45,8 @@ public class OrderDAO extends DBConnect implements BaseDAO<Order> {
             getCartItemDAO().delete(cartItem);
         }
         
-        cart.setCartItems(null);
-        cart.setToplamFiyat(0);
-        cart.setCustomer(order.getCustomer());
         
-        getCartDAO().update(cart);
+        
         
         return true;
     }
@@ -75,11 +71,15 @@ public class OrderDAO extends DBConnect implements BaseDAO<Order> {
                     Statement.RETURN_GENERATED_KEYS);
             
             ResultSet generatedKeys = st.getGeneratedKeys();
+             
+             
             if (generatedKeys.next()) {
                 generatedOrderId = generatedKeys.getLong(1);
             } else {
                 System.out.println("Sipariş kimliği alınamadı.");
             }
+            st.close();
+            generatedKeys.close();
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
@@ -104,6 +104,7 @@ public class OrderDAO extends DBConnect implements BaseDAO<Order> {
                     + " '" + entity.getToplamTutar() + "',"
                     + " '" + "2024-04-21 19:00:37.89874" + "',"
                     + " '" + "2024-04-21 19:00:37.89874" + "')");
+             st.close();
             
         } catch (Exception e) {
             System.out.println(e.getMessage());
@@ -129,6 +130,7 @@ public class OrderDAO extends DBConnect implements BaseDAO<Order> {
                     + "";
             
             st.executeUpdate(query);
+             st.close();
             
         } catch (Exception e) {
             System.out.println(e.getMessage());
@@ -142,6 +144,7 @@ public class OrderDAO extends DBConnect implements BaseDAO<Order> {
             Statement st = this.getConnect().createStatement();
             
             st.executeUpdate("delete from orders where id = " + entity.getId());
+             st.close();
             
         } catch (Exception e) {
             System.out.println(e.getMessage());
@@ -172,6 +175,8 @@ public class OrderDAO extends DBConnect implements BaseDAO<Order> {
                         rs.getTimestamp("lastmodifieddate")
                 ));
             }
+             st.close();
+             rs.close();
             
         } catch (Exception e) {
             System.out.println(e.getMessage());
@@ -204,6 +209,8 @@ public class OrderDAO extends DBConnect implements BaseDAO<Order> {
                         rs.getTimestamp("lastmodifieddate")
                 ));
             }
+             st.close();
+             rs.close();
             
         } catch (Exception e) {
             System.out.println(e.getMessage());
@@ -237,6 +244,8 @@ public class OrderDAO extends DBConnect implements BaseDAO<Order> {
                     rs.getTimestamp("createddate"),
                     rs.getTimestamp("lastmodifieddate")
             );
+             st.close();
+             rs.close();
             
         } catch (Exception e) {
             System.out.println(e.getMessage());

@@ -16,7 +16,7 @@
             <div class="container mt-3" >
                 <h:form>
                     <div class="row row-cols-1 row-cols-md-3 g-4">
-                        <ui:repeat value="#{cartBean.getCartByCuctomerId(customerBean.entity.id)}" var="cartItem">
+                        <ui:repeat value="#{cartBean.getCartByCuctomerId(customerBean.entity)}" var="cartItem">
 
                             <div class="col">
                                 <div class="card h-100">
