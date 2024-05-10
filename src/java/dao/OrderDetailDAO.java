@@ -9,6 +9,7 @@ import entity.OrderDetail;
 import entity.Product;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 import util.DBConnect;
@@ -62,13 +63,12 @@ public class OrderDetailDAO extends DBConnect implements BaseDAO<OrderDetail> {
         try {
             Statement st = this.getConnect().createStatement();
 
-            st.executeUpdate("insert into OrderDetail (adet, Productid, Orderid, createddate, lastmodifieddate) "
+            st.executeUpdate("insert into OrderDetail (adet, Productid, Orderid, lastmodifieddate) "
                     + "values ("
                     + "'" + entity.getAdet() + "', "
                     + "'" + entity.getProduct().getId() + "', "
                     + "'" + entity.getOrder().getId() + "', "
-                    + "'" + "2024-04-21 19:00:37.89874" + "', "
-                    + "'" + "2024-04-21 19:00:37.89874" + "')");
+                    + "'" + new Timestamp(System.currentTimeMillis()) + "')");
             st.close();
 
         } catch (Exception e) {

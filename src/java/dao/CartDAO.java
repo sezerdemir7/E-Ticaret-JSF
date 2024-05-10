@@ -95,6 +95,7 @@ public class CartDAO extends DBConnect implements BaseDAO<Cart> {
         return cartList;
 
     }
+   
 
     @Override
     public Cart getEntityById(Long cartId) {
@@ -103,10 +104,11 @@ public class CartDAO extends DBConnect implements BaseDAO<Cart> {
             Statement st = this.getConnect().createStatement();
             ResultSet rs = st.executeQuery("SELECT * FROM cart WHERE id = " + cartId);
             rs.next();
+            cart.setId(rs.getLong("id"));
             Customer customer = getCustomerDAO().getEntityById(rs.getLong("customerid"));
-            List<CartItem> cartItems = getCartItemDAO().getCartItemsListByCartId(cartId);
+            List<CartItem> cartItems = getCartItemDAO().getCartItemsListByCart(cart);
 
-           /* cart = new Cart(
+            cart = new Cart(
                     cartId,
                     customer,
                     cartItems,
@@ -114,12 +116,6 @@ public class CartDAO extends DBConnect implements BaseDAO<Cart> {
                     rs.getTimestamp("createddate"),
                     rs.getTimestamp("lastmodifieddate")
             );
-            */
-            cart.setCartItems(cartItems);
-            cart.setCustomer(customer);
-            cart.setToplamFiyat( rs.getInt("toplamfiyat"));
-            cart.setLastModifiedDate(rs.getTimestamp("lastmodifieddate"));
-            cart.setCreatedDate(rs.getTimestamp("createddate"));
 
             st.close();
             rs.close();
@@ -130,16 +126,24 @@ public class CartDAO extends DBConnect implements BaseDAO<Cart> {
         return cart;
     }
 
-    public Cart getCartByCustomerId(Long customerId) {
+    public Cart getCartByCustomer(Customer customer) {
         Cart cart = new Cart();
         try {
             Statement st = this.getConnect().createStatement();
-            ResultSet rs = st.executeQuery("SELECT * FROM cart WHERE customerid = " + customerId);
+            ResultSet rs = st.executeQuery("SELECT * FROM cart WHERE customerid = " + customer.getId());
             if (rs.next()) {
-                cart = getEntityById(rs.getLong("id"));
+                cart.setId(rs.getLong("id"));
+                List<CartItem> cartItems = getCartItemDAO().getCartItemsListByCart(cart);
+                cart = new Cart(
+                        rs.getLong("id"),
+                        customer,
+                        cartItems,
+                        rs.getInt("toplamfiyat"),
+                        rs.getTimestamp("createddate"),
+                        rs.getTimestamp("lastmodifieddate")
+                );
 
             } else {
-                Customer customer = getCustomerDAO().getEntityById(customerId);
                 cart = new Cart();
                 cart.setCustomer(customer);
                 create(cart);

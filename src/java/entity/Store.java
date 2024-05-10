@@ -53,5 +53,10 @@ public class Store extends BaseEntity{
     public void setSeller(Seller seller) {
         this.seller = seller;
     }
+
+    @Override
+    public String toString() {
+        return name;
+    }
     
 }

@@ -21,36 +21,35 @@ import java.util.List;
  */
 public class ProductDAO extends DBConnect implements BaseDAO<Product> {
 
-    private CategoryDAO categoryDAO;
-    private SellerDAO SellerDAO;
+    
     private StoreDAO storeDAO;
 
     @Override
     public void create(Product product) {
-        
+
         try {
             // PreparedStatement oluştur
-            PreparedStatement pst = this.getConnect().prepareStatement(
-                    "INSERT INTO product (name, stock, detail,categoryid, price, storeid) "
-                    + "VALUES (?, ?, ?, ?, ?, ?)");
+            Statement st = this.getConnect().createStatement();
 
-            // Parametreleri ayarla
-            //Category category = new Category(1L, "Teknoloji", Timestamp.valueOf("2024-04-18 17:08:26.247016"), Timestamp.valueOf("2024-04-18 17:08:26.247016"));
+            String query = "INSERT INTO product (name, stock, detail, price, storeid) "
+                    + "VALUES ('" + product.getName() + "', "
+                    + product.getStock() + ", '"
+                    + product.getDetail() + "', "
+                    + product.getPrice() + ", "
+                    + product.getStore().getId() + ", "
+                    + ")"; 
 
-            Store store=null;
-                    
-            pst.setString(1, product.getName());
-            pst.setInt(2, product.getStock());
-            pst.setString(3, product.getDetail());
-            pst.setLong(4, product.getCategory().getId()); 
-            pst.setInt(5, product.getPrice());
-            pst.setLong(6, 1); 
+            st.executeUpdate(query);
 
-            // Sorguyu çalıştır
-            pst.executeUpdate();
+            ResultSet rs = st.executeQuery("select max(id) as mid from product");
+            rs.next();
+            int product_id = rs.getInt("mid");
 
-            // PreparedStatement'ı kapat
-            pst.close();
+            for (Category category : product.getCategories()) {
+                query = "insert into product_category (productid,categoryid) values(" + product_id + "," + category.getId() + ")";
+                st.executeUpdate(query);
+            }
+
         } catch (SQLException e) {
             System.out.println("Error while creating product: " + e.getMessage());
         }
@@ -58,18 +57,51 @@ public class ProductDAO extends DBConnect implements BaseDAO<Product> {
 
     @Override
     public void update(Product entity) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+
+        try {
+            Statement st = this.getConnect().createStatement();
+            String query = "update product set "
+                    + "name = '" + entity.getName() + "', "
+                    + "stock = '" + entity.getStock() + "', "
+                    + "detail = '" + entity.getDetail() + "', "
+                    + "price = '" + entity.getPrice() + "', "
+                    + "lastmodifieddate = '" + new Timestamp(System.currentTimeMillis()) + "' "
+                    + "where id = '" + entity.getId() + "'";
+            st.executeUpdate(query);
+
+            st.executeUpdate("delete from product_category where productid=" + entity.getId());
+
+            for (Category category : entity.getCategories()) {
+                query = "insert into product_category (productid,categoryid) values(" + entity.getId() + "," + category.getId() + ")";
+                st.executeUpdate(query);
+            }
+
+        } catch (SQLException e) {
+            System.out.println("Error while creating product: " + e.getMessage());
+
+        }
+
     }
 
     @Override
     public void delete(Product entity) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        try {
+            Statement st = this.getConnect().createStatement();
+            st.executeUpdate("delete from product_category where productid=" + entity.getId());
+
+            String query = "delete from product where id=" + entity.getId();
+            st.executeUpdate(query);
+            st.close();
+        } catch (SQLException e) {
+            System.out.println("Error while creating product: " + e.getMessage());
+
+        }
+
     }
 
     @Override
     public List<Product> readList() {
         List<Product> productList = new ArrayList<>();
-        Category category = null;
         Store store = null;
         try {
             PreparedStatement pst = this.getConnect().prepareStatement("SELECT * FROM Product");
@@ -83,12 +115,11 @@ public class ProductDAO extends DBConnect implements BaseDAO<Product> {
                 product.setStock(rs.getInt("stock"));
                 product.setDetail(rs.getString("detail"));
 
-                category = getCategoryDAO().getEntityById(rs.getLong("categoryid"));
-                product.setCategory(category);
+                product.setCategories(this.getProductCategories(rs.getLong("id")));
                 product.setStore(store);
 
                 product.setPrice(rs.getInt("price"));
-                 product.setCreatedDate(rs.getTimestamp("createddate"));
+                product.setCreatedDate(rs.getTimestamp("createddate"));
                 product.setLastModifiedDate(rs.getTimestamp("lastmodifieddate"));
 
                 productList.add(product);
@@ -98,17 +129,35 @@ public class ProductDAO extends DBConnect implements BaseDAO<Product> {
             rs.close();
             pst.close();
         } catch (SQLException e) {
-            
+
             System.out.println("Error while reading product list: " + e.getMessage());
         }
         return productList;
     }
-    
-    
-    
-    
-    
-    
+
+    public List<Category> getProductCategories(Long productid) {
+        List<Category> categoryList = new ArrayList<>();
+
+        try {
+            Statement st = this.getConnect().createStatement();
+
+            ResultSet rs = st.executeQuery("SELECT * FROM product_category WHERE categoryid IN (SELECT categoryid FROM product_category WHERE productid = " + productid + ")");
+
+            while (rs.next()) {
+                categoryList.add(new Category(
+                        rs.getLong("id"),
+                        rs.getString("name"),
+                        rs.getTimestamp("createddate"),
+                        rs.getTimestamp("lastmodifieddate")));
+            }
+            st.close();
+            rs.close();
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+
+        return categoryList;
+    }
 
     public Product getEntityById(Long productId) {
 
@@ -123,10 +172,6 @@ public class ProductDAO extends DBConnect implements BaseDAO<Product> {
 
             rs.next();
 
-            category = getCategoryDAO().getEntityById(rs.getLong("categoryid"));
-            
-            System.out.println("*** simdi product daodayım");
-            
             store = getStoreDAO().getEntityById(rs.getLong("storeid"));
 
             product = new Product(
@@ -136,7 +181,7 @@ public class ProductDAO extends DBConnect implements BaseDAO<Product> {
                     rs.getString("name"),
                     rs.getInt("stock"),
                     rs.getString("detail"),
-                    category,
+                    this.getProductCategories(productId),
                     rs.getInt("price"),
                     store
             );
@@ -151,13 +196,6 @@ public class ProductDAO extends DBConnect implements BaseDAO<Product> {
 
     }
 
-    public CategoryDAO getCategoryDAO() {
-        if (this.categoryDAO == null) {
-            categoryDAO = new CategoryDAO();
-        }
-        return categoryDAO;
-    }
-
     public StoreDAO getStoreDAO() {
         if (this.storeDAO == null) {
             storeDAO = new StoreDAO();
@@ -167,10 +205,9 @@ public class ProductDAO extends DBConnect implements BaseDAO<Product> {
 
     public List<Product> getProductListByCategoryId(Long categoryId) {
         List<Product> productList = new ArrayList<>();
-        Category category = null;
         Store store = null;
         try {
-            PreparedStatement pst = this.getConnect().prepareStatement("SELECT * FROM Product where categoryid="+categoryId);
+            PreparedStatement pst = this.getConnect().prepareStatement("SELECT * FROM Product where categoryid=" + categoryId);
 
             ResultSet rs = pst.executeQuery();
 
@@ -181,12 +218,11 @@ public class ProductDAO extends DBConnect implements BaseDAO<Product> {
                 product.setStock(rs.getInt("stock"));
                 product.setDetail(rs.getString("detail"));
 
-                category = getCategoryDAO().getEntityById(rs.getLong("categoryid"));
-                product.setCategory(category);
+                product.setCategories(this.getProductCategories(rs.getLong("id")));
                 product.setStore(store);
 
                 product.setPrice(rs.getInt("price"));
-                 product.setCreatedDate(rs.getTimestamp("createddate"));
+                product.setCreatedDate(rs.getTimestamp("createddate"));
                 product.setLastModifiedDate(rs.getTimestamp("lastmodifieddate"));
 
                 productList.add(product);
@@ -196,23 +232,18 @@ public class ProductDAO extends DBConnect implements BaseDAO<Product> {
 
             pst.close();
         } catch (SQLException e) {
-            
+
             System.out.println("Error while reading product list: " + e.getMessage());
         }
         return productList;
     }
-    
-    
-    
-    
-    
-    
+
     public List<Product> listele(int cp, int epp) {
         List<Product> productList = new ArrayList<>();
         Category category = null;
         Store store = null;
         try {
-            String sql = String.format("select * from Product LIMIT %d OFFSET %d",epp,(cp)*epp);
+            String sql = String.format("select * from Product LIMIT %d OFFSET %d", epp, (cp) * epp);
             PreparedStatement pst = this.getConnect().prepareStatement(sql);
 
             ResultSet rs = pst.executeQuery();
@@ -224,12 +255,11 @@ public class ProductDAO extends DBConnect implements BaseDAO<Product> {
                 product.setStock(rs.getInt("stock"));
                 product.setDetail(rs.getString("detail"));
 
-                category = getCategoryDAO().getEntityById(rs.getLong("categoryid"));
-                product.setCategory(category);
+                product.setCategories(this.getProductCategories(rs.getLong("id")));
                 product.setStore(store);
 
                 product.setPrice(rs.getInt("price"));
-                 product.setCreatedDate(rs.getTimestamp("createddate"));
+                product.setCreatedDate(rs.getTimestamp("createddate"));
                 product.setLastModifiedDate(rs.getTimestamp("lastmodifieddate"));
 
                 productList.add(product);
@@ -239,7 +269,7 @@ public class ProductDAO extends DBConnect implements BaseDAO<Product> {
 
             pst.close();
         } catch (SQLException e) {
-            
+
             System.out.println("Error while reading product list: " + e.getMessage());
         }
         return productList;

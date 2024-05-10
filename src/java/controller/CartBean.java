@@ -33,11 +33,11 @@ public class CartBean extends BaseBean<Cart, CartDAO> {
         Cart cart = new Cart();
         
         
-        cart = getDao().getCartByCustomerId(customer.getId());
+        cart = getDao().getCartByCustomer(customer);
         cart.setCustomer(customer);
         this.setEntity(cart);
         
-        List<CartItem> cartItems=getCartItemDAO().getCartItemsListByCartId(cart.getId());
+        List<CartItem> cartItems=getCartItemDAO().getCartItemsListByCart(cart);
         return cartItems;
     }
 
