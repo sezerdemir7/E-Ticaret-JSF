@@ -20,6 +20,42 @@ import java.util.List;
 
 public class ProductBean extends BaseBean<Product, ProductDAO> {
 
+    private List<Product> listeleme;
+
+    private int epp = 2;
+    private int cp = 0;
+
+    public int getEpp() {
+        return epp;
+    }
+
+    public void setEpp(int epp) {
+        this.epp = epp;
+    }
+
+    public int getCp() {
+        return cp;
+    }
+
+    public void setCp(int cp) {
+        this.cp = cp;
+    }
+
+    public void next() {
+        int toplamveri= getListeleme().size();
+        if(toplamveri > (cp+1) *(epp-1)){
+            cp++;
+        }
+        
+    }
+
+    public void prev() {
+        if (cp > 0) {
+            cp--;
+        }
+
+    }
+
     public ProductBean(Product entity, ProductDAO dao) {
         super(entity, dao);
     }
@@ -49,6 +85,10 @@ public class ProductBean extends BaseBean<Product, ProductDAO> {
     @Override
     protected ProductDAO createDAOInstance() {
         return new ProductDAO();
+    }
+
+    public List<Product> getListeleme() {
+        return this.getDao().listele(this.getCp(), this.getEpp());
     }
 
 }

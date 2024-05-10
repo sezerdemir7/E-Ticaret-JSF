@@ -37,7 +37,7 @@
                 <div class="container mt-3">
                     <h:form>
                         <div class="row row-cols-1 row-cols-md-3 g-4">
-                            <ui:repeat value="#{productBean.list}" var="product">
+                            <ui:repeat value="#{productBean.listeleme}" var="product">
                                 <div class="col">
                                     <div class="card h-100">
                                         <div class="card-body">
@@ -57,16 +57,30 @@
                                                     <path d="M8 14s-6-3.5-6-7a4 4 0 0 1 6-3.464A4 4 0 0 1 14 7s-6 7-6 7z"/>
                                                 </svg>
                                             </button>
+
+
                                         </div>
                                     </div>
                                 </div>
 
-
                             </ui:repeat>
+
                         </div>
                     </h:form>
                 </div>
+                <div class="top-50px">
+                    <h:form>
+                        <h:commandButton styleClass="btn btn-secondary" value="Previous" action="#{productBean.prev()}" />
+                        <h:outputText value="#{productBean.cp}"/>
+                        <h:commandButton  styleClass="btn btn-secondary" value="Next" action="#{productBean.next()}" />
+
+                    </h:form>
+
+                </div>
             </div>
+        </div>
+        <div>
+
         </div>
 
     </ui:define>
