@@ -2,7 +2,10 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="jakarta.faces.html"
-      xmlns:ui="http://java.sun.com/jsf/facelets">
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      
+      >
 
 
     <h:head>
@@ -38,6 +41,17 @@
                     <label for="productName" class="form-label">Ürün İsmi</label>
                     <h:inputText id="productName" class="form-control" value="#{productBean.entity.name}" />
                 </div>
+               
+                
+                <div class="mb-3">
+                    
+                    <label for="productName" class="form-label">Kategori</label>
+                    
+                    <h:selectOneMenu styleClass="form-select form-select-lg mb-3" value="#{productBean.entity.category}" converter="categoryConverter"> 
+                        <f:selectItems value="#{categoryBean.list}" var="c" itemValue="#{c}" itemLabel="#{c.name}"/>
+                    </h:selectOneMenu>
+                </div>
+                
                 <div class="mb-3">
                     <label for="stock" class="form-label">Stok sayısı</label>
                     <h:inputText id="stock" class="form-control" value="#{productBean.entity.stock}" />

@@ -35,14 +35,14 @@ public class ProductDAO extends DBConnect implements BaseDAO<Product> {
                     + "VALUES (?, ?, ?, ?, ?, ?)");
 
             // Parametreleri ayarla
-            Category category = new Category(1L, "Teknoloji", Timestamp.valueOf("2024-04-18 17:08:26.247016"), Timestamp.valueOf("2024-04-18 17:08:26.247016"));
+            //Category category = new Category(1L, "Teknoloji", Timestamp.valueOf("2024-04-18 17:08:26.247016"), Timestamp.valueOf("2024-04-18 17:08:26.247016"));
 
             Store store=null;
                     
             pst.setString(1, product.getName());
             pst.setInt(2, product.getStock());
             pst.setString(3, product.getDetail());
-            pst.setLong(4, category.getId()); 
+            pst.setLong(4, product.getCategory().getId()); 
             pst.setInt(5, product.getPrice());
             pst.setLong(6, 1); 
 

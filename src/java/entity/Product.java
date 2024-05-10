@@ -79,5 +79,7 @@ public class Product extends BaseEntity{
     public void setStore(Store store) {
         this.store = store;
     }
+    
+    
 }
 

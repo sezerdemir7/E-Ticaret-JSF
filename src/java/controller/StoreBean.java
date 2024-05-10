@@ -18,18 +18,32 @@ import jakarta.inject.Named;
 @SessionScoped
 public class StoreBean extends BaseBean<Store, StoreDAO>  {
 
+    private StoreDAO storeDAO;
 
     public StoreBean() {
         super(Store.class, StoreDAO.class);
     }
     
-    
-
+   public Store getStoreBySellerId(long sellerId){
+       return getStoreDAO().getStoreBySellerId(sellerId);
+   }
     
     public void create(Seller seller) {
         this.getEntity().setSeller(seller);
         super.create(); 
     }
+
+    public StoreDAO getStoreDAO() {
+        if(this.storeDAO==null){
+            this.storeDAO=new StoreDAO();
+        }
+        return storeDAO;
+    }
+
+    public void setStoreDAO(StoreDAO storeDAO) {
+        this.storeDAO = storeDAO;
+    }
+    
     
 
 
