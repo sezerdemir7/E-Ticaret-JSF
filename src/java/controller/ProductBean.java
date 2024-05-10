@@ -1,3 +1,4 @@
+
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
@@ -21,9 +22,8 @@ import java.util.List;
 public class ProductBean extends BaseBean<Product, ProductDAO> {
 
 
-
     public ProductBean() {
-        super(null, null);
+        super(Product.class, ProductDAO.class);
     }
 
     @Override
@@ -38,16 +38,6 @@ public class ProductBean extends BaseBean<Product, ProductDAO> {
         return productList;
     }
 
-    @Override
-    protected Product createEntityInstance() {
-
-        return new Product();
-    }
-
-    @Override
-    protected ProductDAO createDAOInstance() {
-        return new ProductDAO();
-    }
 
 
 }
