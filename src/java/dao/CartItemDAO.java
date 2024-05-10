@@ -176,16 +176,14 @@ public class CartItemDAO extends DBConnect implements BaseDAO<CartItem> {
 
     }
 
-    public List<CartItem> getCartItemsListByCartId(Long cartId) {
+    public List<CartItem> getCartItemsListByCart(Cart cart) {
 
         List<CartItem> cartItems = new ArrayList<>();
         CartItem cartItem = new CartItem();
-        Cart cart=getCartDAO().getEntityById(cartId);
-        
         try {
             Statement st = this.getConnect().createStatement();
 
-            ResultSet rs = st.executeQuery("select * from cartitem where cartid = " + cartId);
+            ResultSet rs = st.executeQuery("select * from cartitem where cartid = " + cart.getId());
 
             while (rs.next()) {
                 Product product = this.getProductDAO().getEntityById(rs.getLong("productid"));

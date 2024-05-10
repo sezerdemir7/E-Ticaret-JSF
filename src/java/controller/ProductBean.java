@@ -21,7 +21,6 @@ import java.util.List;
 
 public class ProductBean extends BaseBean<Product, ProductDAO> {
 
-
     public ProductBean() {
         super(Product.class, ProductDAO.class);
     }
@@ -59,11 +58,11 @@ public class ProductBean extends BaseBean<Product, ProductDAO> {
     }
 
     public void next() {
-        int toplamveri= getListeleme().size();
-        if(toplamveri > (cp+1) *(epp-1)){
+        int toplamveri = getListeleme().size();
+        if (toplamveri > (cp + 1) * (epp - 1)) {
             cp++;
         }
-        
+
     }
 
     public void prev() {
@@ -75,7 +74,7 @@ public class ProductBean extends BaseBean<Product, ProductDAO> {
 
     public List<Product> getListeleme() {
         return this.getDao().listele(this.getCp(), this.getEpp());
-    }
+    }
     
     
    

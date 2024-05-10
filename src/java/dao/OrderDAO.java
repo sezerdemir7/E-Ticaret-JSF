@@ -12,6 +12,7 @@ import entity.OrderDetail;
 import entity.Payment;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.sql.Timestamp;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -59,15 +60,15 @@ public class OrderDAO extends DBConnect implements BaseDAO<Order> {
             
             st.executeUpdate("insert into Orders (Customerid, orderdate,"
                     + " status, teslimatadresi, Paymentid, toplamtutar,"
-                    + " createddate, lastmodifieddate) values('"
+                    + "  lastmodifieddate) values('"
                     + entity.getCustomer().getId() + "',"
-                    + " '" + "2024-04-21 19:00:37.89874" + "',"
+                    + " '" + new Timestamp(System.currentTimeMillis()) + "',"
                     + " '" + entity.isStatus() + "',"
                     + " '" + entity.getTeslimatAdresi() + "',"
                     + " '" + 2 + "',"
                     + " '" + entity.getToplamTutar() + "',"
-                    + " '" + "2024-04-21 19:00:37.89874" + "',"
-                    + " '" + "2024-04-21 19:00:37.89874" + "')", 
+                    
+                    + " '" + new Timestamp(System.currentTimeMillis()) + "')", 
                     Statement.RETURN_GENERATED_KEYS);
             
             ResultSet generatedKeys = st.getGeneratedKeys();
@@ -102,8 +103,8 @@ public class OrderDAO extends DBConnect implements BaseDAO<Order> {
                     + " '" + entity.getTeslimatAdresi() + "',"
                     + " '" + 2 + "',"
                     + " '" + entity.getToplamTutar() + "',"
-                    + " '" + "2024-04-21 19:00:37.89874" + "',"
-                    + " '" + "2024-04-21 19:00:37.89874" + "')");
+                    + " '" + new Timestamp(System.currentTimeMillis()) + "',"
+                    + " '" + new Timestamp(System.currentTimeMillis())+ "')");
              st.close();
             
         } catch (Exception e) {
@@ -124,8 +125,8 @@ public class OrderDAO extends DBConnect implements BaseDAO<Order> {
                     + "teslimatadresi = '" + entity.getTeslimatAdresi() + "' "
                     + "paymentid = '" + entity.getPayment().getId() + "'"
                     + "toplamtutar = '" + entity.getToplamTutar() + "'"
-                    + "createdate ='" + entity.getCreatedDate() + "'"
-                    + "lastmodifieddate ='" + entity.getLastModifiedDate() + "' "
+                    
+                    + "lastmodifieddate ='" + new Timestamp(System.currentTimeMillis()) + "' "
                     + "where id = '" + entity.getId() + "'"
                     + "";
             

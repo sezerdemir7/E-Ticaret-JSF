@@ -37,7 +37,7 @@ public class OrderBean  extends  BaseBean<Order, OrderDAO> {
         OrderDetail orderDetail = new OrderDetail();
         Order order=new Order();
         
-        cart = getCartDAO().getCartByCustomerId(customer.getId());
+        cart = getCartDAO().getCartByCustomer(customer);
         
         
         
@@ -48,7 +48,7 @@ public class OrderBean  extends  BaseBean<Order, OrderDAO> {
         Long orderId = getDao().createOrder(order);
         order.setId(orderId);
         
-        List<CartItem> cartItems=getCartItemDAO().getCartItemsListByCartId(cart.getId());
+        List<CartItem> cartItems=getCartItemDAO().getCartItemsListByCart(cart);
         
         for (CartItem cartItem : cartItems) {
             orderDetail.setAdet(cartItem.getAdet());
@@ -63,7 +63,7 @@ public class OrderBean  extends  BaseBean<Order, OrderDAO> {
         cart.setCustomer(customer);        
         getCartDAO().update(cart);
         
-        //getDao().saveOrder(order,cartItems);
+        getDao().saveOrder(order,cartItems);
         
         return true;
     }

@@ -29,21 +29,22 @@ public class CartItemBean extends BaseBean<CartItem, CartItemDAO> {
     }
 
     public void addProductToCartItem(Product product, Customer customer) {
-        Cart cart = null;
-        cart = getCartDAO().getCartByCustomerId(customer.getId());
+        Cart cart =new Cart();
+        cart.setCustomer(customer);
+        cart = getCartDAO().getCartByCustomer(customer);
 
         this.getEntity().setProduct(product);
         this.getEntity().setCart(cart);
-        this.getEntity().setToplamFiyat(product.getPrice()*1);
-        cart.setToplamFiyat(0);//this.getEntity().getAdet()
+        //this.getEntity().setToplamFiyat(product.getPrice()*1);
+        //cart.setToplamFiyat(0);//this.getEntity().getAdet()
         getCartDAO().update(cart);
 
         getDao().create(this.getEntity());
         //getDao().createCartItem(getEntity(), customer);
     }
 
-    public List<CartItem> getCartItemsListByCartId(Long cartId) {
-        return this.getDao().getCartItemsListByCartId(cartId);
+    public List<CartItem> getCartItemsListByCartId(Cart cart) {
+        return this.getDao().getCartItemsListByCart(cart);
     }
 
     public void deleteAndSetEntity(CartItem cartItem) {

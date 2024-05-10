@@ -5,6 +5,7 @@
 package entity;
 
 import java.sql.Timestamp;
+import java.util.List;
 
 /**
  *
@@ -15,18 +16,18 @@ public class Product extends BaseEntity{
     private String name;
     private int stock;
     private String detail;
-    private Category category;
+    private List<Category> categories;
     private int price;
     private Store store;
 
     public Product() {
     }
 
-    public Product(Long id, Timestamp createdDate, Timestamp lastModifiedDate, String name, int stock,String details, Category category, int price, Store store) {
+    public Product(Long id, Timestamp createdDate, Timestamp lastModifiedDate, String name, int stock,String details, List<Category> categories, int price, Store store) {
         super(id, createdDate, lastModifiedDate);
         this.name = name;
         this.stock = stock;
-        this.category = category;
+        this.categories = categories;
         this.price = price;
         this.store = store;
     }
@@ -56,13 +57,15 @@ public class Product extends BaseEntity{
         this.stock = stock;
     }
 
-    public Category getCategory() {
-        return category;
+    public List<Category> getCategories() {
+        return categories;
     }
 
-    public void setCategory(Category category) {
-        this.category = category;
+    public void setCategories(List<Category> categories) {
+        this.categories = categories;
     }
+
+
 
     public int getPrice() {
         return price;
