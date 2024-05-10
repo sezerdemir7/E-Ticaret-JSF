@@ -3,34 +3,46 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:f="http://xmlns.jcp.org/jsf/core"
-      xmlns:p="http://primefaces.org/ui">
-<h:head>
-    <title>Sipariş Detayları</title>
-</h:head>
-<h:body>
-    <h1>Sipariş Detayları</h1>
-    <h:form>
-        <p:dataTable var="detay" value="#{orderDetailBean.entity}" widgetVar="siparisDetaylariTablosu"
-                     emptyMessage="Sipariş detayı bulunamadı">
-            <p:column headerText="Sipariş ID">
-                <h:outputText value="#{detay.name}" />
-            </p:column>
-            <p:column headerText="Ürün Adı">
-                <h:outputText value="#{detay.product.name}" />
-            </p:column>
-            <p:column headerText="Miktar">
-                <h:outputText value="#{detay.adet}" />
-            </p:column>
-            <p:column headerText="Sipariş Tarihi">
-                <h:outputText value="#{detay.order.orderDate}" />
-            </p:column>
-            <p:column headerText="Toplam Tutar">
-                <h:outputText value="#{detay.order.toplamTutar}" />
-            </p:column>
-            <p:column headerText="Teslimat Adresi">
-                <h:outputText value="#{detay.order.teslimatAdresi}" />
-            </p:column>
-        </p:dataTable>
-    </h:form>
-</h:body>
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+    <h:head>
+        <title>Sipariş Detayları</title>
+        <h:outputStylesheet library="css" name="bootstrap.min.css" />
+    </h:head>
+    <h:body>
+        <h1>Sipariş Detayları</h1>
+        <h:form id="orderForm">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th scope="col">Ürün ADI</th>
+                        <th scope="col">Adet</th>
+                        <th scope="col">Fiyat</th>
+
+                        <th scope="col"></th> <!-- Bu sütun butonları sağa yaslamak için gerekli -->
+                    </tr>
+                </thead>
+                <tbody>
+                    <ui:repeat value="#{orderDetailBean.listOrderDetailByOrder()}" var="orderDetail">
+                        <tr>
+                            <td>#{orderDetail.product.getName()} </td>
+                            <td>#{orderDetail.adet} </td>
+
+                            <td>#{orderDetail.product.getPrice()} </td>
+                            <td>
+                                <h:form >
+                                    <div class="text-right">
+                                        <h:button outcome="/panel/order/order_detay.xhtml" value="Ürün Detayı" action="#" styleClass="btn btn-info" />
+                                    </div>
+                                </h:form>
+                            </td>
+
+
+
+                        </tr>
+                    </ui:repeat>
+                </tbody>
+            </table>
+        </h:form>
+    </h:body>
 </html>

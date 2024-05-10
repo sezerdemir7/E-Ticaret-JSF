@@ -30,10 +30,11 @@ public class CartDAO extends DBConnect implements BaseDAO<Cart> {
             String query = "INSERT INTO cart (customerid,toplamfiyat,createddate,lastmodifieddate) VALUES (?,?,?,?)";
             PreparedStatement ps = this.getConnect().prepareStatement(query);
             ps.setLong(1, entity.getCustomer().getId());
-            ps.setInt(2,0);
+            ps.setInt(2, 0);
             ps.setTimestamp(3, new Timestamp(System.currentTimeMillis()));
-            ps.setTimestamp(4,new Timestamp(System.currentTimeMillis()));
+            ps.setTimestamp(4, new Timestamp(System.currentTimeMillis()));
             ps.executeUpdate();
+            ps.close();
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
@@ -53,6 +54,8 @@ public class CartDAO extends DBConnect implements BaseDAO<Cart> {
                     + "where id = '" + entity.getId() + "'"
                     + "");
 
+            st.close();
+
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
@@ -65,6 +68,7 @@ public class CartDAO extends DBConnect implements BaseDAO<Cart> {
             Statement st = this.getConnect().createStatement();
 
             st.executeUpdate("delete from Cart where id = " + entity.getId());
+            st.close();
 
         } catch (Exception e) {
             System.out.println(e.getMessage());
@@ -93,48 +97,60 @@ public class CartDAO extends DBConnect implements BaseDAO<Cart> {
     }
 
     @Override
-    public Cart getEntityById(Long customerId) {
-        
-
-        Cart cart = null;
-        Customer customer = null;
-        List<CartItem> cartItems = new ArrayList<>();
-
+    public Cart getEntityById(Long cartId) {
+        Cart cart = new Cart();
         try {
             Statement st = this.getConnect().createStatement();
+            ResultSet rs = st.executeQuery("SELECT * FROM cart WHERE id = " + cartId);
+            rs.next();
+            Customer customer = getCustomerDAO().getEntityById(rs.getLong("customerid"));
+            List<CartItem> cartItems = getCartItemDAO().getCartItemsListByCartId(cartId);
 
-            ResultSet rs = st.executeQuery("SELECT * FROM cart WHERE customerid = " + customerId);
+           /* cart = new Cart(
+                    cartId,
+                    customer,
+                    cartItems,
+                    rs.getInt("toplamfiyat"),
+                    rs.getTimestamp("createddate"),
+                    rs.getTimestamp("lastmodifieddate")
+            );
+            */
+            cart.setCartItems(cartItems);
+            cart.setCustomer(customer);
+            cart.setToplamFiyat( rs.getInt("toplamfiyat"));
+            cart.setLastModifiedDate(rs.getTimestamp("lastmodifieddate"));
+            cart.setCreatedDate(rs.getTimestamp("createddate"));
 
-            if (rs.next()) {
-                customer = getCustomerDAO().getEntityById(customerId);
-
-                cartItems = getCartItemDAO().getCartItemsListByCartId(rs.getLong("id"));
-                cart = new Cart(
-                        rs.getLong("id"),
-                        customer,
-                        cartItems,
-                        rs.getInt("toplamfiyat"),
-                        rs.getTimestamp("createddate"),
-                        rs.getTimestamp("lastmodifieddate")
-                );
-            } else {
-                customer = getCustomerDAO().getEntityById(customerId);
-                cart = new Cart();
-                cart.setCustomer(customer);
-                create(cart);
-            }
-
+            st.close();
+            rs.close();
         } catch (Exception e) {
-            System.out.println( e.getMessage());
+            System.out.println(e.getMessage());
         }
-
+        System.out.println("****cart buulundu efendim 22222***** cart_id===" + cart.getId());
         return cart;
     }
 
     public Cart getCartByCustomerId(Long customerId) {
-        
-        return getEntityById(customerId);
+        Cart cart = new Cart();
+        try {
+            Statement st = this.getConnect().createStatement();
+            ResultSet rs = st.executeQuery("SELECT * FROM cart WHERE customerid = " + customerId);
+            if (rs.next()) {
+                cart = getEntityById(rs.getLong("id"));
 
+            } else {
+                Customer customer = getCustomerDAO().getEntityById(customerId);
+                cart = new Cart();
+                cart.setCustomer(customer);
+                create(cart);
+
+            }
+            st.close();
+            rs.close();
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+        return cart;
     }
 
     public CustomerDAO getCustomerDAO() {

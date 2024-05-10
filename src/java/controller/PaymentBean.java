@@ -15,24 +15,14 @@ import jakarta.inject.Named;
  */
 @Named
 @SessionScoped
-public class PaymentBean extends BaseBean<Payment, PaymentDAO>{
+public class PaymentBean extends BaseBean<Payment, PaymentDAO> {
     
     public PaymentBean(){
-        super(null,null);
+        super(Payment.class,PaymentDAO.class);
     }
 
-    public PaymentBean(Payment entity, PaymentDAO dao) {
-        super(entity, dao);
-    }
 
-    @Override
-    protected Payment createEntityInstance() {
-        return new Payment();
-    }
 
-    @Override
-    protected PaymentDAO createDAOInstance() {
-        return new PaymentDAO();
-    }
+    
     
 }

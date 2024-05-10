@@ -94,6 +94,7 @@ public class StoreDAO extends DBConnect implements BaseDAO<Store> {
                         rs.getTimestamp("createddate"),
                         rs.getTimestamp("lastmodifieddate")
                 ));
+                 st.close();
 
             }
         } catch (Exception e) {
@@ -120,6 +121,7 @@ public class StoreDAO extends DBConnect implements BaseDAO<Store> {
                         rs.getTimestamp("createddate"),
                         rs.getTimestamp("lastmodifieddate")
                 );
+                 st.close();
             
             
         }catch(Exception e){

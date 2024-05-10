@@ -16,14 +16,11 @@ import jakarta.inject.Named;
  */
 @Named
 @SessionScoped
-public class StoreBean extends BaseBean<Store, StoreDAO> {
+public class StoreBean extends BaseBean<Store, StoreDAO>  {
 
-    public StoreBean(Store entity, StoreDAO dao) {
-        super(entity, dao);
-    }
-    
+
     public StoreBean() {
-        super(null, null);
+        super(Store.class, StoreDAO.class);
     }
     
     
@@ -35,14 +32,6 @@ public class StoreBean extends BaseBean<Store, StoreDAO> {
     }
     
 
-    @Override
-    protected Store createEntityInstance() {
-        return new Store();
-    }
 
-    @Override
-    protected StoreDAO createDAOInstance() {
-        return new StoreDAO();
-    }
     
 }

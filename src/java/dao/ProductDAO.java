@@ -42,9 +42,9 @@ public class ProductDAO extends DBConnect implements BaseDAO<Product> {
             pst.setString(1, product.getName());
             pst.setInt(2, product.getStock());
             pst.setString(3, product.getDetail());
-            pst.setLong(4, category.getId()); // Kategoriye referans
+            pst.setLong(4, category.getId()); 
             pst.setInt(5, product.getPrice());
-            pst.setLong(6, store.getId()); // Mağazaya referans
+            pst.setLong(6, 1); 
 
             // Sorguyu çalıştır
             pst.executeUpdate();
@@ -95,7 +95,7 @@ public class ProductDAO extends DBConnect implements BaseDAO<Product> {
 
                 System.out.println("product listeleme işlemei başarılı");
             }
-
+            rs.close();
             pst.close();
         } catch (SQLException e) {
             
@@ -134,6 +134,8 @@ public class ProductDAO extends DBConnect implements BaseDAO<Product> {
                     rs.getInt("price"),
                     store
             );
+            st.close();
+            rs.close();
 
         } catch (Exception e) {
             System.out.println(e.getMessage());

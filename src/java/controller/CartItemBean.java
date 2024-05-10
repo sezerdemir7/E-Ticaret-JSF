@@ -4,7 +4,9 @@
  */
 package controller;
 
+import dao.CartDAO;
 import dao.CartItemDAO;
+import entity.Cart;
 import entity.CartItem;
 import entity.Customer;
 import entity.Product;
@@ -18,39 +20,47 @@ import java.util.List;
  */
 @Named
 @SessionScoped
-public class CartItemBean extends BaseBean<CartItem,CartItemDAO> {
-    
-    public CartItemBean (){
-        super(null,null);
+public class CartItemBean extends BaseBean<CartItem, CartItemDAO> {
+
+    private CartDAO cartDAO;
+
+    public CartItemBean() {
+        super(CartItem.class, CartItemDAO.class);
     }
 
-    public CartItemBean(CartItem entity, CartItemDAO dao) {
-        super(entity, dao);
-    }
-    
-    public void addProductToCartItem(Product product,Customer customer){
+    public void addProductToCartItem(Product product, Customer customer) {
+        Cart cart = null;
+        System.out.println("customer id ====="+customer.getId());
+        cart = getCartDAO().getCartByCustomerId(customer.getId());
+
         this.getEntity().setProduct(product);
-        getDao().createCartItem(getEntity(),customer);
+        this.getEntity().setCart(cart);
+        this.getEntity().setToplamFiyat(product.getPrice()*1);
+        cart.setToplamFiyat(0);//this.getEntity().getAdet()
+        getCartDAO().update(cart);
+
+        getDao().create(this.getEntity());
+        //getDao().createCartItem(getEntity(), customer);
     }
 
-    public List<CartItem> getCartItemsListByCartId(Long cartId){
+    public List<CartItem> getCartItemsListByCartId(Long cartId) {
         return this.getDao().getCartItemsListByCartId(cartId);
     }
-    
-    public void deleteAndSetEntity(CartItem cartItem){
+
+    public void deleteAndSetEntity(CartItem cartItem) {
         setEntity(cartItem);
         this.getDao().delete(getEntity());
     }
-    
 
-    @Override
-    protected CartItem createEntityInstance() {
-        return new CartItem();
+    public CartDAO getCartDAO() {
+        if (this.cartDAO == null) {
+            cartDAO = new CartDAO();
+        }
+        return cartDAO;
     }
 
-    @Override
-    protected CartItemDAO createDAOInstance() {
-        return new CartItemDAO();
+    public void setCartDAO(CartDAO cartDAO) {
+        this.cartDAO = cartDAO;
     }
-    
+
 }

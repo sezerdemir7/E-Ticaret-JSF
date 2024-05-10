@@ -6,10 +6,9 @@ package controller;
 
 import dao.BaseDAO;
 import jakarta.enterprise.context.SessionScoped;
-import jakarta.inject.Named;
+
 import java.io.Serializable;
-import java.sql.*;
-import java.util.ArrayList;
+
 import java.util.List;
 
 public abstract class BaseBean<T, D extends BaseDAO<T>> implements Serializable {
@@ -17,14 +16,19 @@ public abstract class BaseBean<T, D extends BaseDAO<T>> implements Serializable 
     private T entity;
     private D dao;
     private List<T> list;
+    private Class<T> entityClass;
+    private Class<D> daoClass;
 
-    public BaseBean(T entity, D dao) {
-        this.entity = entity;
-        this.dao = dao;
+    public BaseBean(Class<T> ec,Class<D> dc) {
+       this.entityClass=ec;
+       this.daoClass=dc;
+    }
+    public BaseBean(){
+        
     }
     
      public void clearForm(){
-        this.entity=createEntityInstance();
+        this.entity=null;
     }
     
 
@@ -43,7 +47,11 @@ public abstract class BaseBean<T, D extends BaseDAO<T>> implements Serializable 
 
     public T getEntity() {
         if (entity == null) {
-            entity = createEntityInstance();
+            try {
+            entity=entityClass.getDeclaredConstructor().newInstance();
+        } catch (Exception ex) {
+            throw new RuntimeException("Cannot create an instance of entity.", ex);
+        }
         }
         return entity;
     }
@@ -54,7 +62,11 @@ public abstract class BaseBean<T, D extends BaseDAO<T>> implements Serializable 
 
     public D getDao() {
         if (dao == null) {
-            dao = createDAOInstance();
+           try {
+           dao= daoClass.getDeclaredConstructor().newInstance();
+        } catch (Exception ex) {
+            throw new RuntimeException("Cannot create an instance of DAO.", ex);
+        }
         }
         return dao;
     }
@@ -62,7 +74,6 @@ public abstract class BaseBean<T, D extends BaseDAO<T>> implements Serializable 
     public void setDao(D dao) {
         this.dao = dao;
     }
-
     public List<T> getList() {
         list = getDao().readList();
         return list;
@@ -72,7 +83,5 @@ public abstract class BaseBean<T, D extends BaseDAO<T>> implements Serializable 
         this.list = list;
     }
 
-    protected abstract T createEntityInstance();
 
-    protected abstract D createDAOInstance();
 }

@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package dao;
+package controller;
 
 import java.util.List;
 
@@ -10,10 +10,16 @@ import java.util.List;
  *
  * @author Demirr
  */
-public interface BaseDAO<T> {
-    public  void create(T entity);
-    public  void update(T entity);
-    public  void delete(T entity);
-    public  List<T> readList();
-    public  T getEntityById(Long id);
+public interface Controller<T> {
+
+    public void clearForm();
+
+    public void create();
+
+    public void update();
+
+    public void delete();
+
+    public List<T> getList();
+
 }

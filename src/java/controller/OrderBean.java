@@ -4,9 +4,15 @@
  */
 package controller;
 
+import dao.CartDAO;
+import dao.CartItemDAO;
 import dao.OrderDAO;
+import dao.OrderDetailDAO;
+import entity.Cart;
+import entity.CartItem;
 import entity.Customer;
 import entity.Order;
+import entity.OrderDetail;
 import jakarta.enterprise.context.SessionScoped;
 import jakarta.inject.Named;
 import java.util.List;
@@ -17,23 +23,48 @@ import java.util.List;
  */
 @Named
 @SessionScoped
-public class OrderBean  extends  BaseBean<Order, OrderDAO>{
+public class OrderBean  extends  BaseBean<Order, OrderDAO> {
+    private CartDAO cartDAO;
+    private CartItemDAO cartItemDAO;
+    private OrderDetailDAO orderDetailDAO;
     
     public OrderBean(){
-        super(null,null);
+        super(Order.class,OrderDAO.class);
     }
 
-    public OrderBean(Order entity, OrderDAO dao) {
-        super(entity, dao);
-    }
-    
     public boolean saveOrder(Customer customer){
+        Cart cart=null;
+        OrderDetail orderDetail = new OrderDetail();
         Order order=new Order();
+        
+        cart = getCartDAO().getCartByCustomerId(customer.getId());
+        
+        
+        
         order.setCustomer(customer);
         order.setStatus(false);
+        order.setToplamTutar(cart.getToplamFiyat());
         order.setTeslimatAdresi(customer.getAddres());
+        Long orderId = getDao().createOrder(order);
+        order.setId(orderId);
         
-        getDao().saveOrder(order);
+        List<CartItem> cartItems=getCartItemDAO().getCartItemsListByCartId(cart.getId());
+        
+        for (CartItem cartItem : cartItems) {
+            orderDetail.setAdet(cartItem.getAdet());
+            orderDetail.setOrder(order);
+            orderDetail.setProduct(cartItem.getProduct());
+            getOrderDetailDAO().create(orderDetail);
+            getCartItemDAO().delete(cartItem);
+        }
+        
+        cart.setCartItems(null);
+        cart.setToplamFiyat(0);
+        cart.setCustomer(customer);        
+        getCartDAO().update(cart);
+        
+        //getDao().saveOrder(order,cartItems);
+        
         return true;
     }
 
@@ -41,16 +72,43 @@ public class OrderBean  extends  BaseBean<Order, OrderDAO>{
     public List<Order> getListByCustomerId(Long cutomerId) {
         return getDao().readListByCustumerId(cutomerId);
     }
+
+    public CartDAO getCartDAO() {
+        if(this.cartDAO==null){
+            cartDAO=new CartDAO();
+        }
+        return cartDAO;
+    }
+
+    public void setCartDAO(CartDAO cartDAO) {
+        this.cartDAO = cartDAO;
+    }
+
+    public CartItemDAO getCartItemDAO() {
+        if(this.cartItemDAO==null){
+            cartItemDAO=new CartItemDAO();
+        }
+        return cartItemDAO;
+    }
+
+    public void setCartItemDAO(CartItemDAO cartItemDAO) {
+        this.cartItemDAO = cartItemDAO;
+    }
+
+    public OrderDetailDAO getOrderDetailDAO() {
+        if(this.orderDetailDAO==null){
+            orderDetailDAO=new OrderDetailDAO();
+        }
+        return orderDetailDAO;
+    }
+
+    public void setOrderDetailDAO(OrderDetailDAO orderDetailDAO) {
+        this.orderDetailDAO = orderDetailDAO;
+    }
     
+    
+    
+     
 
-    @Override
-    protected Order createEntityInstance() {
-        return new Order();
-    }
-
-    @Override
-    protected OrderDAO createDAOInstance() {
-        return new OrderDAO();
-    }
     
 }

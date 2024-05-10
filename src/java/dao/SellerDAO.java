@@ -39,6 +39,7 @@ public class SellerDAO extends DBConnect implements BaseDAO<Seller> {
                         rs.getTimestamp("lastmodifieddate")
                 );
             }
+            st.close();
 
             return seller;
 
@@ -59,6 +60,7 @@ public class SellerDAO extends DBConnect implements BaseDAO<Seller> {
                 list.add(new Seller(rs.getLong("id"), rs.getString("firstname"), rs.getString("lastname"), rs.getString("email"),
                         rs.getString("password"), rs.getTimestamp("createddate"), rs.getTimestamp("lastmodifieddate")));
             }
+             st.close();
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
@@ -73,6 +75,7 @@ public class SellerDAO extends DBConnect implements BaseDAO<Seller> {
             st.executeUpdate("insert into seller(firstname,lastname,email,password) values ('" 
                     + seller.getFirstName() + "','" + seller.getLastName() + "',"
                     + "'" + seller.getEmail() + "','" + seller.getPassword() + "')");
+             st.close();
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
@@ -108,6 +111,7 @@ public class SellerDAO extends DBConnect implements BaseDAO<Seller> {
                         rs.getTimestamp("createddate"),
                         rs.getTimestamp("lastmodifieddate")
                 );
+                 st.close();
             
             
         }catch(Exception e){

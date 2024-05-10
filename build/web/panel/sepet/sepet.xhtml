@@ -10,30 +10,37 @@
 
     <ui:define name="content">
 
-        <div class="col-md-9">
-            <div class="container mt-3">
+
+
+        <div class="col-md-9" >
+            <div class="container mt-3" >
                 <h:form>
                     <div class="row row-cols-1 row-cols-md-3 g-4">
-                        <ui:repeat value="#{productBean.list}" var="cartItem">
+                        <ui:repeat value="#{cartBean.getCartByCuctomerId(customerBean.entity)}" var="cartItem">
+
                             <div class="col">
                                 <div class="card h-100">
 
                                     <div class="card-body">
-                                        <h5 class="card-title">#{cartItem.name}</h5>
-                                        <p class="card-text">#{cartItem.detail}</p>
-                                        <p class="card-text"><strong>Price: #{cartItem.price}</strong></p>
-                                        <p class="card-text"><small class="text-muted">Stock: #{cartItem.stock}</small></p>
+                                        <h5 class="card-title">Product Name: #{cartItem.product.name}</h5>
 
-                                        <h:commandLink action="/panel/sepet/sepet.xhtml" styleClass="btn btn-danger"
-                                                       >
+                                        <p class="card-text"><strong>Price: #{cartItem.product.price}</strong></p>
+                                        <p class="card-text"><small class="text-muted">Stock: #{cartItem.product.stock}</small></p>
+
+                                        <h:commandLink action="#{cartItemBean.deleteAndSetEntity(cartItem)}" styleClass="btn btn-danger">
                                             Sepeten Sil
                                         </h:commandLink>
-
-
+                                        
+                                        
                                     </div>
                                 </div>
                             </div>
                         </ui:repeat>
+                        <div>
+                            <h:commandLink action="#{orderBean.saveOrder(customerBean.entity)}" rendered="#{customerBean.entity.id!=null}" styleClass="btn btn-danger">
+                                            Sipariş ver
+                                        </h:commandLink>
+                        </div>
                     </div>
                 </h:form>
             </div>

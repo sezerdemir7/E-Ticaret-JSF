@@ -36,6 +36,8 @@ public class AdminDAO extends DBConnect implements BaseDAO<Admin> {
                         rs.getTimestamp("lastmodifieddate")
                 );
             }
+            st.close();
+            rs.close();
 
             return admin;
 
@@ -57,6 +59,8 @@ public class AdminDAO extends DBConnect implements BaseDAO<Admin> {
                     + ",'" + entity.getEmail() + "',"
                     + "'" + "2024-04-21 19:00:37.898743" + "'"
                     + ",'" +" 2024-04-21 19:00:37.898743"+ "')");
+            st.close();
+            
 
         } catch (Exception e) {
             System.out.println("Admin kayıt edilemedi"+e.getMessage());
@@ -80,6 +84,7 @@ public class AdminDAO extends DBConnect implements BaseDAO<Admin> {
                     + "";
 
             st.executeUpdate(query);
+            st.close();
 
         } catch (Exception e) {
             System.out.println(e.getMessage());
@@ -95,6 +100,7 @@ public class AdminDAO extends DBConnect implements BaseDAO<Admin> {
 
             String query = "delete from Admin where id = " + entity.getId();
             st.executeUpdate(query);
+            st.close();
 
         } catch (Exception e) {
             System.out.println(e.getMessage());
@@ -122,6 +128,8 @@ public class AdminDAO extends DBConnect implements BaseDAO<Admin> {
                         rs.getTimestamp("createddate"),
                         rs.getTimestamp("lastmodifieddate")));
             }
+            st.close();
+            rs.close();
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
@@ -149,6 +157,8 @@ public class AdminDAO extends DBConnect implements BaseDAO<Admin> {
                     rs.getTimestamp("createddate"),
                     rs.getTimestamp("lastmodifieddate")
             );
+            st.close();
+            rs.close();
 
         } catch (Exception e) {
             System.out.println(e.getMessage());

@@ -37,6 +37,8 @@ public class CustomerDAO extends DBConnect implements BaseDAO<Customer> {
                         rs.getTimestamp("lastmodifieddate")
                 );
             }
+            st.close();
+            rs.close();
 
             return customer;
 
@@ -60,6 +62,7 @@ public class CustomerDAO extends DBConnect implements BaseDAO<Customer> {
                     + "'" + entity.getAddres() + "')";
 
             st.executeUpdate(query);
+            st.close();
 
         } catch (Exception e) {
             System.out.println(e.getMessage());
@@ -72,17 +75,17 @@ public class CustomerDAO extends DBConnect implements BaseDAO<Customer> {
         try {
             Statement st = this.getConnect().createStatement();
             String query = "update customer set "
-                    + "firstname ='" + entity.getFirstName() + "'  "
-                    + "lastname = '" + entity.getLastName() + "' "
-                    + "password = '" + entity.getPassword() + "' "
-                    + "email = '" + entity.getEmail() + "' "
-                    + "addres = '" + entity.getAddres() + "'"
-                    + "createddate ='" + entity.getCreatedDate() + "'"
-                    + "lastmodifieddate ='" + entity.getLastModifiedDate() + "' "
-                    + "where id = '" + entity.getId() + "'"
-                    + "";
+                    + "firstname = '" + entity.getFirstName() + "', "
+                    + "lastname = '" + entity.getLastName() + "', "
+                    + "password = '" + entity.getPassword() + "', "
+                    + "email = '" + entity.getEmail() + "', "
+                    + "addres = '" + entity.getAddres() + "', "
+                    + "createddate = '" + entity.getCreatedDate() + "', "
+                    + "lastmodifieddate = '" + entity.getLastModifiedDate() + "' "
+                    + "where id = '" + entity.getId() + "'";
 
             st.executeUpdate(query);
+            st.close();
 
         } catch (Exception e) {
             System.out.println(e.getMessage());
@@ -96,6 +99,7 @@ public class CustomerDAO extends DBConnect implements BaseDAO<Customer> {
             Statement st = this.getConnect().createStatement();
 
             st.executeUpdate("delete from Customer where id = " + entity.getId());
+            st.close();
 
         } catch (Exception e) {
             System.out.println(e.getMessage());
@@ -126,6 +130,8 @@ public class CustomerDAO extends DBConnect implements BaseDAO<Customer> {
                 ));
 
             }
+            st.close();
+            rs.close();
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
@@ -155,6 +161,8 @@ public class CustomerDAO extends DBConnect implements BaseDAO<Customer> {
                     rs.getTimestamp("createddate"),
                     rs.getTimestamp("lastmodifieddate")
             );
+            st.close();
+            rs.close();
 
         } catch (Exception e) {
             System.out.println(e.getMessage());

@@ -21,22 +21,18 @@ import java.util.List;
 public class OrderDetailBean extends BaseBean<OrderDetail, OrderDetailDAO> {
 
     public OrderDetailBean() {
-        super(null, null);
-    }
-
-    public OrderDetailBean(OrderDetail entity, OrderDetailDAO dao) {
-        super(entity, dao);
+        super(OrderDetail.class, OrderDetailDAO.class);
     }
 
     public List<OrderDetail> listOrderDetailByOrder() {
-        List<OrderDetail> details=new ArrayList<>();
-        details=getDao().listOrderDetailByOrder(getEntity().getOrder());
-        for(OrderDetail detail:details){
-             System.out.println("*********");
-        System.out.println("*********");
-        System.out.println("*********");
-        System.out.println("detail id=====" +detail.getProduct().getName() );
-        System.out.println("*********");
+        List<OrderDetail> details = new ArrayList<>();
+        details = getDao().listOrderDetailByOrder(getEntity().getOrder());
+        for (OrderDetail detail : details) {
+            System.out.println("*********");
+            System.out.println("*********");
+            System.out.println("*********");
+            System.out.println("detail id=====" + detail.getProduct().getName());
+            System.out.println("*********");
         }
         return details;
 
@@ -49,18 +45,8 @@ public class OrderDetailBean extends BaseBean<OrderDetail, OrderDetailDAO> {
         System.out.println("*********");
         System.out.println("order id=====" + getEntity().getOrder().getId());
         System.out.println("*********");
-        
+
         return "/panel/order/order_detay.xhtml?faces-redirect=true";
-    }
-
-    @Override
-    protected OrderDetail createEntityInstance() {
-        return new OrderDetail();
-    }
-
-    @Override
-    protected OrderDetailDAO createDAOInstance() {
-        return new OrderDetailDAO();
     }
 
 }

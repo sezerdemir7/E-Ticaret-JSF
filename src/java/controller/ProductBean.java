@@ -20,12 +20,9 @@ import java.util.List;
 
 public class ProductBean extends BaseBean<Product, ProductDAO> {
 
-    public ProductBean(Product entity, ProductDAO dao) {
-        super(entity, dao);
-    }
 
     public ProductBean() {
-        super(null, null);
+        super(Product.class, ProductDAO.class);
     }
 
     @Override
@@ -40,15 +37,6 @@ public class ProductBean extends BaseBean<Product, ProductDAO> {
         return productList;
     }
 
-    @Override
-    protected Product createEntityInstance() {
 
-        return new Product();
-    }
-
-    @Override
-    protected ProductDAO createDAOInstance() {
-        return new ProductDAO();
-    }
 
 }
