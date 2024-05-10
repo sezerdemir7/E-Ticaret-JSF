@@ -103,6 +103,12 @@ public class ProductDAO extends DBConnect implements BaseDAO<Product> {
         }
         return productList;
     }
+    
+    
+    
+    
+    
+    
 
     public Product getEntityById(Long productId) {
 
@@ -165,6 +171,49 @@ public class ProductDAO extends DBConnect implements BaseDAO<Product> {
         Store store = null;
         try {
             PreparedStatement pst = this.getConnect().prepareStatement("SELECT * FROM Product where categoryid="+categoryId);
+
+            ResultSet rs = pst.executeQuery();
+
+            while (rs.next()) {
+                Product product = new Product();
+                product.setId(rs.getLong("id"));
+                product.setName(rs.getString("name"));
+                product.setStock(rs.getInt("stock"));
+                product.setDetail(rs.getString("detail"));
+
+                category = getCategoryDAO().getEntityById(rs.getLong("categoryid"));
+                product.setCategory(category);
+                product.setStore(store);
+
+                product.setPrice(rs.getInt("price"));
+                 product.setCreatedDate(rs.getTimestamp("createddate"));
+                product.setLastModifiedDate(rs.getTimestamp("lastmodifieddate"));
+
+                productList.add(product);
+
+                System.out.println("product listeleme işlemei başarılı");
+            }
+
+            pst.close();
+        } catch (SQLException e) {
+            
+            System.out.println("Error while reading product list: " + e.getMessage());
+        }
+        return productList;
+    }
+    
+    
+    
+    
+    
+    
+    public List<Product> listele(int cp, int epp) {
+        List<Product> productList = new ArrayList<>();
+        Category category = null;
+        Store store = null;
+        try {
+            String sql = String.format("select * from Product LIMIT %d OFFSET %d",epp,(cp)*epp);
+            PreparedStatement pst = this.getConnect().prepareStatement(sql);
 
             ResultSet rs = pst.executeQuery();
 
