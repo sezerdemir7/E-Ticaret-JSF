@@ -41,10 +41,6 @@ public class CartBean extends BaseBean<Cart, CartDAO> {
         return cartItems;
     }
 
-    public void addProductToCart(Product product) {
-
-    }
-
     public CustomerDAO getCustomerDAO() {
         if(this.customerDAO==null){
             this.customerDAO=new CustomerDAO();

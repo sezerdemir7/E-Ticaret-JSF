@@ -36,7 +36,7 @@ public class ProductDAO extends DBConnect implements BaseDAO<Product> {
                     + product.getStock() + ", '"
                     + product.getDetail() + "', "
                     + product.getPrice() + ", "
-                    + product.getStore().getId() + ", "
+                    + 1
                     + ")"; 
 
             st.executeUpdate(query);

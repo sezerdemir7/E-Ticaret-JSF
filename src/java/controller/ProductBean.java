@@ -36,9 +36,13 @@ public class ProductBean extends BaseBean<Product, ProductDAO> {
         productList = getDao().getProductListByCategoryId(categoryId);
         return productList;
     }
+    
+    public void deleteProduct(Product product){
+        getDao().delete(product);
+    }
     private List<Product> listeleme;
 
-    private int epp = 2;
+    private int epp = 3;
     private int cp = 0;
 
     public int getEpp() {
@@ -58,7 +62,7 @@ public class ProductBean extends BaseBean<Product, ProductDAO> {
     }
 
     public void next() {
-        int toplamveri = getListeleme().size();
+        int toplamveri = getListeleme().size();//6
         if (toplamveri > (cp + 1) * (epp - 1)) {
             cp++;
         }
