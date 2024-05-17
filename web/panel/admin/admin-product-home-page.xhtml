@@ -24,7 +24,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/XHtml.xhtml to edit t
         <div class="container-mt-3">
 
             <div class="col-md-7">
-                <h:form>
+                
                     <table class="table table-scriped table-hover">
                         <thead>
 
@@ -45,8 +45,6 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/XHtml.xhtml to edit t
                                     Fiyat
                                 </th>
                                 <th>
-                                    Kategori ID
-                                </th><th>
                                     Store ID
                                 </th> <th>
                                     Created Date
@@ -72,8 +70,8 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/XHtml.xhtml to edit t
                                     <td>#{product.stock}</td>
                                     <td>#{product.detail}</td>
                                     <td>#{product.price}</td>
-                                    <td>#{product.category_id}</td>
-                                    <td>#{product.store_id}</td>
+
+                                    <td>#{product.store.getId()}</td>
                                     <td>#{product.createdDate}</td>
                                     <td>#{product.lastModifiedDate}</td>
                                     <td>
@@ -84,7 +82,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/XHtml.xhtml to edit t
                                     <td>
 
                                         <h:form>
-                                            <h:commandButton value="Ürün Güncelle" styleClass="btn btn-succes" action="/panel/product/product-update.xhtml}"  actionListener="#{productBean.setEntity(product)}"/>
+                                            <h:commandButton value="Ürün Güncelle" styleClass="btn btn-primary" action="/panel/product/product-update.xhtml}"  actionListener="#{productBean.setEntity(product)}"/>
                                         </h:form>
                                     </td>
 
@@ -96,7 +94,6 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/XHtml.xhtml to edit t
 
 
                     </table>
-                </h:form>
             </div>
 
 

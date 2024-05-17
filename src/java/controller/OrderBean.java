@@ -63,7 +63,7 @@ public class OrderBean  extends  BaseBean<Order, OrderDAO> {
         cart.setCustomer(customer);        
         getCartDAO().update(cart);
         
-        getDao().saveOrder(order,cartItems);
+        //getDao().saveOrder(order,cartItems);
         
         return true;
     }

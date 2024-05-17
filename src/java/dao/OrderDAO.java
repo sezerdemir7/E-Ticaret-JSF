@@ -30,27 +30,7 @@ public class OrderDAO extends DBConnect implements BaseDAO<Order> {
     private CartItemDAO cartItemDAO;
     private OrderDetailDAO orderDetailDAO;
     
-    public boolean saveOrder(Order order,List<CartItem> cartItems) {
-        
-       
-        OrderDetail orderDetail = new OrderDetail();
-       
-        
-        Long orderId = createOrder(order);
-        order.setId(orderId);
-        for (CartItem cartItem : cartItems) {
-            orderDetail.setAdet(cartItem.getAdet());
-            orderDetail.setOrder(order);
-            orderDetail.setProduct(cartItem.getProduct());
-            getOrderDetailDAO().create(orderDetail);
-            getCartItemDAO().delete(cartItem);
-        }
-        
-        
-        
-        
-        return true;
-    }
+
     
     public long createOrder(Order entity) {
         long generatedOrderId = -1; 
@@ -159,7 +139,7 @@ public class OrderDAO extends DBConnect implements BaseDAO<Order> {
         try {
             Statement st = this.getConnect().createStatement();
             
-            ResultSet rs = st.executeQuery("select * from orders where customerid="+customerId);
+            ResultSet rs = st.executeQuery("select * from orders where customerid="+customerId +" order by id desc");
             
             while (rs.next()) {
                 Customer customer = this.getCustomerDAO().getEntityById(rs.getLong("customerid"));

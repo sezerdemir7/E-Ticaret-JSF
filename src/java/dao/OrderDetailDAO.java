@@ -25,17 +25,13 @@ public class OrderDetailDAO extends DBConnect implements BaseDAO<OrderDetail> {
 
     public List<OrderDetail> listOrderDetailByOrder(Order order) {
 
-        System.out.println("*********");
-        System.out.println("*********");
-        System.out.println("*********");
-        System.out.println("order id=====" + order.getId());
-        System.out.println("*********");
 
         List<OrderDetail> orderDetailList = new ArrayList<>();
         try {
             Statement st = this.getConnect().createStatement();
 
-            ResultSet rs = st.executeQuery("select * from orderdetail where orderid=" + order.getId());
+            ResultSet rs = st.executeQuery("SELECT * FROM orderdetail WHERE orderid = " + order.getId());
+
 
             while (rs.next()) {
                 Product product = getProductDAO().getEntityById(rs.getLong("productid"));
@@ -152,8 +148,8 @@ public class OrderDetailDAO extends DBConnect implements BaseDAO<OrderDetail> {
 
             rs.next();
 
-            Product product = this.productDAO.getEntityById(rs.getLong("productid"));
-            Order order = this.orderDAO.getEntityById(rs.getLong("orderid"));
+            Product product = this.getProductDAO().getEntityById(rs.getLong("productid"));
+            Order order = this.getOrderDAO().getEntityById(rs.getLong("orderid"));
             orderDetail = new OrderDetail(
                     rs.getInt("adet"),
                     product,

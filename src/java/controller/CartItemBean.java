@@ -35,8 +35,8 @@ public class CartItemBean extends BaseBean<CartItem, CartItemDAO> {
 
         this.getEntity().setProduct(product);
         this.getEntity().setCart(cart);
-        //this.getEntity().setToplamFiyat(product.getPrice()*1);
-        //cart.setToplamFiyat(0);//this.getEntity().getAdet()
+        this.getEntity().setToplamFiyat(product.getPrice()*1);
+        cart.setToplamFiyat(cart.getToplamFiyat()+product.getPrice());
         getCartDAO().update(cart);
 
         getDao().create(this.getEntity());
