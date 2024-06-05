@@ -6,46 +6,50 @@ package converter;
 
 import dao.ProductDAO;
 import entity.Product;
+import jakarta.ejb.EJB;
+import jakarta.enterprise.context.RequestScoped;
 import jakarta.faces.component.UIComponent;
 import jakarta.faces.context.FacesContext;
 import jakarta.faces.convert.Converter;
 import jakarta.faces.convert.FacesConverter;
+import jakarta.inject.Named;
+import java.io.Serializable;
 
 /**
  *
  * @author Demirr
  */
-
+@Named
+@RequestScoped
 @FacesConverter("productConverter")
-public class ProductConverter  implements Converter{
+public class ProductConverter  implements Converter,Serializable{
     
+    @EJB
     private ProductDAO productDAO;
 
     @Override
     public Object getAsObject(FacesContext fc, UIComponent uic, String string) {
         
-        Long id=Long.valueOf(string);
-        Product product=this.getProductDAO().getEntityById(id);
-        return product;
+        if(!string.isBlank()){
+            Long id = Long.valueOf(string);
+            return productDAO.getEntityById(id);
+        }
+        else{
+            return null;
+        }
     
     }
 
     @Override
     public String getAsString(FacesContext fc, UIComponent uic, Object t) {
-        Product product=(Product)t;
-        return String.valueOf(product.getId());
-    }
-
-    public ProductDAO getProductDAO() {
-        if(this.productDAO==null){
-            this.productDAO=new ProductDAO();
+        if(t != null){
+            Product C =(Product) t;
+            return C.getId().toString();
+        }else{
+            return "";
         }
-        return productDAO;
     }
 
-    public void setProductDAO(ProductDAO productDAO) {
-        this.productDAO = productDAO;
-    }
     
     
 }

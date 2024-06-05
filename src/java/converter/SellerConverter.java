@@ -6,43 +6,48 @@ package converter;
 
 import dao.SellerDAO;
 import entity.Seller;
+import jakarta.ejb.EJB;
+import jakarta.enterprise.context.RequestScoped;
 import jakarta.faces.component.UIComponent;
 import jakarta.faces.context.FacesContext;
 import jakarta.faces.convert.Converter;
 import jakarta.faces.convert.FacesConverter;
+import jakarta.inject.Named;
+import java.io.Serializable;
 
 /**
  *
  * @author Demirr
  */
-@FacesConverter("storeConverter")
-public class SellerConverter implements Converter{
+@Named
+@RequestScoped
+@FacesConverter(value = "sellerConverter", managed = true)
+public class SellerConverter implements Converter, Serializable{
     
-    private SellerDAO SellerDAO;
+    @EJB
+    private SellerDAO sellerDAO;
 
     @Override
     public Object getAsObject(FacesContext fc, UIComponent uic, String string) {
 
-        Long id = Long.valueOf(string);
-        Seller store = this.getSellerDAO().getEntityById(id);
-        return store;
+         if(!string.isBlank()){
+            Long id = Long.valueOf(string);
+            return sellerDAO.getEntityById(id);
+        }
+        else{
+            return null;
+        }
 
     }
 
     @Override
     public String getAsString(FacesContext fc, UIComponent uic, Object t) {
-        Seller store = (Seller) t;
-        return String.valueOf(store.getId());
-    }
-
-    public SellerDAO getSellerDAO() {
-        if(this.SellerDAO==null){
-            this.SellerDAO=new SellerDAO();
+        if(t != null){
+            Seller C =(Seller) t;
+            return C.getId().toString();
+        }else{
+            return "";
         }
-        return SellerDAO;
     }
 
-    public void setSellerDAO(SellerDAO SellerDAO) {
-        this.SellerDAO = SellerDAO;
-    }
 }

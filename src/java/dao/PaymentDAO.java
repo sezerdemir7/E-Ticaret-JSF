@@ -6,18 +6,29 @@ package dao;
 
 import entity.Customer;
 import entity.Payment;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
-import util.DBConnect;
 
 /**
  *
  * @author serki
  */
-public class PaymentDAO extends DBConnect implements BaseDAO<Payment> {
+public class PaymentDAO extends BaseDAO<Payment> {
 
+    public PaymentDAO() {
+        super(Payment.class);
+    }
+
+   
+    
+    
+    
+}
+/*
     private CustomerDAO customerDAO;
 
     @Override
@@ -141,3 +152,4 @@ public class PaymentDAO extends DBConnect implements BaseDAO<Payment> {
     }
 
 }
+*/

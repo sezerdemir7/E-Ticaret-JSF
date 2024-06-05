@@ -5,10 +5,14 @@
 package dao;
 
 import entity.Category;
-import util.DBConnect;
 import entity.Product;
 import entity.Seller;
 import entity.Store;
+import jakarta.ejb.Stateless;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
+import jakarta.persistence.Query;
+import jakarta.persistence.TypedQuery;
 import java.sql.SQLException;
 import java.sql.*;
 import java.sql.PreparedStatement;
@@ -19,8 +23,85 @@ import java.util.List;
  *
  * @author Demirr
  */
-public class ProductDAO extends DBConnect implements BaseDAO<Product> {
 
+@Stateless
+public class ProductDAO extends BaseDAO<Product> {
+    
+    public ProductDAO(){
+        super(Product.class);
+    }
+    
+    public List<Product> listele(int cp, int epp) {
+        List<Product> productList;
+        try {
+           // String jpql = ;
+            TypedQuery<Product> query = em.createQuery("SELECT p FROM Product p", Product.class);
+            query.setFirstResult((cp-1) * epp);
+            query.setMaxResults(epp);
+            productList = query.getResultList();
+            System.out.println("product listeleme işlemi başarılı");
+        } catch (Exception e) {
+            System.out.println("Error while reading product list: " + e.getMessage());
+            productList = new ArrayList<>();
+        }
+        return productList;
+    }
+    
+    public int Count(){
+        int count =0;
+        try {
+            Query query = em.createQuery("select COUNT(product_id) AS toplam from product");
+        count = ((Long) query.getSingleResult()).intValue();
+        } catch (Exception e) {
+            System.out.println("ürün sayısı hesaplanmadı "+e.getMessage());
+        }
+        return count ;
+    }
+    
+    
+}
+    
+    
+    /*
+     public List<Product> listele(int cp, int epp) {
+       List<Product> productList = new ArrayList<>();
+        /* Category category = null;
+        Store store = null;
+        try {
+            String sql = String.format("select * from Product LIMIT %d OFFSET %d", epp, (cp) * epp);
+            PreparedStatement pst = this.getConnect().prepareStatement(sql);
+
+            ResultSet rs = pst.executeQuery();
+
+            while (rs.next()) {
+                Product product = new Product();
+                product.setId(rs.getLong("id"));
+                product.setName(rs.getString("name"));
+                product.setStock(rs.getInt("stock"));
+                product.setDetail(rs.getString("detail"));
+
+                product.setCategories(this.getProductCategories(rs.getLong("id")));
+                product.setStore(store);
+
+                product.setPrice(rs.getInt("price"));
+                product.setCreatedDate(rs.getTimestamp("createddate"));
+                product.setLastModifiedDate(rs.getTimestamp("lastmodifieddate"));
+
+                productList.add(product);
+
+                System.out.println("product listeleme işlemei başarılı");
+            }
+
+            pst.close();
+        } catch (SQLException e) {
+
+            System.out.println("Error while reading product list: " + e.getMessage());
+        }
+        return productList;
+    }
+    
+}
+/*
     
     private StoreDAO storeDAO;
 
@@ -276,3 +357,4 @@ public class ProductDAO extends DBConnect implements BaseDAO<Product> {
     }
 
 }
+*/

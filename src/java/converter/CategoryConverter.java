@@ -6,46 +6,49 @@ package converter;
 
 import dao.CategoryDAO;
 import entity.Category;
-import entity.Product;
+import jakarta.ejb.EJB;
+import jakarta.enterprise.context.RequestScoped;
 import jakarta.faces.component.UIComponent;
 import jakarta.faces.context.FacesContext;
 import jakarta.faces.convert.Converter;
 import jakarta.faces.convert.FacesConverter;
+import jakarta.inject.Named;
+import java.io.Serializable;
 
 /**
  *
  * @author Demirr
  */
-@FacesConverter("categoryConverter")
-public class CategoryConverter implements Converter {
-
+@Named
+@RequestScoped
+@FacesConverter(value = "categoryConverter", managed = true)
+public class CategoryConverter implements Converter, Serializable {
+    @EJB
     private CategoryDAO categoryDAO;
 
     @Override
     public Object getAsObject(FacesContext fc, UIComponent uic, String string) {
 
-        Long id = Long.valueOf(string);
-        Category category = this.getCategoryDAO().getEntityById(id);
-        return category;
+        if(!string.isBlank()){
+            Long id = Long.valueOf(string);
+            return categoryDAO.getEntityById(id);
+        }
+        else{
+            return null;
+        }
 
     }
 
     @Override
     public String getAsString(FacesContext fc, UIComponent uic, Object t) {
-        Category category = (Category) t;
-        return String.valueOf(category.getId());
-    }
-
-    public CategoryDAO getCategoryDAO() {
-        if(this.categoryDAO==null){
-            this.categoryDAO=new CategoryDAO();
+        if(t != null){
+            Category C =(Category) t;
+            return C.getId().toString();
+        }else{
+            return "";
         }
-        return categoryDAO;
     }
 
-    public void setCategoryDAO(CategoryDAO categoryDAO) {
-        this.categoryDAO = categoryDAO;
-    }
-    
+  
 
 }

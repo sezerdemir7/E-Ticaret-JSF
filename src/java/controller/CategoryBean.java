@@ -6,8 +6,11 @@ package controller;
 
 import dao.CategoryDAO;
 import entity.Category;
+import jakarta.ejb.EJB;
 import jakarta.enterprise.context.SessionScoped;
 import jakarta.inject.Named;
+import java.io.Serializable;
+import java.util.List;
 
 /**
  *
@@ -15,10 +18,41 @@ import jakarta.inject.Named;
  */
 @Named
 @SessionScoped
-public class CategoryBean extends BaseBean<Category, CategoryDAO> {
+public class CategoryBean extends BaseBean<Category> implements Serializable {
+
+    @EJB
+    private CategoryDAO dao;
 
     public CategoryBean() {
-        super(Category.class, CategoryDAO.class);
+        super(Category.class);
+    }
+
+    @Override
+    public void create() {
+        this.dao.create(entity);
+        this.clearForm();
+    }
+
+    @Override
+    public void update() {
+        this.dao.update(entity);
+        this.clearForm();
+    }
+
+    @Override
+    public void delete() {
+        this.dao.delete(entity);
+        this.clearForm();
+    }
+
+    @Override
+    public List<Category> getList() {
+        return this.dao.readList();
+    }
+
+    @Override
+    public Category getEntityById(Long id) {
+        return this.dao.getEntityById(id);
     }
 
 }

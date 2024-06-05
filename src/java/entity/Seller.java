@@ -4,14 +4,18 @@
  */
 package entity;
 
+import jakarta.persistence.Entity;
 import java.sql.Timestamp;
 
 /**
  *
  * @author Demirr
  */
+
+@Entity
 public class Seller extends BaseUser {
 
+ 
     public Seller() {
     }
 

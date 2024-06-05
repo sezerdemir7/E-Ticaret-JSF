@@ -6,45 +6,47 @@ package converter;
 
 import dao.CustomerDAO;
 import entity.Customer;
+import jakarta.ejb.EJB;
+import jakarta.enterprise.context.RequestScoped;
 import jakarta.faces.component.UIComponent;
 import jakarta.faces.context.FacesContext;
 import jakarta.faces.convert.Converter;
 import jakarta.faces.convert.FacesConverter;
+import jakarta.inject.Named;
+import java.io.Serializable;
 
 /**
  *
  * @author Demirr
  */
-@FacesConverter("customerConverter")
-public class CustomerConverter implements Converter {
+@Named
+@RequestScoped
+@FacesConverter(  value = "customerConverter", managed = true)
+public class CustomerConverter implements Converter, Serializable {
 
+    @EJB
     private CustomerDAO CustomerDAO;
 
     @Override
     public Object getAsObject(FacesContext fc, UIComponent uic, String string) {
 
-        Long id = Long.valueOf(string);
-        Customer customer = this.getCustomerDAO().getEntityById(id);
-        return customer;
+        if (!string.isBlank()) {
+            Long id = Long.valueOf(string);
+            return CustomerDAO.getEntityById(id);
+        } else {
+            return null;
+        }
 
     }
 
     @Override
     public String getAsString(FacesContext fc, UIComponent uic, Object t) {
-        Customer customer = (Customer) t;
-        return String.valueOf(customer.getId());
-    }
-
-    public CustomerDAO getCustomerDAO() {
-        if(this.CustomerDAO==null){
-            this.CustomerDAO=new CustomerDAO();
+        if (t != null) {
+            Customer C = (Customer) t;
+            return C.getId().toString();
+        } else {
+            return "";
         }
-        return CustomerDAO;
     }
-
-    public void setCustomerDAO(CustomerDAO CustomerDAO) {
-        this.CustomerDAO = CustomerDAO;
-    }
-    
 
 }

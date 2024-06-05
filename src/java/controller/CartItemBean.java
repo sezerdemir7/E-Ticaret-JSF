@@ -4,14 +4,12 @@
  */
 package controller;
 
-import dao.CartDAO;
 import dao.CartItemDAO;
-import entity.Cart;
 import entity.CartItem;
-import entity.Customer;
-import entity.Product;
+import jakarta.ejb.EJB;
 import jakarta.enterprise.context.SessionScoped;
 import jakarta.inject.Named;
+import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -20,10 +18,46 @@ import java.util.List;
  */
 @Named
 @SessionScoped
-public class CartItemBean extends BaseBean<CartItem, CartItemDAO> {
+public class CartItemBean extends BaseBean<CartItem> implements Serializable {
 
-    private CartDAO cartDAO;
+    @EJB
+    private CartItemDAO dao;
 
+    public CartItemBean() {
+        super(CartItem.class);
+    }
+
+    @Override
+    public void create() {
+        this.dao.create(entity);
+        this.clearForm();
+    }
+
+    @Override
+    public void update() {
+        this.dao.update(entity);
+        this.clearForm();
+    }
+
+    @Override
+    public void delete() {
+        this.dao.delete(entity);
+        this.clearForm();
+    }
+
+    @Override
+    public List<CartItem> getList() {
+        return this.dao.readList();
+    }
+
+    @Override
+    public CartItem getEntityById(Long id) {
+        return this.dao.getEntityById(id);
+    }
+
+}
+
+/*
     public CartItemBean() {
         super(CartItem.class, CartItemDAO.class);
     }
@@ -64,3 +98,4 @@ public class CartItemBean extends BaseBean<CartItem, CartItemDAO> {
     }
 
 }
+ */

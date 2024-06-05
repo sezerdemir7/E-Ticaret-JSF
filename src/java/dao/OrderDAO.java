@@ -7,31 +7,37 @@ package dao;
 import entity.Cart;
 import entity.CartItem;
 import entity.Customer;
-import entity.Order;
 import entity.OrderDetail;
+import entity.Orders;
 import entity.Payment;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.sql.Timestamp;
 
 import java.util.ArrayList;
 import java.util.List;
-import util.DBConnect;
 
 /**
  *
  * @author serki
  */
-public class OrderDAO extends DBConnect implements BaseDAO<Order> {
+public class OrderDAO extends BaseDAO<Orders> {
+
+
+    public OrderDAO() {
+        super(Orders.class);
+    }
+
+    /*
     
     private CustomerDAO customerDAO;
     private PaymentDAO paymentDAO;
     private CartDAO cartDAO;
     private CartItemDAO cartItemDAO;
     private OrderDetailDAO orderDetailDAO;
-    
 
-    
     public long createOrder(Order entity) {
         long generatedOrderId = -1; 
 
@@ -290,5 +296,5 @@ public class OrderDAO extends DBConnect implements BaseDAO<Order> {
     public void setOrderDetailDAO(OrderDetailDAO orderDetailDAO) {
         this.orderDetailDAO = orderDetailDAO;
     }
-    
+     */
 }

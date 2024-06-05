@@ -6,18 +6,26 @@ package dao;
 
 import java.sql.Statement;
 import entity.Category;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
 import java.sql.ResultSet;
 
 import java.util.ArrayList;
 import java.util.List;
-import util.DBConnect;
 
 /**
  *
  * @author serki
  */
-public class CategoryDAO extends DBConnect implements BaseDAO<Category> {
+public class CategoryDAO extends BaseDAO<Category> {
 
+    public CategoryDAO() {
+        super(Category.class);
+    }
+
+}
+
+    /*
     @Override
     public void create(Category entity) {
 
@@ -125,3 +133,4 @@ public class CategoryDAO extends DBConnect implements BaseDAO<Category> {
     }
 
 }
+*/

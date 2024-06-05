@@ -4,27 +4,36 @@
  */
 package entity;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.ManyToMany;
 import java.sql.Timestamp;
+import java.util.List;
 
 /**
  *
  * @author Demirr
  */
-public class Category extends BaseEntity{
+@Entity
+public class Category extends BaseEntity {
+
     private String name;
+
+    @ManyToMany(mappedBy = "categories")
+    private List<Product> products;
 
     public Category() {
     }
-    
- 
 
-    public Category(Long id,String name, Timestamp createdDate, Timestamp lastModifiedDate) {
+    public Category(String name, List<Product> products, Long id, Timestamp createdDate, Timestamp lastModifiedDate) {
         super(id, createdDate, lastModifiedDate);
-        this.name=name;
+        this.name = name;
+        this.products = products;
     }
 
-    public Category(String name) {
+    public Category(String name, List<Product> products, Timestamp createdDate, Timestamp lastModifiedDate) {
+        super(createdDate, lastModifiedDate);
         this.name = name;
+        this.products = products;
     }
 
     public String getName() {
@@ -35,11 +44,17 @@ public class Category extends BaseEntity{
         this.name = name;
     }
 
+    public List<Product> getProducts() {
+        return products;
+    }
+
+    public void setProducts(List<Product> products) {
+        this.products = products;
+    }
+
     @Override
     public String toString() {
         return name;
     }
-    
-    
-}
 
+}
