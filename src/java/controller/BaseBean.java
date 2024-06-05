@@ -4,54 +4,44 @@
  */
 package controller;
 
-import dao.BaseDAO;
-import jakarta.enterprise.context.SessionScoped;
-
 import java.io.Serializable;
-
+import java.lang.reflect.InvocationTargetException;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
-public abstract class BaseBean<T, D extends BaseDAO<T>> implements Serializable {
+public abstract class BaseBean<T> implements Serializable {
 
-    private T entity;
-    private D dao;
+    protected T entity;
     private List<T> list;
-    private Class<T> entityClass;
-    private Class<D> daoClass;
+    private  final Class<T> entityClass;
 
-    public BaseBean(Class<T> ec,Class<D> dc) {
-       this.entityClass=ec;
-       this.daoClass=dc;
+    public BaseBean(Class<T> entityClass) {
+        this.entityClass = entityClass;
     }
-    public BaseBean(){
-        
-    }
+
+
+    public abstract void create();
+    public abstract void update();
+    public abstract void delete();
+    public abstract List<T> getList();
+    public abstract T getEntityById(Long id);
+
     
-     public void clearForm(){
-        this.entity=null;
+    public void clearForm() {
+        try {
+            this.entity = entityClass.getDeclaredConstructor().newInstance();
+        } catch (NoSuchMethodException | SecurityException | InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException ex) {
+            Logger.getLogger(BaseBean.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
-    
-
-    public void create() {        
-        getDao().create(getEntity());
-        clearForm();
-    }
-
-    public void update() {
-        getDao().update(getEntity());
-    }
-
-    public void delete() {
-        getDao().delete(getEntity());
-    }
-
     public T getEntity() {
         if (entity == null) {
             try {
-            entity=entityClass.getDeclaredConstructor().newInstance();
-        } catch (Exception ex) {
-            throw new RuntimeException("Cannot create an instance of entity.", ex);
-        }
+                entity = entityClass.getDeclaredConstructor().newInstance();
+            } catch (Exception ex) {
+                throw new RuntimeException("Cannot create an instance of entity.", ex);
+            }
         }
         return entity;
     }
@@ -59,29 +49,5 @@ public abstract class BaseBean<T, D extends BaseDAO<T>> implements Serializable 
     public void setEntity(T entity) {
         this.entity = entity;
     }
-
-    public D getDao() {
-        if (dao == null) {
-           try {
-           dao= daoClass.getDeclaredConstructor().newInstance();
-        } catch (Exception ex) {
-            throw new RuntimeException("Cannot create an instance of DAO.", ex);
-        }
-        }
-        return dao;
-    }
-
-    public void setDao(D dao) {
-        this.dao = dao;
-    }
-    public List<T> getList() {
-        list = getDao().readList();
-        return list;
-    }
-
-    public void setList(List<T> list) {
-        this.list = list;
-    }
-
 
 }

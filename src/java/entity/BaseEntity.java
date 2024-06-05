@@ -3,11 +3,21 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package entity;
+
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
 import java.sql.Timestamp;
 import java.util.Objects;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.MappedSuperclass;
+import jakarta.persistence.PrePersist;
+import jakarta.persistence.PreUpdate;
 
+@MappedSuperclass
 public abstract class BaseEntity {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private Timestamp createdDate;
     private Timestamp lastModifiedDate;
@@ -17,16 +27,26 @@ public abstract class BaseEntity {
 
     public BaseEntity(Long id, Timestamp createdDate, Timestamp lastModifiedDate) {
         this.id = id;
-        this.createdDate =  new Timestamp(System.currentTimeMillis());
-        this.lastModifiedDate =  new Timestamp(System.currentTimeMillis());
+        this.createdDate = new Timestamp(System.currentTimeMillis());
+        this.lastModifiedDate = new Timestamp(System.currentTimeMillis());
     }
 
     public BaseEntity(Timestamp createdDate, Timestamp lastModifiedDate) {
-        this.createdDate =  new Timestamp(System.currentTimeMillis());
-        this.lastModifiedDate =  new Timestamp(System.currentTimeMillis());
+        this.createdDate = new Timestamp(System.currentTimeMillis());
+        this.lastModifiedDate = new Timestamp(System.currentTimeMillis());
     }
     
+    @PrePersist
+    protected void onCreate(){
+        this.createdDate = new Timestamp(System.currentTimeMillis());
+        this.lastModifiedDate = new Timestamp(System.currentTimeMillis());
+    }
 
+    @PreUpdate
+    protected void onUpdate(){
+        this.lastModifiedDate = new Timestamp(System.currentTimeMillis());
+    }
+            
     public Long getId() {
         return id;
     }
@@ -36,7 +56,7 @@ public abstract class BaseEntity {
     }
 
     public Timestamp getCreatedDate() {
-        return  new Timestamp(System.currentTimeMillis());
+        return new Timestamp(System.currentTimeMillis());
     }
 
     public void setCreatedDate(Timestamp createdDate) {
@@ -44,12 +64,14 @@ public abstract class BaseEntity {
     }
 
     public Timestamp getLastModifiedDate() {
-        return  new Timestamp(System.currentTimeMillis());
+        return new Timestamp(System.currentTimeMillis());
     }
 
     public void setLastModifiedDate(Timestamp lastModifiedDate) {
         this.lastModifiedDate = lastModifiedDate;
     }
+    
+    
 
     @Override
     public int hashCode() {
@@ -72,5 +94,5 @@ public abstract class BaseEntity {
         final BaseEntity other = (BaseEntity) obj;
         return Objects.equals(this.id, other.id);
     }
-    
+
 }

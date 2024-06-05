@@ -6,19 +6,25 @@ package dao;
 
 import entity.Favorite;
 import entity.Product;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
-import util.DBConnect;
 
 /**
  *
  * @author serki
  */
-public class FavoriteDAO extends DBConnect implements BaseDAO<Favorite> {
+public class FavoriteDAO extends BaseDAO<Favorite> {
     
-    private ProductDAO productDAO;
+    public FavoriteDAO() {
+        super(Favorite.class);
+    }
+    
+    
+   /* private ProductDAO productDAO;
 
     public ProductDAO getProductDAO() {
         if(this.productDAO==null){
@@ -89,6 +95,6 @@ public class FavoriteDAO extends DBConnect implements BaseDAO<Favorite> {
     @Override
     public Favorite getEntityById(Long id) {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
+    }*/
 
 }

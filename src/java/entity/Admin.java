@@ -4,12 +4,15 @@
  */
 package entity;
 
+
+import jakarta.persistence.Entity;
 import java.sql.Timestamp;
 
 /**
  *
  * @author serki
  */
+@Entity
 public class Admin  extends BaseUser{
 
     public Admin() {

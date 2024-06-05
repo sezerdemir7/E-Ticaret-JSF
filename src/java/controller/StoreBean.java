@@ -5,10 +5,12 @@
 package controller;
 
 import dao.StoreDAO;
-import entity.Seller;
 import entity.Store;
+import jakarta.ejb.EJB;
 import jakarta.enterprise.context.SessionScoped;
 import jakarta.inject.Named;
+import java.io.Serializable;
+import java.util.List;
 
 /**
  *
@@ -16,18 +18,48 @@ import jakarta.inject.Named;
  */
 @Named
 @SessionScoped
-public class StoreBean extends BaseBean<Store, StoreDAO>  {
+public class StoreBean extends BaseBean<Store> implements Serializable {
 
-    private StoreDAO storeDAO;
+    @EJB
+    private StoreDAO dao;
 
     public StoreBean() {
-        super(Store.class, StoreDAO.class);
+        super(Store.class);
     }
-    
-   public Store getStoreBySellerId(long sellerId){
+
+    @Override
+    public void create() {
+        this.dao.create(entity);
+        this.clearForm();
+    }
+
+    @Override
+    public void update() {
+        this.dao.update(entity);
+        this.clearForm();
+    }
+
+    @Override
+    public void delete() {
+        this.dao.delete(entity);
+        this.clearForm();
+    }
+
+    @Override
+    public List<Store> getList() {
+        return this.dao.readList();
+    }
+
+    @Override
+    public Store getEntityById(Long id) {
+        return this.dao.getEntityById(id);
+    }
+
+}
+/* public Store getStoreBySellerId(long sellerId){
        return getStoreDAO().getStoreBySellerId(sellerId);
-   }
-    
+   }*/
+    /*
     public void create(Seller seller) {
         this.getEntity().setSeller(seller);
         super.create(); 
@@ -49,3 +81,4 @@ public class StoreBean extends BaseBean<Store, StoreDAO>  {
 
     
 }
+*/

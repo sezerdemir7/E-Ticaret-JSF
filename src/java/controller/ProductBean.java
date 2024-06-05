@@ -7,9 +7,10 @@ package controller;
 
 import dao.ProductDAO;
 import entity.Product;
+import jakarta.ejb.EJB;
 import jakarta.enterprise.context.SessionScoped;
 import jakarta.inject.Named;
-import java.util.ArrayList;
+import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -19,31 +20,45 @@ import java.util.List;
 @Named
 @SessionScoped
 
-public class ProductBean extends BaseBean<Product, ProductDAO> {
+public class ProductBean extends BaseBean<Product> implements Serializable {
+
+    @EJB
+    private ProductDAO dao;
 
     public ProductBean() {
-        super(Product.class, ProductDAO.class);
+        super(Product.class);
     }
 
     @Override
     public void create() {
-
-        super.create();
+        this.dao.create(entity);
+        this.clearForm();
     }
 
-    public List<Product> getProductListByCategoryId(Long categoryId) {
-        List<Product> productList = new ArrayList<>();
-        productList = getDao().getProductListByCategoryId(categoryId);
-        return productList;
+    @Override
+    public void update() {
+        this.dao.update(entity);
+        this.clearForm();
     }
-    
-    public void deleteProduct(Product product){
-        getDao().delete(product);
+
+    @Override
+    public void delete() {
+        this.dao.delete(entity);
+        this.clearForm();
     }
-    private List<Product> listeleme;
 
     private int epp = 3;
-    private int cp = 0;
+    private int cp = 1;
+    private int pageValue;
+
+    public int getPagesize() {
+        this.pageValue = (int) Math.ceil(this.dao.Count() / (double) epp);
+        return pageValue;
+    }
+
+    public void setPagesize(int pageValue) {
+        this.pageValue = pageValue;
+    }
 
     public int getEpp() {
         return epp;
@@ -62,25 +77,40 @@ public class ProductBean extends BaseBean<Product, ProductDAO> {
     }
 
     public void next() {
-        int toplamveri = getListeleme().size();//6
-        if (toplamveri > (cp + 1) * (epp - 1)) {
-            cp++;
+        if (this.cp == this.getPagesize()) {
+            this.cp = 1;
+        } else {
+            this.cp++;
         }
 
     }
 
     public void prev() {
-        if (cp > 0) {
-            cp--;
+        if (cp == 1) {
+            this.cp = this.getPagesize();
+        } else {
+            this.cp--;
         }
-
     }
 
-    public List<Product> getListeleme() {
-        return this.getDao().listele(this.getCp(), this.getEpp());
+    @Override
+    public List<Product> getList() {
+        return this.dao.listele(this.getCp(), this.getEpp());
     }
-    
-    
-   
 
+    @Override
+    public Product getEntityById(Long id) {
+        return this.dao.getEntityById(id);
+    }
+
+    /* public List<Product> getProductListByCategoryId(Long categoryId) {
+        List<Product> productList = new ArrayList<>();
+        productList = getDao().getProductListByCategoryId(categoryId);
+        return productList;
+    }
+     */
+ /* public void deleteProduct(Product product){
+        getDao().delete(product);
+    }*/
+    //private List<Product> listeleme;
 }

@@ -5,11 +5,11 @@
 package controller;
 
 import dao.FavoriteDAO;
-import dao.ProductDAO;
 import entity.Favorite;
-import entity.Product;
+import jakarta.ejb.EJB;
 import jakarta.enterprise.context.SessionScoped;
 import jakarta.inject.Named;
+import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -18,14 +18,42 @@ import java.util.List;
  */
 @Named
 @SessionScoped
-public class FavoriteBean extends BaseBean<Favorite, FavoriteDAO> {
+public class FavoriteBean extends BaseBean<Favorite> implements Serializable{
 
+    @EJB
+    private FavoriteDAO dao;
     public FavoriteBean() {
-        super(Favorite.class, FavoriteDAO.class);
+        super(Favorite.class);
+    }
+    
+     @Override
+    public void create() {
+        this.dao.create(entity);
+        this.clearForm();
     }
 
-    public List<Product> getListProduct() {
-        return this.getDao().getFavoriteListByCustomerId(1L);
+    @Override
+    public void update() {
+        this.dao.update(entity);
+        this.clearForm();
     }
+
+    @Override
+    public void delete() {
+        this.dao.delete(entity);
+        this.clearForm();
+    }
+
+    @Override
+    public List<Favorite> getList() {
+        return this.dao.readList();
+    }
+     @Override
+    public Favorite getEntityById(Long id) {
+        return this.dao.getEntityById(id);
+    }
+
+
+   
 
 }

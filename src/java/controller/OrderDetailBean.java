@@ -5,11 +5,11 @@
 package controller;
 
 import dao.OrderDetailDAO;
-import entity.Order;
 import entity.OrderDetail;
+import jakarta.ejb.EJB;
 import jakarta.enterprise.context.SessionScoped;
 import jakarta.inject.Named;
-import java.util.ArrayList;
+import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -18,12 +18,46 @@ import java.util.List;
  */
 @Named
 @SessionScoped
-public class OrderDetailBean extends BaseBean<OrderDetail, OrderDetailDAO> {
+public class OrderDetailBean extends BaseBean<OrderDetail> implements Serializable {
+
+    @EJB
+    private OrderDetailDAO dao;
 
     public OrderDetailBean() {
-        super(OrderDetail.class, OrderDetailDAO.class);
+        super(OrderDetail.class);
     }
 
+    @Override
+    public void create() {
+        this.dao.create(entity);
+        this.clearForm();
+    }
+
+    @Override
+    public void update() {
+        this.dao.update(entity);
+        this.clearForm();
+    }
+
+    @Override
+    public void delete() {
+        this.dao.delete(entity);
+        this.clearForm();
+    }
+
+    @Override
+    public List<OrderDetail> getList() {
+        return this.dao.readList();
+    }
+
+    @Override
+    public OrderDetail getEntityById(Long id) {
+        return this.dao.getEntityById(id);
+    }
+
+}
+
+/*
     public List<OrderDetail> listOrderDetailByOrder() {
         List<OrderDetail> details = new ArrayList<>();
         details = getDao().listOrderDetailByOrder(getEntity().getOrder());
@@ -50,3 +84,4 @@ public class OrderDetailBean extends BaseBean<OrderDetail, OrderDetailDAO> {
     }
 
 }
+*/

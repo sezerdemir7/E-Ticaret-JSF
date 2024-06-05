@@ -6,20 +6,44 @@ package dao;
 
 import entity.Seller;
 import entity.Store;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import util.DBConnect;
 
 /**
  *
  * @author serki
  */
-public class StoreDAO extends DBConnect implements BaseDAO<Store> {
+public class StoreDAO extends BaseDAO<Store> {
 
+  
+    public StoreDAO() {
+        super(Store.class);
+    }
+
+
+    public void saveStore(Store entity) {
+        try {
+            Seller seller = em.find(Seller.class, entity.getSeller().getId());
+            if (seller == null) {
+                throw new IllegalArgumentException("seller not found!");
+            }
+
+            entity.setSeller(seller);
+            em.persist(seller);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+}
+
+/*
     private SellerDAO sellerDAO;
 
     @Override
@@ -174,3 +198,4 @@ public class StoreDAO extends DBConnect implements BaseDAO<Store> {
     
 
 }
+ */

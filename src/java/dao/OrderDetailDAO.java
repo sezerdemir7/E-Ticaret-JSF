@@ -4,23 +4,30 @@
  */
 package dao;
 
-import entity.Order;
 import entity.OrderDetail;
 import entity.Product;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
-import util.DBConnect;
 
 /**
  *
  * @author serki
  */
-public class OrderDetailDAO extends DBConnect implements BaseDAO<OrderDetail> {
+public class OrderDetailDAO extends BaseDAO<OrderDetail> {
 
-    private ProductDAO productDAO;
+    public OrderDetailDAO() {
+        super(OrderDetail.class);
+    }
+
+}
+
+
+/*  private ProductDAO productDAO;
     private OrderDAO orderDAO;
 
     public List<OrderDetail> listOrderDetailByOrder(Order order) {
@@ -190,5 +197,4 @@ public class OrderDetailDAO extends DBConnect implements BaseDAO<OrderDetail> {
     public void setOrderDAO(OrderDAO orderDAO) {
         this.orderDAO = orderDAO;
     }
-
-}
+ */

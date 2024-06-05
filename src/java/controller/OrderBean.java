@@ -4,17 +4,12 @@
  */
 package controller;
 
-import dao.CartDAO;
-import dao.CartItemDAO;
 import dao.OrderDAO;
-import dao.OrderDetailDAO;
-import entity.Cart;
-import entity.CartItem;
-import entity.Customer;
-import entity.Order;
-import entity.OrderDetail;
+import entity.Orders;
+import jakarta.ejb.EJB;
 import jakarta.enterprise.context.SessionScoped;
 import jakarta.inject.Named;
+import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -23,15 +18,46 @@ import java.util.List;
  */
 @Named
 @SessionScoped
-public class OrderBean  extends  BaseBean<Order, OrderDAO> {
-    private CartDAO cartDAO;
-    private CartItemDAO cartItemDAO;
-    private OrderDetailDAO orderDetailDAO;
-    
-    public OrderBean(){
-        super(Order.class,OrderDAO.class);
+public class OrderBean extends BaseBean<Orders> implements Serializable {
+
+    @EJB
+    private OrderDAO dao;
+
+    public OrderBean() {
+        super(Orders.class);
     }
 
+    @Override
+    public void create() {
+        this.dao.create(entity);
+        this.clearForm();
+    }
+
+    @Override
+    public void update() {
+        this.dao.update(entity);
+        this.clearForm();
+    }
+
+    @Override
+    public void delete() {
+        this.dao.delete(entity);
+        this.clearForm();
+    }
+
+    @Override
+    public List<Orders> getList() {
+        return this.dao.readList();
+    }
+
+    @Override
+    public Orders getEntityById(Long id) {
+        return this.dao.getEntityById(id);
+    }
+
+}
+    
+/*
     public boolean saveOrder(Customer customer){
         Cart cart=null;
         OrderDetail orderDetail = new OrderDetail();
@@ -112,3 +138,4 @@ public class OrderBean  extends  BaseBean<Order, OrderDAO> {
 
     
 }
+*/

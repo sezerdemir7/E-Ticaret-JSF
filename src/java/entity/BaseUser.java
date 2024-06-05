@@ -3,14 +3,23 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import java.sql.Timestamp;
-import java.util.Date;
+import jakarta.persistence.Id;
+import jakarta.persistence.MappedSuperclass;
+import jakarta.persistence.PrePersist;
+import jakarta.persistence.PreUpdate;
 
 /**
  *
  * @author Demirr
  */
+@MappedSuperclass
 public abstract class BaseUser {
+    
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String firstName;
     private String lastName;
@@ -18,6 +27,7 @@ public abstract class BaseUser {
     private String email;
     private Timestamp createdDate;
     private Timestamp lastModifiedDate;
+    
 
     public BaseUser() {
     }
@@ -31,7 +41,7 @@ public abstract class BaseUser {
         this.createdDate = new Timestamp(System.currentTimeMillis());
         this.lastModifiedDate =  new Timestamp(System.currentTimeMillis());
     }
-        public BaseUser( String firstName, String lastName, String password, String email, Timestamp createdDate, Timestamp lastModifiedDate) {
+    public BaseUser( String firstName, String lastName, String password, String email, Timestamp createdDate, Timestamp lastModifiedDate) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.password = password;
@@ -41,6 +51,16 @@ public abstract class BaseUser {
     }
 
 
+     @PrePersist
+    protected void onCreate(){
+        this.createdDate = new Timestamp(System.currentTimeMillis());
+        this.lastModifiedDate = new Timestamp(System.currentTimeMillis());
+    }
+
+    @PreUpdate
+    protected void onUpdate(){
+        this.lastModifiedDate = new Timestamp(System.currentTimeMillis());
+    }
     public Long getId() {
         return id;
     }

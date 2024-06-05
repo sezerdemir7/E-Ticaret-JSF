@@ -5,45 +5,50 @@
 package converter;
 
 import dao.StoreDAO;
-import entity.Store;
+import entity.Seller;
+import jakarta.ejb.EJB;
+import jakarta.enterprise.context.RequestScoped;
 import jakarta.faces.component.UIComponent;
 import jakarta.faces.context.FacesContext;
 import jakarta.faces.convert.Converter;
 import jakarta.faces.convert.FacesConverter;
+import jakarta.inject.Named;
+import java.io.Serializable;
 
 /**
  *
  * @author Demirr
  */
-
-@FacesConverter("storeConverter")
-public class StoreConverter implements Converter{
+@Named
+@RequestScoped
+@FacesConverter(value="storeConverter",managed = true)
+public class StoreConverter implements Converter,Serializable{
     
+    @EJB
     private StoreDAO storeDAO;
 
     @Override
     public Object getAsObject(FacesContext fc, UIComponent uic, String string) {
 
-        Long id = Long.valueOf(string);
-        Store store = this.getStoreDAO().getEntityById(id);
-        return store;
+       if(!string.isBlank()){
+            Long id = Long.valueOf(string);
+            return storeDAO.getEntityById(id);
+        }
+        else{
+            return null;
+        }
 
     }
 
     @Override
     public String getAsString(FacesContext fc, UIComponent uic, Object t) {
-        Store store = (Store) t;
-        return String.valueOf(store.getId());
-    }
-
-    public StoreDAO getStoreDAO() {
-        if(this.storeDAO==null){
-            this.storeDAO=new StoreDAO();
+        if(t != null){
+            Seller C =(Seller) t;
+            return C.getId().toString();
+        }else{
+            return "";
         }
-        return storeDAO;
     }
 
-    public void setStoreDAO(StoreDAO storeDAO) {
-        this.storeDAO = storeDAO;
-    }
+    
 }

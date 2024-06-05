@@ -8,18 +8,24 @@ import entity.Cart;
 import entity.CartItem;
 import entity.Customer;
 import entity.Product;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
-import util.DBConnect;
 
 /**
  *
  * @author serki
  */
-public class CartItemDAO extends DBConnect implements BaseDAO<CartItem> {
+public class CartItemDAO extends BaseDAO<CartItem> {
 
+    public CartItemDAO() {
+        super(CartItem.class);
+    }
+}
+    /*
     private ProductDAO productDAO;
     private CartDAO cartDAO;
 
@@ -73,7 +79,7 @@ public class CartItemDAO extends DBConnect implements BaseDAO<CartItem> {
         
 
     }*/
-
+ /*
     @Override
     public void update(CartItem entity) {
         try {
@@ -95,7 +101,7 @@ public class CartItemDAO extends DBConnect implements BaseDAO<CartItem> {
 
     }
 
-    @Override
+   /* @Override
     public void delete(CartItem entity) {
         try {
             Statement st = this.getConnect().createStatement();
@@ -231,5 +237,5 @@ public class CartItemDAO extends DBConnect implements BaseDAO<CartItem> {
     public void setCartDAO(CartDAO cartDAO) {
         this.cartDAO = cartDAO;
     }
+     */
 
-}

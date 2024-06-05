@@ -5,6 +5,11 @@
 package dao;
 
 import entity.Seller;
+import jakarta.ejb.Stateless;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
+import jakarta.persistence.Query;
+import jakarta.persistence.TypedQuery;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -12,15 +17,40 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import util.DBConnect;
 
 /**
  *
  * @author Demirr
  */
-public class SellerDAO extends DBConnect implements BaseDAO<Seller> {
+@Stateless
+public class SellerDAO extends BaseDAO<Seller> {
+
+    public SellerDAO() {
+        super(Seller.class);
+    }
 
     public Seller login(Seller entity) {
+        try {
+            // Kullanıcıyı veritabanından sorgula
+            Query query = em.createQuery("SELECT COUNT(s) FROM Seller s WHERE s.email = :email AND S.password = :password ");
+            query.setParameter("email", entity.getEmail());
+            query.setParameter("password", entity.getPassword());
+            Long count = (Long) query.getSingleResult();
+
+            // Eğer kullanıcı bulundu ve şifre doğru ise giriş başarılı kabul edilir
+            if (count == 1) {
+                return entity;
+            }
+        } catch (Exception e) {
+            System.out.println("giriş yapılamadı" + e.getMessage());
+        }
+        // Kullanıcı bulunamadı veya şifre yanlış ise giriş başarısızdır
+        return null;
+    }
+
+}
+
+  /*  public Seller login(Seller entity) {
 
         Seller seller = null;
 
@@ -123,3 +153,4 @@ public class SellerDAO extends DBConnect implements BaseDAO<Seller> {
     }
 
 }
+*/
