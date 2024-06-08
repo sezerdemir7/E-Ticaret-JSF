@@ -29,7 +29,7 @@ public class SellerDAO extends BaseDAO<Seller> {
         super(Seller.class);
     }
 
-    public Seller login(Seller entity) {
+    public Seller loginEski(Seller entity) {
         try {
             // Kullanıcıyı veritabanından sorgula
             Query query = em.createQuery("SELECT COUNT(s) FROM Seller s WHERE s.email = :email AND S.password = :password ");
@@ -45,6 +45,21 @@ public class SellerDAO extends BaseDAO<Seller> {
             System.out.println("giriş yapılamadı" + e.getMessage());
         }
         // Kullanıcı bulunamadı veya şifre yanlış ise giriş başarısızdır
+        return null;
+    }
+     public Seller login(Seller entity) {
+        try {
+            String jpql = "SELECT s FROM Seller s WHERE s.email = :email";
+            List<Seller> sellers = em.createQuery(jpql, Seller.class)
+                .setParameter("email", entity.getEmail())
+                .getResultList();
+
+            if (!sellers.isEmpty()) {
+                return sellers.get(0);
+            }
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
         return null;
     }
 

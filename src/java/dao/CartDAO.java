@@ -5,35 +5,93 @@
 package dao;
 
 import entity.Cart;
-import entity.CartItem;
-import java.sql.PreparedStatement;
 import entity.Customer;
-import jakarta.ejb.EJB;
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.PersistenceContext;
-import java.sql.ResultSet;
-import java.sql.Statement;
-import java.sql.Timestamp;
-import java.util.ArrayList;
+import jakarta.ejb.Local;
+import jakarta.ejb.Stateless;
+import jakarta.persistence.NoResultException;
+import java.io.Serializable;
 import java.util.List;
 
 /**
  *
  * @author serki
  */
-public class CartDAO extends BaseDAO<Cart> {
+@Local
+@Stateless
+public class CartDAO extends BaseDAO<Cart> implements Serializable {
 
     public CartDAO() {
         super(Cart.class);
     }
+
+    //bundan sonrası eklendi
+    public Cart getCartByCustomer(Customer customer) {
+        Cart cart = null;
+        try {
+            cart = em.createQuery("SELECT c FROM Cart c WHERE c.customer.id = :customerid", Cart.class)
+                    .setParameter("customerid", customer.getId())
+                    .getSingleResult();
+        } catch (NoResultException e) {
+            cart = new Cart();
+            cart.setCustomer(customer);
+            create(cart);
+        } catch (Exception ex) {
+            System.out.println(ex.getMessage());
+        }
+        return cart;
+    }
+
+    public Cart getCartByCartId(Long cartId) {
+        try {
+
+            Cart cart = em.find(Cart.class, cartId);
+
+            return cart;
+        } catch (Exception e) {
+
+            e.printStackTrace();
+        }
+
+        return null;
+    }
+    /*
+     public Cart getCartByCustomer(Customer customer) {
+        Cart cart = new Cart();
+        try {
+            Statement st = this.getConnect().createStatement();
+            ResultSet rs = st.executeQuery("SELECT * FROM cart WHERE customerid = " + customer.getId());
+            if (rs.next()) {
+                cart.setId(rs.getLong("id"));
+                List<CartItem> cartItems = getCartItemDAO().getCartItemsListByCart(cart);
+                cart = new Cart(
+                        rs.getLong("id"),
+                        customer,
+                        cartItems,
+                        rs.getInt("toplamfiyat"),
+                        rs.getTimestamp("createddate"),
+                        rs.getTimestamp("lastmodifieddate")
+                );
+
+            } else {
+                cart = new Cart();
+                cart.setCustomer(customer);
+                create(cart);
+
+            }
+            st.close();
+            rs.close();
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+        return cart;
+    }
     
-    
-    
+     */
+
 }
-    
 
 //private CartItemDAO cartItemDAO;
-  //   private CustomerDAO customerDAO;
+//   private CustomerDAO customerDAO;
 /*
     
    
@@ -104,10 +162,8 @@ public class CartDAO extends BaseDAO<Cart> {
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
-         */
-
-    
-  /*      return cartList;
+ */
+ /*      return cartList;
 
     }
    
@@ -137,7 +193,7 @@ public class CartDAO extends BaseDAO<Cart> {
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
-        System.out.println("****cart buulundu efendim 22222***** cart_id===" + cart.getId());
+        System.out.println("*cart buulundu efendim 22222**** cart_id===" + cart.getId());
         return cart;
     }
 
@@ -192,6 +248,4 @@ public class CartDAO extends BaseDAO<Cart> {
 
     public void setCartItemDAO(CartItemDAO cartItemDAO) {
         this.cartItemDAO = cartItemDAO;
-    }*/
-
-    
+    }*/

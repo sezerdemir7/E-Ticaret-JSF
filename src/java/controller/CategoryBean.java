@@ -53,6 +53,6 @@ public class CategoryBean extends BaseBean<Category> implements Serializable {
     @Override
     public Category getEntityById(Long id) {
         return this.dao.getEntityById(id);
-    }
+}
 
 }

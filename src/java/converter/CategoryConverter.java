@@ -6,6 +6,7 @@ package converter;
 
 import dao.CategoryDAO;
 import entity.Category;
+import jakarta.annotation.ManagedBean;
 import jakarta.ejb.EJB;
 import jakarta.enterprise.context.RequestScoped;
 import jakarta.faces.component.UIComponent;
@@ -21,33 +22,30 @@ import java.io.Serializable;
  */
 @Named
 @RequestScoped
-@FacesConverter(value = "categoryConverter", managed = true)
+@FacesConverter(value = "categoryConverter",managed = true)
 public class CategoryConverter implements Converter, Serializable {
     @EJB
     private CategoryDAO categoryDAO;
 
-    @Override
-    public Object getAsObject(FacesContext fc, UIComponent uic, String string) {
+	@Override
+	public Object getAsObject(FacesContext fc, UIComponent uic, String string) {
+		if (!string.isBlank()) {
+			Long id = Long.valueOf(string);
+			return categoryDAO.getCategoryById(id);
+		} else {
+			return null;
+		}
+	}
 
-        if(!string.isBlank()){
-            Long id = Long.valueOf(string);
-            return categoryDAO.getEntityById(id);
-        }
-        else{
-            return null;
-        }
-
-    }
-
-    @Override
-    public String getAsString(FacesContext fc, UIComponent uic, Object t) {
-        if(t != null){
-            Category C =(Category) t;
-            return C.getId().toString();
-        }else{
-            return "";
-        }
-    }
+	@Override
+	public String getAsString(FacesContext fc, UIComponent uic, Object t) {
+		if (t != null) {
+			Category c = (Category) t;
+			return c.getId().toString();
+		} else {
+			return "";
+		}
+	}
 
   
 

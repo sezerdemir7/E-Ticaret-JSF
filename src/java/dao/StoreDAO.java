@@ -6,8 +6,11 @@ package dao;
 
 import entity.Seller;
 import entity.Store;
+import jakarta.ejb.Stateless;
 import jakarta.persistence.EntityManager;
+import jakarta.persistence.NoResultException;
 import jakarta.persistence.PersistenceContext;
+import jakarta.persistence.TypedQuery;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.sql.PreparedStatement;
@@ -19,26 +22,45 @@ import java.util.List;
  *
  * @author serki
  */
+@Stateless
 public class StoreDAO extends BaseDAO<Store> {
 
-  
     public StoreDAO() {
         super(Store.class);
     }
 
-
     public void saveStore(Store entity) {
         try {
+            System.out.println("************************************");
+            System.out.println("enity id:" + entity.getSeller().getId());
             Seller seller = em.find(Seller.class, entity.getSeller().getId());
+
             if (seller == null) {
                 throw new IllegalArgumentException("seller not found!");
             }
 
-            entity.setSeller(seller);
             em.persist(seller);
+            entity.setSeller(seller);
+
+            create(entity);
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
+    }
+
+    public Store getStoreBySellerId(long sellerId) {
+        Store store = null;
+        try {
+            TypedQuery<Store> query = em.createQuery(
+                    "SELECT s FROM Store s WHERE s.seller.id = :sellerId", Store.class);
+            query.setParameter("sellerId", sellerId);
+            store = query.getSingleResult();
+        } catch (NoResultException e) {
+            System.out.println("No store found for the given seller ID: " + sellerId);
+        } catch (Exception e) {
+            System.out.println("An error occurred while retrieving the store: " + e.getMessage());
+        }
+        return store;
     }
 
 }

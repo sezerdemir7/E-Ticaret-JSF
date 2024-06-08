@@ -5,7 +5,10 @@
 package controller;
 
 import dao.CartDAO;
+import dao.CartItemDAO;
 import entity.Cart;
+import entity.CartItem;
+import entity.Customer;
 import jakarta.ejb.EJB;
 import jakarta.enterprise.context.SessionScoped;
 import jakarta.inject.Named;
@@ -20,6 +23,8 @@ import java.util.List;
 @SessionScoped
 public class CartBean extends BaseBean<Cart> implements Serializable {
 
+    @EJB
+    private CartItemDAO cartItemDAO;
     @EJB
     private CartDAO dao;
 
@@ -54,9 +59,33 @@ public class CartBean extends BaseBean<Cart> implements Serializable {
     public Cart getEntityById(Long id) {
         return this.dao.getEntityById(id);
     }
+    //burdan sonra düzenleme yapıldı
+    public List<CartItem> getCartByCuctomerId(Customer customer) {
+        Cart cart = new Cart();
+
+        cart = this.dao.getCartByCustomer(customer);
+        cart.setCustomer(customer);
+        this.setEntity(cart);
+
+        List<CartItem> cartItems = cartItemDAO.getCartItemsListByCart(cart);
+        return cartItems;
+    }
+    
+    public boolean cartControl(Customer customer){
+        Cart cart = new Cart();
+
+        cart = this.dao.getCartByCustomer(customer);
+        cart.setCustomer(customer);
+      List<CartItem> cartItems=  cartItemDAO.getCartItemsListByCart(cart);
+        if(!cartItems.isEmpty()){
+            return true;
+        }
+        return false;
+    }
+    
 
 }
-  /*  public List<CartItem> getCartByCuctomerId(Customer customer) {
+/*  public List<CartItem> getCartByCuctomerId(Customer customer) {
         Cart cart = new Cart();
         
         
@@ -90,8 +119,8 @@ public class CartBean extends BaseBean<Cart> implements Serializable {
         this.cartItemDAO = cartItemDAO;
     }
     
-    
-    
+    
+    
 
 }
-*/
+ */

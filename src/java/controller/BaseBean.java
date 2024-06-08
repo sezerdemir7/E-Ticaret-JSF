@@ -50,4 +50,8 @@ public abstract class BaseBean<T> implements Serializable {
         this.entity = entity;
     }
 
+    public void setList(List<T> list) {
+        this.list = list;
+    }
+
 }

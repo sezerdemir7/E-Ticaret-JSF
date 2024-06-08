@@ -5,6 +5,8 @@
 package entity;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.OneToOne;
 import java.sql.Timestamp;
 
 /**
@@ -15,7 +17,9 @@ import java.sql.Timestamp;
 @Entity
 public class Seller extends BaseUser {
 
- 
+    @OneToOne(mappedBy = "seller", fetch = FetchType.EAGER)
+    private Store store;
+   
     public Seller() {
     }
 
@@ -26,5 +30,14 @@ public class Seller extends BaseUser {
     public Seller(String firstName, String lastName, String password, String email, Timestamp createdDate, Timestamp lastModifiedDate) {
         super(firstName, lastName, password, email, createdDate, lastModifiedDate);
     }
+
+    public Store getStore() {
+        return store;
+    }
+
+    public void setStore(Store store) {
+        this.store = store;
+    }
+    
 
 }

@@ -6,10 +6,12 @@ package controller;
 
 import dao.OrderDetailDAO;
 import entity.OrderDetail;
+import entity.Orders;
 import jakarta.ejb.EJB;
 import jakarta.enterprise.context.SessionScoped;
 import jakarta.inject.Named;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -54,7 +56,34 @@ public class OrderDetailBean extends BaseBean<OrderDetail> implements Serializab
     public OrderDetail getEntityById(Long id) {
         return this.dao.getEntityById(id);
     }
+    
+    // bundan sonrası eklendi
+    public String goToOrderDetailPage(Orders order) {
+        getEntity().setOrder(order);
+        System.out.println("*");
+        System.out.println("*");
+        System.out.println("*");
+        System.out.println("order id=====" + getEntity().getOrder().getId());
+        System.out.println("*");
 
+        return "/panel/order/order_detay.xhtml?faces-redirect=true";
+    }
+
+      public List<OrderDetail> listOrderDetailByOrder() {
+        List<OrderDetail> details = new ArrayList<>();
+        details = dao.listOrderDetailByOrder(getEntity().getOrder());
+        for (OrderDetail detail : details) {
+            System.out.println("*");
+            System.out.println("*");
+            System.out.println("*");
+            System.out.println("detail id=====" + detail.getProduct().getName());
+            System.out.println("*");
+        }
+        return details;
+
+    }
+
+    
 }
 
 /*
@@ -62,11 +91,11 @@ public class OrderDetailBean extends BaseBean<OrderDetail> implements Serializab
         List<OrderDetail> details = new ArrayList<>();
         details = getDao().listOrderDetailByOrder(getEntity().getOrder());
         for (OrderDetail detail : details) {
-            System.out.println("*********");
-            System.out.println("*********");
-            System.out.println("*********");
+            System.out.println("*");
+            System.out.println("*");
+            System.out.println("*");
             System.out.println("detail id=====" + detail.getProduct().getName());
-            System.out.println("*********");
+            System.out.println("*");
         }
         return details;
 
@@ -74,14 +103,14 @@ public class OrderDetailBean extends BaseBean<OrderDetail> implements Serializab
 
     public String goToOrderDetailPage(Order order) {
         getEntity().setOrder(order);
-        System.out.println("*********");
-        System.out.println("*********");
-        System.out.println("*********");
+        System.out.println("*");
+        System.out.println("*");
+        System.out.println("*");
         System.out.println("order id=====" + getEntity().getOrder().getId());
-        System.out.println("*********");
+        System.out.println("*");
 
         return "/panel/order/order_detay.xhtml?faces-redirect=true";
-    }
+    }
 
 }
 */

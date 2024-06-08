@@ -29,9 +29,11 @@ public class Orders extends BaseEntity {
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "customer_id")
     private Customer customer;
+    /*
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "store_id", nullable = false)
     private Store store;
+    */
 
     @OneToOne
     @JoinColumn(name = "payment_id", nullable = false)
@@ -52,26 +54,26 @@ public class Orders extends BaseEntity {
     public Orders() {
     }
 
-    public Orders(String teslimatAdresi, boolean status, int toplamTutar, Customer customer, Store store, Payment payment, Timestamp orderDate, List<OrderDetail> orderDetails, List<Product> products, Long id, Timestamp createdDate, Timestamp lastModifiedDate) {
+    public Orders(String teslimatAdresi, boolean status, int toplamTutar, Customer customer,  Payment payment, Timestamp orderDate, List<OrderDetail> orderDetails, List<Product> products, Long id, Timestamp createdDate, Timestamp lastModifiedDate) {
         super(id, createdDate, lastModifiedDate);
         this.teslimatAdresi = teslimatAdresi;
         this.status = status;
         this.toplamTutar = toplamTutar;
         this.customer = customer;
-        this.store = store;
+       // this.store = store;
         this.payment = payment;
         this.orderDate = orderDate;
         this.orderDetails = orderDetails;
         this.products = products;
     }
 
-    public Orders(String teslimatAdresi, boolean status, int toplamTutar, Customer customer, Store store, Payment payment, Timestamp orderDate, List<OrderDetail> orderDetails, List<Product> products, Timestamp createdDate, Timestamp lastModifiedDate) {
+    public Orders(String teslimatAdresi, boolean status, int toplamTutar, Customer customer,  Payment payment, Timestamp orderDate, List<OrderDetail> orderDetails, List<Product> products, Timestamp createdDate, Timestamp lastModifiedDate) {
         super(createdDate, lastModifiedDate);
         this.teslimatAdresi = teslimatAdresi;
         this.status = status;
         this.toplamTutar = toplamTutar;
         this.customer = customer;
-        this.store = store;
+     //   this.store = store;
         this.payment = payment;
         this.orderDate = orderDate;
         this.orderDetails = orderDetails;
@@ -112,13 +114,7 @@ public class Orders extends BaseEntity {
         this.customer = customer;
     }
 
-    public Store getStore() {
-        return store;
-    }
-
-    public void setStore(Store store) {
-        this.store = store;
-    }
+ 
 
     public Payment getPayment() {
         return payment;

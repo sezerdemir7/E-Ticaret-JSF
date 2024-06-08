@@ -1,4 +1,3 @@
-
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
@@ -7,10 +6,13 @@ package controller;
 
 import dao.ProductDAO;
 import entity.Product;
+import entity.Store;
 import jakarta.ejb.EJB;
 import jakarta.enterprise.context.SessionScoped;
+import jakarta.inject.Inject;
 import jakarta.inject.Named;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -24,15 +26,23 @@ public class ProductBean extends BaseBean<Product> implements Serializable {
 
     @EJB
     private ProductDAO dao;
+    @Inject
+    private ImageBean imageBean;
+    
 
     public ProductBean() {
         super(Product.class);
     }
-
+    
     @Override
     public void create() {
-        this.dao.create(entity);
+        this.dao.create(this.getEntity());
         this.clearForm();
+    }
+     public void createProduct(Store store) {
+         this.getEntity().setImage(this.imageBean.upload());
+        this.getEntity().setStore(store);
+        create();
     }
 
     @Override
@@ -40,11 +50,31 @@ public class ProductBean extends BaseBean<Product> implements Serializable {
         this.dao.update(entity);
         this.clearForm();
     }
+    
 
     @Override
     public void delete() {
         this.dao.delete(entity);
         this.clearForm();
+    }
+    
+      @Override
+    public List<Product> getList() {
+        return this.dao.listele(this.getCp(), this.getEpp());
+    }
+
+    @Override
+    public Product getEntityById(Long id) {
+        return this.dao.getEntityById(id);
+    }
+         
+    
+ 
+     public List<Product> getProductListByCategoryId(Long categoryId) {
+        List<Product> productList = null;
+        productList = this.dao.getProductListByCategoryId(categoryId);
+        setList(productList);
+        return productList;
     }
 
     private int epp = 3;
@@ -93,15 +123,9 @@ public class ProductBean extends BaseBean<Product> implements Serializable {
         }
     }
 
-    @Override
-    public List<Product> getList() {
-        return this.dao.listele(this.getCp(), this.getEpp());
-    }
-
-    @Override
-    public Product getEntityById(Long id) {
-        return this.dao.getEntityById(id);
-    }
+  
+    
+     
 
     /* public List<Product> getProductListByCategoryId(Long categoryId) {
         List<Product> productList = new ArrayList<>();
@@ -112,5 +136,5 @@ public class ProductBean extends BaseBean<Product> implements Serializable {
  /* public void deleteProduct(Product product){
         getDao().delete(product);
     }*/
-    //private List<Product> listeleme;
+    //private List<Product> listeleme;
 }

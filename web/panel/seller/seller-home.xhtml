@@ -15,16 +15,20 @@
     </h:head>
     <h:body>
 
-        <!-- cretate store 
+        <!-- cretate store -->
         <div class="container">
             <h:form>
-                <div class="mb-3">
-                    <label for="exampleInputFirstName" class="form-label">Store Name</label>
-                    <h:inputText id="exampleInputFirstName" class="form-control" value="#{storeBean.entity.name}" />
-                </div>
+                <h:panelGroup rendered="#{storeBean.getStoreBySellerId(sellerBean.entity.id) == null}">
+                    <div class="mb-3">
+                        <label for="exampleInputFirstName" class="form-label">Store Name</label>
+                        <h:inputText id="exampleInputFirstName" class="form-control" value="#{storeBean.entity.name}" />
+                    </div>
 
 
-                <h:commandButton value="Mağaza Oluştur" class="btn btn-primary" action="#{storeBean.create(sellerBean.entity)}" />
+                    <h:commandButton value="Mağaza Oluştur" class="btn btn-primary" action="#{storeBean.createStore(sellerBean.entity)}" />
+                </h:panelGroup>
+
+
 
 
 
@@ -34,7 +38,7 @@
 
             </h:form>
         </div>
-        -->
+
 
         <!-- 
         <ul>
@@ -44,46 +48,52 @@
         </ul>
         
         -->
+
+
         <div class="container">
-            <h:form>
-                <div class="mb-3">
-                    <label for="productName" class="form-label">Ürün İsmi</label>
-                    <h:inputText id="productName" class="form-control" value="#{productBean.entity.name}" />
-                </div>
-                <div class="mb-3">
-                    <label for="Mağaza Adı" class="form-label">Mağaza Adı:</label>
-                    
-                    <h:outputText styleClass="border p-1" value="#{productBean.entity.store=storeBean.getStoreBySellerId(sellerBean.entity.id)}" />
-                    
-                </div>
-
-
-                <div class="mb-3">
-                    <label for="productName" class="form-label">Kategori</label>
-                    <h:selectManyMenu styleClass="form-select form-select-lg" aria-label=".form-select-lg example" value="#{productBean.entity.categories}" converter="categoryConverter"> 
-                        <f:selectItems value="#{categoryBean.list}" var="c" itemValue="#{c}" itemLabel="#{c.name}"/>
-                    </h:selectManyMenu>
-                </div>
-
-
-                <div class="mb-3">
-                    <label for="stock" class="form-label">Stok sayısı</label>
-                    <h:inputText id="stock" class="form-control" value="#{productBean.entity.stock}" />
-                </div>
-                <div class="mb-3">
-                    <label for="price" class="form-label">Ürün Fiyatı</label>
-                    <h:inputText id="price" class="form-control" value="#{productBean.entity.price}" />
-                </div>
-
-
-                <div class="mb-3">
-                    <label for="detail" class="form-label">Ürün Detayı</label>
-                    <h:inputTextarea id="detail" class="form-control" value="#{productBean.entity.detail}" />
-                </div>
-
-                <h:commandButton value="Ürün Oluştur" class="btn btn-primary" action="#{productBean.create()}" />
-            </h:form>
+    <h:form enctype="multipart/form-data" rendered="#{storeBean.getStoreBySellerId(sellerBean.entity.id) != null}">
+        <div class="mb-3">
+            <label for="productName" class="form-label">Ürün İsmi</label>
+            <h:inputText id="productName" class="form-control" value="#{productBean.entity.name}" />
         </div>
+        
+        <div class="mb-3">
+            <label for="storeName" class="form-label">Mağaza Adı:</label>
+            <h:outputText id="storeName" styleClass="border p-1" value="#{sellerBean.entity.store.name}" />
+        </div>
+        
+        <div class="mb-3">
+            <label for="categories" class="form-label">Kategori</label>
+            <h:selectManyListbox id="categories" styleClass="form-select form-select-lg" aria-label=".form-select-lg example" value="#{productBean.entity.categories}" converter="categoryConverter" size="5">
+                <f:selectItems value="#{categoryBean.list}" var="c" itemValue="#{c}" itemLabel="#{c.name}" />
+            </h:selectManyListbox>
+        </div>
+        
+        <div class="mb-3">
+            <label for="fileUpload" class="form-label">Dosya Yükle</label>
+            <h:inputFile id="fileUpload" value="#{imageBean.doc}" styleClass="custom-file" />
+            <h:commandButton value="Upload" action="#{imageBean.upload()}" styleClass="btn btn-primary" />
+        </div>
+        
+        <div class="mb-3">
+            <label for="stock" class="form-label">Stok sayısı</label>
+            <h:inputText id="stock" class="form-control" value="#{productBean.entity.stock}" />
+        </div>
+        
+        <div class="mb-3">
+            <label for="price" class="form-label">Ürün Fiyatı</label>
+            <h:inputText id="price" class="form-control" value="#{productBean.entity.price}" />
+        </div>
+        
+        <div class="mb-3">
+            <label for="detail" class="form-label">Ürün Detayı</label>
+            <h:inputTextarea id="detail" class="form-control" value="#{productBean.entity.detail}" />
+        </div>
+        
+        <h:commandButton value="Ürün Oluştur" class="btn btn-primary" action="#{productBean.createProduct(sellerBean.entity.store)}" />
+    </h:form>
+</div>
+
 
 
 

@@ -53,6 +53,6 @@ public class PaymentBean extends BaseBean<Payment> implements Serializable {
     @Override
     public Payment getEntityById(Long id) {
         return this.dao.getEntityById(id);
-    }
+}
 
 }

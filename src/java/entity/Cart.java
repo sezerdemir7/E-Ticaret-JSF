@@ -25,7 +25,7 @@ public class Cart extends BaseEntity {
     @JoinColumn(name = "customer_id", nullable = false)
     private Customer customer;
 
-    @Min(value = 0, message = "totalprice 0 dan buyuk olmalidir")
+   
     private int toplamFiyat;
 
     @OneToMany(mappedBy = "cart", cascade = CascadeType.ALL)

@@ -5,47 +5,41 @@
 package dao;
 
 import entity.Customer;
+import jakarta.ejb.Local;
 import jakarta.ejb.Stateless;
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.PersistenceContext;
-import jakarta.persistence.Query;
-import java.sql.ResultSet;
-import java.sql.Statement;
-import java.util.ArrayList;
+import java.io.Serializable;
 import java.util.List;
 
 /**
  *
  * @author serki
  */
+@Local
 @Stateless
-public class CustomerDAO extends BaseDAO<Customer> {
+public class CustomerDAO extends BaseDAO<Customer> implements Serializable{
 
 
     public CustomerDAO() {
         super(Customer.class);
     }
     
-    public Customer login(Customer entity){
-          try {
-            // Kullanıcıyı veritabanından sorgula
-            //Query query = em.createQuery("select * from admin where email='"+admin.getEmail()+"' and password='"+admin.getPassword());
-            Query query = em.createQuery("SELECT COUNT(c) FROM Customer c WHERE c.email = :email AND c.password = :password");
-            query.setParameter("email", entity.getEmail());
-            query.setParameter("password", entity.getPassword());
-            Long count = (Long) query.getSingleResult();
-            
-            // Eğer kullanıcı bulundu ve şifre doğru ise giriş başarılı kabul edilir
-            if (count == 1) {
-                return entity;
+    public Customer login(Customer entity) {
+        try {
+            String jpql = "SELECT c FROM Customer c WHERE c.email = :email";
+            List<Customer> sellers = em.createQuery(jpql, Customer.class)
+                    .setParameter("email", entity.getEmail())
+                    .getResultList();
+
+            if (!sellers.isEmpty()) {
+                return sellers.get(0);
             }
         } catch (Exception e) {
-            System.out.println("giriş yapılamadı"+e.getMessage());
+            System.out.println(e.getMessage());
         }
-        // Kullanıcı bulunamadı veya şifre yanlış ise giriş başarısızdır
         return null;
-    }
     
+    }
+}
     
     
 
@@ -202,5 +196,4 @@ public class CustomerDAO extends BaseDAO<Customer> {
 
         return customer;
 
-    }*/
-}
+    }*/
