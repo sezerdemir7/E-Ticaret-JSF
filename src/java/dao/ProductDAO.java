@@ -8,11 +8,13 @@ import entity.Category;
 import entity.Product;
 import entity.Seller;
 import entity.Store;
+import jakarta.ejb.Local;
 import jakarta.ejb.Stateless;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.Query;
 import jakarta.persistence.TypedQuery;
+import java.io.Serializable;
 import java.sql.SQLException;
 import java.sql.*;
 import java.sql.PreparedStatement;
@@ -23,20 +25,20 @@ import java.util.List;
  *
  * @author Demirr
  */
-
+@Local
 @Stateless
-public class ProductDAO extends BaseDAO<Product> {
-    
-    public ProductDAO(){
+public class ProductDAO extends BaseDAO<Product> implements Serializable {
+
+    public ProductDAO() {
         super(Product.class);
     }
-    
+
     public List<Product> listele(int cp, int epp) {
         List<Product> productList;
         try {
-           // String jpql = ;
+            // String jpql = ;
             TypedQuery<Product> query = em.createQuery("SELECT p FROM Product p", Product.class);
-            query.setFirstResult((cp-1) * epp);
+            query.setFirstResult((cp - 1) * epp);
             query.setMaxResults(epp);
             productList = query.getResultList();
             System.out.println("product listeleme işlemi başarılı");
@@ -46,19 +48,47 @@ public class ProductDAO extends BaseDAO<Product> {
         }
         return productList;
     }
-    
-    public int Count(){
-        int count =0;
+
+    public int Count() {
+        int count = 0;
         try {
             Query query = em.createQuery("select COUNT(product_id) AS toplam from product");
-        count = ((Long) query.getSingleResult()).intValue();
+            count = ((Long) query.getSingleResult()).intValue();
         } catch (Exception e) {
-            System.out.println("ürün sayısı hesaplanmadı "+e.getMessage());
+            System.out.println("ürün sayısı hesaplanmadı " + e.getMessage());
         }
-        return count ;
+        return count;
+    }
+
+    public List<Category> getProductCategories(Long productid) {
+        List<Category> categoryList = null;
+        try {
+            TypedQuery<Category> query = em.createQuery(
+                    "SELECT c FROM Category c WHERE c.id IN "
+                    + "(SELECT pc.category_id FROM product_category pc WHERE pc.product_id = :productid)",
+                    Category.class);
+            query.setParameter("productid", productid);
+            categoryList = query.getResultList();
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+        return categoryList;
     }
     
-    
+    public List<Product> getProductListByCategoryId(Long categoryId) {
+        List<Product> productList = null;
+        try {
+            TypedQuery<Product> query = em.createQuery(
+                "SELECT p FROM Product WHERE category_id = :categoryId", 
+                Product.class);
+            query.setParameter("categoryId", categoryId);
+            productList = query.getResultList();
+        } catch (Exception e) {
+            System.out.println("Error while reading product list: " + e.getMessage());
+        }
+        return productList;
+    }
+
 }
     
     
@@ -354,7 +384,7 @@ public class ProductDAO extends BaseDAO<Product> {
             System.out.println("Error while reading product list: " + e.getMessage());
         }
         return productList;
-    }
+    }
 
 }
 */

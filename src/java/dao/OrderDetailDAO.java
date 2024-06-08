@@ -5,9 +5,14 @@
 package dao;
 
 import entity.OrderDetail;
+import entity.Orders;
 import entity.Product;
+import jakarta.ejb.Local;
+import jakarta.ejb.Stateless;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
+import jakarta.persistence.TypedQuery;
+import java.io.Serializable;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.sql.Timestamp;
@@ -18,10 +23,32 @@ import java.util.List;
  *
  * @author serki
  */
-public class OrderDetailDAO extends BaseDAO<OrderDetail> {
+
+@Local
+@Stateless
+public class OrderDetailDAO extends BaseDAO<OrderDetail> implements Serializable{
 
     public OrderDetailDAO() {
         super(OrderDetail.class);
+    }
+    
+    //buradan sonrası ekleme yapıldı
+    
+     public List<OrderDetail> listOrderDetailByOrder(Orders order) {
+
+
+        List<OrderDetail> orderDetailList = new ArrayList<>();
+          try {
+            TypedQuery<OrderDetail> query = em.createQuery(
+                "SELECT od FROM OrderDetail od WHERE od.orders = :order", OrderDetail.class);
+            query.setParameter("order", order);
+            orderDetailList = query.getResultList();
+        } catch (Exception e) {
+            System.out.println("Error listing order details: " + e.getMessage());
+        }
+
+        return orderDetailList;
+
     }
 
 }
@@ -196,5 +223,5 @@ public class OrderDetailDAO extends BaseDAO<OrderDetail> {
 
     public void setOrderDAO(OrderDAO orderDAO) {
         this.orderDAO = orderDAO;
-    }
- */
+    }
+ */

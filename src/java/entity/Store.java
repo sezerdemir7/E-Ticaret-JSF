@@ -5,6 +5,7 @@
 package entity;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
@@ -19,13 +20,14 @@ import java.util.List;
 public class Store extends BaseEntity{
    
      private String name;
-    @OneToOne
-    @JoinColumn(name = "seller_id",nullable = false)
+     
+    @OneToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "seller_id", nullable = false)
     private Seller seller;
     @OneToMany(mappedBy = "store")
     private List<Product> products;
 
-    @OneToMany(mappedBy = "store")
+    //@OneToMany(mappedBy = "store")
     private List<Orders> orders;
 
     

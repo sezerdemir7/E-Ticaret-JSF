@@ -7,8 +7,8 @@ package dao;
 import entity.Admin;
 import jakarta.ejb.Local;
 import jakarta.ejb.Stateless;
-import jakarta.persistence.Query;
 import java.io.Serializable;
+import java.util.List;
 
 /**
  *
@@ -26,10 +26,28 @@ public class AdminDAO extends BaseDAO<Admin> implements Serializable{
     
     public Admin login(Admin entity) {
         try {
+            String jpql = "SELECT a FROM Admin a WHERE a.email = :email";
+            List<Admin> sellers = em.createQuery(jpql, Admin.class)
+                    .setParameter("email", entity.getEmail())
+                    .getResultList();
+
+            if (!sellers.isEmpty()) {
+                return sellers.get(0);
+            }
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+        return null;
+    
+    }
+}
+    
+    /*public Admin login(Admin entity) {
+        try {
             // Kullanıcıyı veritabanından sorgula
             //Query query = em.createQuery("select * from admin where email='"+admin.getEmail()+"' and password='"+admin.getPassword());
             Query query = em.createQuery("SELECT COUNT(a) FROM Admin a WHERE a.email = :email AND a.password = :password");
-                query.setParameter("email", entity.getEmail());
+            query.setParameter("email", entity.getEmail());
             query.setParameter("password", entity.getPassword());
             Long count = (Long) query.getSingleResult();
             
@@ -42,7 +60,7 @@ public class AdminDAO extends BaseDAO<Admin> implements Serializable{
         }
         // Kullanıcı bulunamadı veya şifre yanlış ise giriş başarısızdır
         return null;
-    }
+    }*/
     
     
         
@@ -60,7 +78,7 @@ public class AdminDAO extends BaseDAO<Admin> implements Serializable{
     public AdminDAO() {
         super(null);
     }*/
-}
+
     
     /*
 }
@@ -397,8 +415,6 @@ public class AdminDAO extends BaseDAO<Admin> implements Serializable{
             System.out.println(e.getMessage());
         }
 
-        return admin;
+        return admin;
 
-    }*/
-
-
+    }*/

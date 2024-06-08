@@ -5,6 +5,7 @@
 package controller;
 
 import dao.StoreDAO;
+import entity.Seller;
 import entity.Store;
 import jakarta.ejb.EJB;
 import jakarta.enterprise.context.SessionScoped;
@@ -54,6 +55,17 @@ public class StoreBean extends BaseBean<Store> implements Serializable {
     public Store getEntityById(Long id) {
         return this.dao.getEntityById(id);
     }
+    
+    
+    public Store getStoreBySellerId(long sellerId){
+       return dao.getStoreBySellerId(sellerId);
+   }
+    
+    
+    public void createStore(Seller seller) {
+        this.getEntity().setSeller(seller);
+        this.create();
+    }
 
 }
 /* public Store getStoreBySellerId(long sellerId){
@@ -76,9 +88,9 @@ public class StoreBean extends BaseBean<Store> implements Serializable {
         this.storeDAO = storeDAO;
     }
     
-    
+    
 
 
-    
+    
 }
 */

@@ -35,7 +35,6 @@ public abstract class BaseDAO<T> implements Serializable{
 
     public void create(T entity) {
         em.persist(entity);
-
     }
 
     public void update(T entity) {

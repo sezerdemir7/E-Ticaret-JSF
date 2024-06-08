@@ -4,33 +4,61 @@
  */
 package dao;
 
-import entity.Cart;
-import entity.CartItem;
 import entity.Customer;
-import entity.OrderDetail;
 import entity.Orders;
 import entity.Payment;
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.PersistenceContext;
-import java.sql.ResultSet;
-import java.sql.Statement;
-import java.sql.Timestamp;
-
-import java.util.ArrayList;
+import jakarta.ejb.Local;
+import jakarta.ejb.Stateless;
+import jakarta.persistence.TypedQuery;
 import java.util.List;
+import jdk.jfr.Timestamp;
 
 /**
  *
  * @author serki
  */
+@Local
+@Stateless
 public class OrderDAO extends BaseDAO<Orders> {
-
 
     public OrderDAO() {
         super(Orders.class);
     }
 
-    /*
+    public List<Orders> readListByCustomerId(Long customerId) {
+        List<Orders> orderList = null;
+        try {
+            TypedQuery<Orders> query = em.createQuery(
+                    "SELECT o FROM Orders o WHERE o.customer.id = :customerId ORDER BY o.id DESC", Orders.class);
+            query.setParameter("customerId", customerId);
+            orderList = query.getResultList();
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+        return orderList;
+    }
+
+    //bundan sonrası eklendi
+  
+    public long createOrder(Orders entity) {
+        long generatedOrderId = -1;
+
+        try {
+            // Persist the order
+            em.persist(entity);
+    
+            generatedOrderId = entity.getId();
+
+        } catch (Exception e) {
+            System.out.println("Error creating order: " + e.getMessage());
+            e.printStackTrace();
+        }
+
+        return generatedOrderId;
+    }
+}
+
+/*
     
     private CustomerDAO customerDAO;
     private PaymentDAO paymentDAO;
@@ -295,6 +323,5 @@ public class OrderDAO extends BaseDAO<Orders> {
     
     public void setOrderDetailDAO(OrderDetailDAO orderDetailDAO) {
         this.orderDetailDAO = orderDetailDAO;
-    }
-     */
-}
+    }
+ */

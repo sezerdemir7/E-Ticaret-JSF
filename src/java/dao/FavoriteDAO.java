@@ -6,24 +6,63 @@ package dao;
 
 import entity.Favorite;
 import entity.Product;
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.PersistenceContext;
-import java.sql.ResultSet;
-import java.sql.Statement;
-import java.util.ArrayList;
+import jakarta.ejb.Local;
+import jakarta.ejb.Stateless;
+import jakarta.persistence.TypedQuery;
+import java.io.Serializable;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  *
  * @author serki
  */
-public class FavoriteDAO extends BaseDAO<Favorite> {
+@Local
+@Stateless
+public class FavoriteDAO extends BaseDAO<Favorite> implements Serializable{
     
     public FavoriteDAO() {
         super(Favorite.class);
     }
+
+    
+    public boolean isFavoriteExists(Long customerId, Long productId) {
+        TypedQuery<Favorite> query = em.createQuery(
+            "SELECT f FROM Favorite f WHERE f.customer.id = :customerId AND f.product.id = :productId", 
+            Favorite.class
+        );
+        query.setParameter("customerId", customerId);
+        query.setParameter("productId", productId);
+        
+        List<Favorite> results = query.getResultList();
+        return !results.isEmpty();
+    }
     
     
+    
+    
+    public List<Product> getFavoriteListByCustomerId(Long customerId) {
+        List<Product>productList = null;
+        try {
+            TypedQuery<Favorite> query = em.createQuery(
+                "SELECT f FROM Favorite f WHERE f.customer.id = :customerId", 
+                Favorite.class);
+            query.setParameter("customerId", customerId);
+            List<Favorite> favorites = query.getResultList();
+            productList = favorites.stream().map(Favorite::getProduct).collect(Collectors.toList());
+        } catch (Exception e) {
+            System.out.println("Error while reading favorite list: " + e.getMessage());
+        }
+        return productList;
+    }
+    
+    public List<Favorite> getListByCustomerId(Long customerId){
+        TypedQuery<Favorite> query = em.createQuery("SELECT f FROM Favorite f WHERE f.customer.id = :customerId", Favorite.class);
+        query.setParameter("customerId", customerId);
+        return query.getResultList();
+    }
+    
+} 
    /* private ProductDAO productDAO;
 
     public ProductDAO getProductDAO() {
@@ -95,6 +134,4 @@ public class FavoriteDAO extends BaseDAO<Favorite> {
     @Override
     public Favorite getEntityById(Long id) {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }*/
-
-}
+    }*/

@@ -111,7 +111,7 @@ public class CustomerBean extends BaseBean<Customer> implements Serializable {
 
     public void setCartDAO(CartDAO cartDAO) {
         this.cartDAO = cartDAO;
-    }
+    }
 
 }
- */
+ */

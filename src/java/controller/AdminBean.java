@@ -172,7 +172,6 @@ public class AdminBean extends BaseBean<Admin> implements Serializable {
         }*/
  /*public void save (Admin entity){
         getJp().saveJpa(entity);
-    }*/
+    }*/
 
-   
 //}

@@ -60,7 +60,11 @@ public class SellerBean extends BaseBean<Seller> implements Serializable {
     public String login() {
         Seller sellerTest = this.dao.login(this.getEntity());
 
-        if (sellerTest != null && sellerTest.getPassword().equals(this.getEntity().getPassword())) {
+        if (sellerTest != null && sellerTest.getPassword().equals(this.getEntity().getPassword())) 
+        {
+            
+            System.out.println("************************************");
+            System.out.println("sellertest id:"+sellerTest.getId());
             this.setEntity(sellerTest);
             return "/panel/seller/seller-home.xhtml?faces-redirect=true";
         } else {

@@ -19,36 +19,38 @@ import java.util.List;
  *
  * @author Demirr
  */
-
 @Entity
-public class Product extends BaseEntity{
-    
+public class Product extends BaseEntity {
+
     private String name;
     private int stock;
-   
     private String detail;
-    
+
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
-        name = "product_category",
-        joinColumns = @JoinColumn(name = "product_id"),
-        inverseJoinColumns = @JoinColumn(name = "category_id")
+            name = "product_category",
+            joinColumns = @JoinColumn(name = "product_id"),
+            inverseJoinColumns = @JoinColumn(name = "category_id")
     )
     private List<Category> categories;
-    
-     private int price;
-    
+
+    private int price;
+
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "store_id", nullable = false)
     private Store store;
-    
+
     @ManyToMany(mappedBy = "products")
     private List<Orders> orders;
-    
+
+    @OneToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "image_id", nullable = false)
+    private Image image;
+
     public Product() {
     }
 
-    public Product(String name, int stock, String detail, List<Category> category, int price, Store store, Long id, Timestamp createdDate, Timestamp lastModifiedDate) {
+    public Product(String name, int stock, String detail, List<Category> category, int price, Store store, Long id, Timestamp createdDate, Timestamp lastModifiedDate, Image image) {
         super(id, createdDate, lastModifiedDate);
         this.name = name;
         this.stock = stock;
@@ -56,9 +58,10 @@ public class Product extends BaseEntity{
         this.categories = category;
         this.price = price;
         this.store = store;
+        this.image = image;
     }
 
-    public Product(String name, int stock, String detail, List<Category> category, int price, Store store, Timestamp createdDate, Timestamp lastModifiedDate) {
+    public Product(String name, int stock, String detail, List<Category> category, int price, Store store, Timestamp createdDate, Timestamp lastModifiedDate, Image image) {
         super(createdDate, lastModifiedDate);
         this.name = name;
         this.stock = stock;
@@ -66,10 +69,8 @@ public class Product extends BaseEntity{
         this.categories = category;
         this.price = price;
         this.store = store;
+        this.image = image;
     }
-
-
-    
 
     public String getName() {
         return name;
@@ -95,15 +96,13 @@ public class Product extends BaseEntity{
         this.detail = detail;
     }
 
-    public List<Category> getCategory() {
+    public List<Category> getCategories() {
         return categories;
     }
 
-    public void setCategory(List<Category> categories) {
+    public void setCategories(List<Category> categories) {
         this.categories = categories;
     }
-
-    
 
     public int getPrice() {
         return price;
@@ -120,95 +119,12 @@ public class Product extends BaseEntity{
     public void setStore(Store store) {
         this.store = store;
     }
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-/*
-    private String name;
-    private int stock;
-    private String fiyat;
-    private List<Category> categories;
-    private int price;
-   // @OneToMany(mappedBy = "product")
-    private List<Store> store;
-    
 
-    public Product() {
+    public Image getImage() {
+        return image;
     }
 
-    public Product(Long id, Timestamp createdDate, Timestamp lastModifiedDate, String name, int stock,String fiyats, List<Category> categories, int price, Store store) {
-        super(id, createdDate, lastModifiedDate);
-        this.name = name;
-        this.stock = stock;
-        this.categories = categories;
-        this.price = price;
-        this.store= (List<Store>) store;
+    public void setImage(Image image) {
+        this.image = image;
     }
-
-    public String getDetail() {
-        return fiyat;
-    }
-
-    public void setDetail(String fiyat) {
-        this.fiyat = fiyat;
-    }
-    
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public int getStock() {
-        return stock;
-    }
-
-    public void setStock(int stock) {
-        this.stock = stock;
-    }
-
-    public List<Category> getCategories() {
-        return categories;
-    }
-
-    public void setCategories(List<Category> categories) {
-        this.categories = categories;
-    }
-
-
-
-    public int getPrice() {
-        return price;
-    }
-
-    public void setPrice(int price) {
-        this.price = price;
-    }
-
-    public List<Store> getStore() {
-        return store;
-    }
-
-    public void setStore(List<Store> store) {
-        this.store = store;
-    }
-*/
-
-   
-
-    
 }
-

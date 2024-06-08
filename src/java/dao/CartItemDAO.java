@@ -7,23 +7,75 @@ package dao;
 import entity.Cart;
 import entity.CartItem;
 import entity.Customer;
-import entity.Product;
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.PersistenceContext;
-import java.sql.ResultSet;
-import java.sql.Statement;
-import java.util.ArrayList;
+import jakarta.ejb.Local;
+import jakarta.ejb.Stateless;
+import java.io.Serializable;
 import java.util.List;
 
 /**
  *
  * @author serki
  */
-public class CartItemDAO extends BaseDAO<CartItem> {
+@Local
+@Stateless
+public class CartItemDAO extends BaseDAO<CartItem> implements Serializable{
 
+    
+    
     public CartItemDAO() {
         super(CartItem.class);
     }
+    
+    //bundan sonrası eklendi 
+    
+     public List<CartItem> getCartItemsListByCart(Cart cart) {
+        List<CartItem> cartItems = null;
+        try {
+            cartItems = em.createQuery("SELECT ci FROM CartItem ci WHERE ci.cart.id = :cartid", CartItem.class)
+                    .setParameter("cartid", cart.getId())
+                    .getResultList();
+        } catch (Exception e) {
+            System.out.println("Error while reading cart items list: " + e.getMessage());
+        }
+        return cartItems;
+    }
+     
+    public void createCartItem(CartItem entity,Customer customer) {
+        
+        Cart cart=null;
+
+        try {
+            cart = em.createQuery("SELECT c FROM Cart c WHERE c.customer.id = :customerid",Cart.class).
+                    setParameter("customerid",customer.getId()).getSingleResult();
+            entity.setCart(cart);
+            em.persist(entity);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+        
+
+    }
+    public void createCartItem2(CartItem entity, Customer customer) {
+        
+        try {
+            // Müşterinin sepetini getir
+            Cart cart = em.createQuery("SELECT c FROM Cart c WHERE c.customer.id = :customerid", Cart.class)
+                          .setParameter("customerid", customer.getId())
+                          .getSingleResult();
+            
+            // CartItem'ı sepete ekle
+            entity.setCart(cart);
+            entity.setAdet(entity.getAdet());
+            em.persist(entity);
+            
+            // Sepetin toplam fiyatını güncelle
+            cart.setToplamFiyat(cart.getToplamFiyat() + entity.getToplamFiyat());
+            em.merge(cart);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+    }
+     
 }
     /*
     private ProductDAO productDAO;
@@ -236,6 +288,5 @@ public class CartItemDAO extends BaseDAO<CartItem> {
 
     public void setCartDAO(CartDAO cartDAO) {
         this.cartDAO = cartDAO;
-    }
-     */
-
+    }
+     */

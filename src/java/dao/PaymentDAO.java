@@ -4,20 +4,19 @@
  */
 package dao;
 
-import entity.Customer;
 import entity.Payment;
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.PersistenceContext;
-import java.sql.ResultSet;
-import java.sql.Statement;
-import java.util.ArrayList;
-import java.util.List;
+import jakarta.ejb.Local;
+import jakarta.ejb.Stateless;
+import java.io.Serializable;
 
 /**
  *
  * @author serki
  */
-public class PaymentDAO extends BaseDAO<Payment> {
+
+@Local
+@Stateless
+public class PaymentDAO extends BaseDAO<Payment> implements Serializable{
 
     public PaymentDAO() {
         super(Payment.class);
@@ -149,7 +148,7 @@ public class PaymentDAO extends BaseDAO<Payment> {
 
     public void setCustomerDAO(CustomerDAO customerDAO) {
         this.customerDAO = customerDAO;
-    }
+    }
 
 }
 */
