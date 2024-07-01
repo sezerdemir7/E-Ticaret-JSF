@@ -24,25 +24,37 @@
                             <div class="collapse navbar-collapse" id="navbarNav">
                                 <ul class="navbar-nav">
                                     <li class="nav-item">
-                                        <h:commandLink action="/panel/sepet/sepet.xhtml" value="Sepet" styleClass="nav-link active"></h:commandLink>
+                                        <h:commandLink action="/panel/sepet/sepet.xhtml?faces-redirect-true" value="Sepet" styleClass="nav-link active"></h:commandLink>
 
                                     </li>
                                     <li class="nav-item">
-                                        <h:commandLink action="/panel/customer/customer-update.xhtml" value="Profilim" styleClass="nav-link active"></h:commandLink>
-
-
-                                    </li>
-                                    <li class="nav-item">
-                                        <h:commandLink action="/panel/order/order.xhtml" value="Siparişlerim" styleClass="nav-link active"></h:commandLink>
+                                        <h:commandLink action="/panel/customer/customer-update.xhtml?faces-redirect-true" value="Profilim" styleClass="nav-link active"></h:commandLink>
 
 
                                     </li>
                                     <li class="nav-item">
-                                        <h:commandLink action="/panel/favorite/favorite.xhtml" value="Favoriler" styleClass="nav-link active"></h:commandLink>
+                                        <h:commandLink action="/panel/order/order.xhtml?faces-redirect-true" value="Siparişlerim" styleClass="nav-link active"></h:commandLink>
 
 
                                     </li>
-                                    
+                                    <li class="nav-item">
+                                        <h:commandLink action="/panel/favorite/favorite.xhtml?faces-redirect-true" value="Favoriler" styleClass="nav-link active"></h:commandLink>
+
+
+                                    </li>
+                                    <li class="nav-item">
+                                        <h:commandLink rendered="#{not empty sessionScope.validUser}"
+                                                       action="logout"
+                                                       value="Çıkış Yap" styleClass="nav-link active">
+                                        </h:commandLink>
+                                        <h:commandLink rendered="#{empty sessionScope.validUser}"
+                                                       action="login.xhtml?faces-redirect-true"
+                                                       value="Giriş Yap" styleClass="nav-link active">
+                                        </h:commandLink>
+                                    </li>
+
+
+
 
                                 </ul>
                             </div>

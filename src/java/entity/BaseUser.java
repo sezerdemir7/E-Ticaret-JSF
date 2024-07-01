@@ -3,6 +3,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package entity;
+import common.Role;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import java.sql.Timestamp;
@@ -27,12 +28,13 @@ public abstract class BaseUser {
     private String email;
     private Timestamp createdDate;
     private Timestamp lastModifiedDate;
+    private Role role;
     
 
     public BaseUser() {
     }
 
-    public BaseUser(Long id, String firstName, String lastName, String password, String email, Timestamp createdDate, Timestamp lastModifiedDate) {
+    public BaseUser(Long id, String firstName, String lastName, String password, String email, Timestamp createdDate, Timestamp lastModifiedDate,Role role) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -40,8 +42,9 @@ public abstract class BaseUser {
         this.email = email;
         this.createdDate = new Timestamp(System.currentTimeMillis());
         this.lastModifiedDate =  new Timestamp(System.currentTimeMillis());
+        this.role=role;
     }
-    public BaseUser( String firstName, String lastName, String password, String email, Timestamp createdDate, Timestamp lastModifiedDate) {
+    public BaseUser( String firstName, String lastName, String password, String email, Timestamp createdDate, Timestamp lastModifiedDate,Role role) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.password = password;
@@ -115,5 +118,12 @@ public abstract class BaseUser {
 
     public void setLastModifiedDate(Timestamp lastModifiedDate) {
         this.lastModifiedDate = new Timestamp(System.currentTimeMillis());
+    }
+     public Role getRole() {
+        return role;
+    }
+
+    public void setRole(Role role) {
+        this.role = role;
     }
 }

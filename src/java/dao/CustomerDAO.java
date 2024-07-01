@@ -7,6 +7,7 @@ package dao;
 import entity.Customer;
 import jakarta.ejb.Local;
 import jakarta.ejb.Stateless;
+import jakarta.persistence.Query;
 import java.io.Serializable;
 import java.util.List;
 
@@ -16,34 +17,44 @@ import java.util.List;
  */
 @Local
 @Stateless
-public class CustomerDAO extends BaseDAO<Customer> implements Serializable{
-
+public class CustomerDAO extends BaseDAO<Customer> implements Serializable {
 
     public CustomerDAO() {
         super(Customer.class);
     }
-    
+
+    public Customer getLoginValid(String email, String pass) {
+        Query q = this.em.createQuery("select u from Customer u where u.email = :email and u.password = :pass", Customer.class);
+        q.setParameter("email", email);
+        q.setParameter("pass", pass);
+        List<Customer> l = q.getResultList();
+        if (l.isEmpty()) {
+            System.out.println("customer bulunmadı *****************");
+            return null;
+        } else {
+            return l.get(0);
+        }
+    }
+
     public Customer login(Customer entity) {
         try {
             String jpql = "SELECT c FROM Customer c WHERE c.email = :email";
-            List<Customer> sellers = em.createQuery(jpql, Customer.class)
+            List<Customer> customers = em.createQuery(jpql, Customer.class)
                     .setParameter("email", entity.getEmail())
                     .getResultList();
 
-            if (!sellers.isEmpty()) {
-                return sellers.get(0);
+            if (!customers.isEmpty()) {
+                return customers.get(0);
             }
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
         return null;
-    
+
     }
 }
-    
-    
 
-    /*  public Customer login(Customer entity) {
+/*  public Customer login(Customer entity) {
 
         Customer customer = null;
 

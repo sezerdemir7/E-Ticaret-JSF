@@ -28,6 +28,19 @@ public class SellerDAO extends BaseDAO<Seller> {
     public SellerDAO() {
         super(Seller.class);
     }
+    
+    public Seller getLoginValid(String email, String pass) {
+        Query q = this.em.createQuery("select u from Seller u where u.email = :email and u.password = :pass", Seller.class);
+        q.setParameter("email", email);
+        q.setParameter("pass", pass);
+        List<Seller> l = q.getResultList();
+        if (l.isEmpty()) {
+            System.out.println("seller bulunmadı *****************");
+            return null;
+        } else {
+            return l.get(0);
+        }
+    }
 
     public Seller loginEski(Seller entity) {
         try {

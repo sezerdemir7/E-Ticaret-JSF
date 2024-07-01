@@ -4,6 +4,7 @@
  */
 package controller;
 
+import common.Role;
 import dao.CartDAO;
 import dao.CustomerDAO;
 import entity.Customer;
@@ -11,9 +12,15 @@ import jakarta.ejb.EJB;
 import jakarta.enterprise.context.SessionScoped;
 import jakarta.faces.application.FacesMessage;
 import jakarta.faces.context.FacesContext;
+import jakarta.inject.Inject;
 import jakarta.inject.Named;
 import java.io.Serializable;
+import java.nio.charset.StandardCharsets;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -25,6 +32,8 @@ public class CustomerBean extends BaseBean<Customer> implements Serializable {
 
     @EJB
     private CustomerDAO dao;
+    @Inject
+    private FacesContext fc;
 
     public CustomerBean() {
         super(Customer.class);
@@ -32,8 +41,21 @@ public class CustomerBean extends BaseBean<Customer> implements Serializable {
 
     @Override
     public void create() {
-        this.dao.create(entity);
-        clearForm();
+        try {
+            final MessageDigest digest = MessageDigest.getInstance("SHA3-256");
+            final byte[] hashbytes = digest.digest(this.entity.getPassword().getBytes(StandardCharsets.UTF_8));
+            String sha3Hex = bytesToHex(hashbytes);
+
+            this.entity.setPassword(sha3Hex);
+            this.entity.setRole(Role.CUSTOMER);
+            System.out.println("*******************");
+            
+            this.dao.create(this.entity);
+            clearForm();
+        } catch (NoSuchAlgorithmException ex) {
+            Logger.getLogger(CustomerBean.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
     }
 
     @Override
@@ -58,6 +80,30 @@ public class CustomerBean extends BaseBean<Customer> implements Serializable {
     }
 
     public String login() {
+        try {
+            final MessageDigest digest = MessageDigest.getInstance("SHA3-256");
+            final byte[] hashbytes = digest.digest(this.entity.getPassword().getBytes(StandardCharsets.UTF_8));
+            String sha3Hex = bytesToHex(hashbytes);
+
+            // Hashlenmiş şifreyi kullanarak kullanıcı doğrulaması yapın
+            Customer u = this.dao.getLoginValid(this.getEntity().getEmail(), sha3Hex);
+            this.setEntity(u);
+            if (u != null) {
+                
+                fc.getExternalContext().getSessionMap().put("validUser", u);
+                return "/index?faces-redirect=true";
+            }else{
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Username veya şifre hatalı"));
+            }
+
+        } catch (NoSuchAlgorithmException ex) {
+            Logger.getLogger(CustomerBean.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        return "/login?faces-redirect=true";
+    }
+
+    public String login21() {
         Customer customerTest = this.dao.login(this.getEntity());
 
         if (customerTest != null && customerTest.getPassword().equals(this.getEntity().getPassword())) {
@@ -67,6 +113,18 @@ public class CustomerBean extends BaseBean<Customer> implements Serializable {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Şifre yanlış", "şifre Yanlış"));
             return null;
         }
+    }
+
+    private static String bytesToHex(byte[] hash) {
+        StringBuilder hexString = new StringBuilder(2 * hash.length);
+        for (int i = 0; i < hash.length; i++) {
+            String hex = Integer.toHexString(0xff & hash[i]);
+            if (hex.length() == 1) {
+                hexString.append('0');
+            }
+            hexString.append(hex);
+        }
+        return hexString.toString();
     }
 
 }

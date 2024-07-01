@@ -72,6 +72,8 @@
         <div class="mb-3">
             <label for="fileUpload" class="form-label">Dosya Yükle</label>
             <h:inputFile id="fileUpload" value="#{imageBean.doc}" styleClass="custom-file" />
+            
+            
         </div>
         
         <div class="mb-3">
@@ -87,6 +89,7 @@
         <div class="mb-3">
             <label for="detail" class="form-label">Ürün Detayı</label>
             <h:inputTextarea id="detail" class="form-control" value="#{productBean.entity.detail}" />
+           
         </div>
         
         <h:commandButton value="Ürün Oluştur" class="btn btn-primary" action="#{productBean.createProduct(sellerBean.entity.store)}" />

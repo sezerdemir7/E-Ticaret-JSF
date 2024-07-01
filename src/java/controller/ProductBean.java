@@ -39,8 +39,9 @@ public class ProductBean extends BaseBean<Product> implements Serializable {
         this.dao.create(this.getEntity());
         this.clearForm();
     }
+    
      public void createProduct(Store store) {
-         this.getEntity().setImage(this.imageBean.upload());
+        this.getEntity().setImage(this.imageBean.upload());
         this.getEntity().setStore(store);
         create();
     }

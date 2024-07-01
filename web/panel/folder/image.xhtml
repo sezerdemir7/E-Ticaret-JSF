@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core">
+<h:head>
+    <title>File Upload</title>
+            <h:outputStylesheet library="css" name="bootstrap.min.css" />
+
+</h:head>
+<h:body>
+
+
+    
+    <hr/>
+
+    <h:dataTable styleClass="table" value="#{imageBean.list}" var="image">
+    <h:column>
+        <f:facet name="header">ID</f:facet>
+        #{image.id}
+    </h:column>
+    <h:column>
+        <f:facet name="header">Name</f:facet>
+        #{image.name}
+    </h:column>
+    <h:column>
+        <f:facet name="header">Path</f:facet>
+        #{image.path}
+    </h:column>
+    <h:column>
+        <f:facet name="header">Type</f:facet>
+        #{image.type}
+    </h:column>
+    <h:column>
+        <h:panelGroup layout="block" rendered="#{image.type.contains('image')}">
+            <h:graphicImage width="100" height="100" value="/image/#{image.name}"/>
+        </h:panelGroup>
+        
+    </h:column>
+</h:dataTable>
+
+</h:body>
+</html>
