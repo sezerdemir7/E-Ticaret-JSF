@@ -4,6 +4,7 @@
  */
 package entity;
 
+import common.Role;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.OneToMany;
@@ -35,8 +36,8 @@ public class Customer extends BaseUser {
     public Customer() {
     }
     
-    public Customer(String addres, Cart cart, List<Orders> orders, List<Favorite> favorites, List<Payment> payments, Long id, String firstName, String lastName, String password, String email, Timestamp createdDate, Timestamp lastModifiedDate) {
-        super(id, firstName, lastName, password, email, createdDate, lastModifiedDate);
+    public Customer(String addres, Cart cart, List<Orders> orders, List<Favorite> favorites, List<Payment> payments, Long id, String firstName, String lastName, String password, String email, Timestamp createdDate, Timestamp lastModifiedDate,Role role) {
+        super(id, firstName, lastName, password, email, createdDate, lastModifiedDate,role);
         this.addres = addres;
         this.cart = cart;
         this.orders = orders;
@@ -44,8 +45,8 @@ public class Customer extends BaseUser {
         this.payments = payments;
     }
 
-    public Customer(String addres, Cart cart, List<Orders> orders, List<Favorite> favorites, List<Payment> payments, String firstName, String lastName, String password, String email, Timestamp createdDate, Timestamp lastModifiedDate) {
-        super(firstName, lastName, password, email, createdDate, lastModifiedDate);
+    public Customer(String addres, Cart cart, List<Orders> orders, List<Favorite> favorites, List<Payment> payments, String firstName, String lastName, String password, String email, Timestamp createdDate, Timestamp lastModifiedDate,Role role) {
+        super(firstName, lastName, password, email, createdDate, lastModifiedDate,role);
         this.addres = addres;
         this.cart = cart;
         this.orders = orders;

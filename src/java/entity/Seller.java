@@ -4,6 +4,7 @@
  */
 package entity;
 
+import common.Role;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.OneToOne;
@@ -23,12 +24,12 @@ public class Seller extends BaseUser {
     public Seller() {
     }
 
-    public Seller(Long id, String firstName, String lastName, String password, String email, Timestamp createdDate, Timestamp lastModifiedDate) {
-        super(id, firstName, lastName, password, email, createdDate, lastModifiedDate);
+    public Seller(Long id, String firstName, String lastName, String password, String email, Timestamp createdDate, Timestamp lastModifiedDate,Role role) {
+        super(id, firstName, lastName, password, email, createdDate, lastModifiedDate,role);
     }
 
-    public Seller(String firstName, String lastName, String password, String email, Timestamp createdDate, Timestamp lastModifiedDate) {
-        super(firstName, lastName, password, email, createdDate, lastModifiedDate);
+    public Seller(String firstName, String lastName, String password, String email, Timestamp createdDate, Timestamp lastModifiedDate,Role role) {
+        super(firstName, lastName, password, email, createdDate, lastModifiedDate,role);
     }
 
     public Store getStore() {

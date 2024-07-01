@@ -7,6 +7,7 @@ package dao;
 import entity.Admin;
 import jakarta.ejb.Local;
 import jakarta.ejb.Stateless;
+import jakarta.persistence.Query;
 import java.io.Serializable;
 import java.util.List;
 
@@ -21,6 +22,19 @@ public class AdminDAO extends BaseDAO<Admin> implements Serializable{
     
     public AdminDAO() {
         super(Admin.class);
+    }
+    
+    public Admin getLoginValid(String email, String pass) {
+        Query q = this.em.createQuery("select u from Admin u where u.email = :email and u.password = :pass", Admin.class);
+        q.setParameter("email", email);
+        q.setParameter("pass", pass);
+        List<Admin> l = q.getResultList();
+        if (l.isEmpty()) {
+            System.out.println("Admin bulunmadı *****************");
+            return null;
+        } else {
+            return l.get(0);
+        }
     }
 
     

@@ -47,7 +47,11 @@
                 <to-view-id>/panel/product/product-list.xhtml</to-view-id>
                 <redirect></redirect>
             </navigation-case>
-            
+            <navigation-case>
+                <from-outcome>logout</from-outcome>
+                <to-view-id>/panel/logout/logout.xhtml</to-view-id>
+                <redirect></redirect>
+            </navigation-case>
             
 
             </navigation-rule>
