@@ -8,6 +8,7 @@ import jakarta.ejb.Local;
 import jakarta.ejb.Stateless;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
+import jakarta.transaction.Transactional;
 import java.io.Serializable;
 import java.util.List;
 
@@ -41,6 +42,7 @@ public abstract class BaseDAO<T> implements Serializable{
         em.merge(entity);
     }
 
+    @Transactional
     public void delete(T entity) {
         em.remove(em.merge(entity));
     }

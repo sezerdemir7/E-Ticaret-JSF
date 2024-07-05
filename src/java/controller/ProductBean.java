@@ -1,10 +1,7 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package controller;
 
 import dao.ProductDAO;
+import entity.Category;
 import entity.Product;
 import entity.Store;
 import jakarta.ejb.EJB;
@@ -12,35 +9,31 @@ import jakarta.enterprise.context.SessionScoped;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.List;
-
-/**
- *
- * @author Demirr
- */
 @Named
 @SessionScoped
-
 public class ProductBean extends BaseBean<Product> implements Serializable {
 
     @EJB
     private ProductDAO dao;
     @Inject
     private ImageBean imageBean;
-    
+
+    private Category selectedCategory;
+    private List<Product> filteredProducts;
 
     public ProductBean() {
         super(Product.class);
     }
-    
+
     @Override
     public void create() {
         this.dao.create(this.getEntity());
         this.clearForm();
+        refreshProducts();
     }
-    
-     public void createProduct(Store store) {
+
+    public void createProduct(Store store) {
         this.getEntity().setImage(this.imageBean.upload());
         this.getEntity().setStore(store);
         create();
@@ -50,16 +43,17 @@ public class ProductBean extends BaseBean<Product> implements Serializable {
     public void update() {
         this.dao.update(entity);
         this.clearForm();
+        refreshProducts();
     }
-    
 
     @Override
     public void delete() {
         this.dao.delete(entity);
         this.clearForm();
+        refreshProducts();
     }
-    
-      @Override
+
+    @Override
     public List<Product> getList() {
         return this.dao.listele(this.getCp(), this.getEpp());
     }
@@ -68,14 +62,38 @@ public class ProductBean extends BaseBean<Product> implements Serializable {
     public Product getEntityById(Long id) {
         return this.dao.getEntityById(id);
     }
-         
     
- 
-     public List<Product> getProductListByCategoryId(Long categoryId) {
-        List<Product> productList = null;
-        productList = this.dao.getProductListByCategoryId(categoryId);
-        setList(productList);
-        return productList;
+    public List<Product> getProductListByStoreId(Long StoreId){
+        return this.dao.getProductListByStoreId(StoreId);
+    }
+    
+    public void deleteProduct(Product product){
+        this.dao.delete(product);
+    }
+
+    public void filterProductsByCategory(Category category) {
+        this.selectedCategory = category;
+        this.cp = 1;  // Reset to the first page when changing category
+        refreshProducts();
+    }
+
+    public Category getSelectedCategory() {
+        return selectedCategory;
+    }
+
+    public List<Product> getFilteredProducts() {
+        if (filteredProducts == null) {
+            refreshProducts();
+        }
+        return filteredProducts;
+    }
+
+    private void refreshProducts() {
+        if (selectedCategory == null) {
+            filteredProducts = this.dao.listele(this.getCp(), this.getEpp());
+        } else {
+            filteredProducts = this.dao.getProductListByCategoryId(selectedCategory.getId(),this.getCp(),this.getEpp());
+        }
     }
 
     private int epp = 3;
@@ -83,7 +101,7 @@ public class ProductBean extends BaseBean<Product> implements Serializable {
     private int pageValue;
 
     public int getPagesize() {
-        this.pageValue = (int) Math.ceil(this.dao.Count() / (double) epp);
+        this.pageValue = (int) Math.ceil(this.dao.count(selectedCategory) / (double) epp);
         return pageValue;
     }
 
@@ -108,34 +126,17 @@ public class ProductBean extends BaseBean<Product> implements Serializable {
     }
 
     public void next() {
-        if (this.cp == this.getPagesize()) {
-            this.cp = 1;
-        } else {
+        if (this.cp < this.getPagesize()) {
             this.cp++;
+            refreshProducts();
         }
-
     }
 
     public void prev() {
-        if (cp == 1) {
-            this.cp = this.getPagesize();
-        } else {
+        if (this.cp > 1) {
             this.cp--;
+            refreshProducts();
         }
     }
-
-  
-    
-     
-
-    /* public List<Product> getProductListByCategoryId(Long categoryId) {
-        List<Product> productList = new ArrayList<>();
-        productList = getDao().getProductListByCategoryId(categoryId);
-        return productList;
-    }
-     */
- /* public void deleteProduct(Product product){
-        getDao().delete(product);
-    }*/
-    //private List<Product> listeleme;
 }
+

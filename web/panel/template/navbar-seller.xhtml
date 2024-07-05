@@ -6,32 +6,30 @@
     <h:head>
         <title>E-ticaret</title>
         <h:outputStylesheet library="css" name="bootstrap.min.css" />
+
     </h:head>
     <h:body>
+
         <div class="container mt-0">
+
             <ui:insert name="navbar">
                 <h:form>
                     <nav class="navbar navbar-expand-lg navbar-light bg-light">
                         <div class="container-fluid">
-                            <h:commandLink action="/index.xhtml" value="Anasayfa" styleClass="navbar-brand"></h:commandLink>
+                            <h:commandLink action="#{NavigationBean.module('seller/seller-home.xhtml')}" value="Anasayfa" styleClass="navbar-brand"></h:commandLink>
 
                             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                                 <span class="navbar-toggler-icon"></span>
                             </button>
                             <div class="collapse navbar-collapse" id="navbarNav">
                                 <ul class="navbar-nav">
+
                                     <li class="nav-item">
-                                        <h:commandLink action="#{NavigationBean.module('sepet/sepet.xhtml')}" value="Sepet" styleClass="#{NavigationBean.pages['sepet'] eq 'active' ? 'nav-link active' : 'nav-link'}"></h:commandLink>
+                                        <h:commandLink action="#{NavigationBean.module('seller/seller-product.xhtml')}" value="Ürünler" styleClass="#{NavigationBean.pages['sepet'] eq 'active' ? 'nav-link active' : 'nav-link'}"></h:commandLink>
                                     </li>
-                                    <li class="nav-item">
-                                        <h:commandLink action="#{NavigationBean.module('customer/customer-update.xhtml')}" value="Profilim" styleClass="#{NavigationBean.pages['customer'] eq 'active' ? 'nav-link active' : 'nav-link'}"></h:commandLink>
-                                    </li>
-                                    <li class="nav-item">
-                                        <h:commandLink action="#{NavigationBean.module('order/order.xhtml')}" value="Siparişlerim" styleClass="#{NavigationBean.pages['order'] eq 'active' ? 'nav-link active' : 'nav-link'}"></h:commandLink>
-                                    </li>
-                                    <li class="nav-item">
-                                        <h:commandLink action="#{NavigationBean.module('favorite/favorite.xhtml')}" value="Favoriler" styleClass="#{NavigationBean.pages['favorite'] eq 'active' ? 'nav-link active' : 'nav-link'}"></h:commandLink>
-                                    </li>
+
+
+
                                     <li class="nav-item">
                                         <h:commandLink rendered="#{not empty sessionScope.validUser}"
                                                        action="#{NavigationBean.module('login/logout.xhtml')}"
@@ -42,6 +40,10 @@
                                                        value="Giriş Yap" styleClass="nav-link active">
                                         </h:commandLink>
                                     </li>
+
+
+
+
                                 </ul>
                             </div>
                         </div>

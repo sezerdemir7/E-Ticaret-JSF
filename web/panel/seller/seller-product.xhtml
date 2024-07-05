@@ -1,0 +1,106 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                template="/panel/template/navbar-seller.xhtml"
+
+
+                xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+
+
+
+    <ui:define name="content">
+    
+
+        <div class="container-mt-3">
+
+            <div class="col-md-7">
+                
+                    <table class="table table-scriped table-hover">
+                        <thead>
+
+                            <tr>
+                                <th>
+                                    ID
+                                </th>
+                                <th>
+                                    Ürün Adı
+                                </th>
+                                <th>
+                                    Stok Adedi
+                                </th>
+                                <th>
+                                    Ürün Detayı
+                                </th>
+                                <th>
+                                    Fiyat
+                                </th>
+                                <th>
+                                    Store ID
+                                </th> <th>
+                                    Created Date
+                                </th><th>
+                                    Last Modified Date
+                                </th><th>
+                                    Delete
+                                </th>
+                                <th>
+                                    Update
+                                </th>
+
+
+
+                            </tr>
+
+                        </thead>
+                        <tbody>
+                            <ui:repeat value="#{productBean.getProductListByStoreId(sellerBean.entity.store.id)}" var="product" >
+                                <tr>
+                                    <td>#{product.id}</td>
+                                    <td>#{product.name}</td>
+                                    <td>#{product.stock}</td>
+                                    <td>#{product.detail}</td>
+                                    <td>#{product.price}</td>
+
+                                    <td>#{product.store.getId()}</td>
+                                    <td>#{product.createdDate}</td>
+                                    <td>#{product.lastModifiedDate}</td>
+                                    <td>
+                                        <h:form>
+                                            <h:commandButton styleClass="btn btn-danger" action="#{productBean.deleteProduct(product)}" value="Sil"/>
+                                        </h:form>
+                                    </td>
+                                    <td>
+
+                                        <h:form>
+                                            <h:commandButton value="Ürün Güncelle" styleClass="btn btn-primary" action="/panel/product/product-update.xhtml}"  actionListener="#{productBean.setEntity(product)}"/>
+                                        </h:form>
+                                    </td>
+
+                                </tr>
+
+                            </ui:repeat>
+
+                        </tbody>
+
+
+                    </table>
+            </div>
+
+
+        </div>
+
+
+
+
+
+
+
+
+    </ui:define>
+
+
+</ui:composition>
+
