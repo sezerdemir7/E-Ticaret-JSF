@@ -102,6 +102,15 @@ public class CustomerBean extends BaseBean<Customer> implements Serializable {
 
         return "/login?faces-redirect=true";
     }
+    public void deleteCustomer(Customer customer){
+        this.dao.delete(customer);
+       
+    }
+    private Customer entity;
+
+    public void setEntity(Customer entity) {
+        this.entity = entity;
+    } 
 
     public String login21() {
         Customer customerTest = this.dao.login(this.getEntity());

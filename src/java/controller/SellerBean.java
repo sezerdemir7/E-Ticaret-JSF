@@ -121,6 +121,15 @@ public class SellerBean extends BaseBean<Seller> implements Serializable {
         return hexString.toString();
     }
     
+    public void deleteSeller(Seller seller) {
+        this.dao.delete(seller);
+        this.clearForm();
+    }
+    public void setEntity(Seller entity){
+        this.entity= entity;
+    }
+
+    
     public Store getStoreBySellerId(long sellerId){
         Store store=storeDAO.getStoreBySellerId(sellerId);
         this.getEntity().setStore(store);

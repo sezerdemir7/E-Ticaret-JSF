@@ -24,6 +24,7 @@ public class LoginFilter implements Filter {
     public void init(FilterConfig filterConfig) throws ServletException {
         allowedUrls = new HashSet<>();
         allowedUrls.add("/image"); // Allow access to /image URLs
+         allowedUrls.add("/panel/login/login.xhtml"); 
     }
 
     @Override
@@ -40,13 +41,13 @@ public class LoginFilter implements Filter {
         if (user == null && !isAllowed(url)) {
             if (shouldRedirectToLogin(url)) {
                 // Redirect to login page
-                response.sendRedirect(request.getContextPath() + "/login.xhtml");
+                response.sendRedirect(request.getContextPath()+"/panel/login/login.xhtml");
                 return;
             }
         } else if (url.contains("logout")) {
-            // Invalidate session and redirect to login page
+            
             session.invalidate();
-            response.sendRedirect(request.getContextPath() + "/login.xhtml");
+            response.sendRedirect(request.getContextPath()+"/panel/login/login.xhtml");
             return;
         }
 
@@ -61,8 +62,4 @@ public class LoginFilter implements Filter {
         return allowedUrls.stream().anyMatch(url::startsWith);
     }
 
-    @Override
-    public void destroy() {
-        // Cleanup code if needed
-    }
 }
