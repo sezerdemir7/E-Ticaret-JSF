@@ -3,6 +3,7 @@
 <ui:composition xmlns="http://www.w3.org/1999/xhtml"
                 xmlns:h="http://xmlns.jcp.org/jsf/html"
                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
 
                 template="/panel/template/navbar.xhtml">
 
@@ -14,7 +15,7 @@
 
         <div class="col-md-9" >
             <div class="container mt-3" >
-                <h:form>
+                <h:form  rendered="#{customerBean.entity.id != null}" >
                     <div class="row row-cols-1 row-cols-md-3 g-4">
                         <ui:repeat value="#{cartBean.getCartByCuctomerId(customerBean.entity)}" var="cartItem">
 
@@ -25,22 +26,29 @@
                                         <h5 class="card-title">Product Name: #{cartItem.product.name}</h5>
 
                                         <p class="card-text"><strong>Price: #{cartItem.product.price}</strong></p>
+                                        <p class="card-text"><small class="text-muted">Adet: #{cartItem.adet}</small></p>
                                         <p class="card-text"><small class="text-muted">Stock: #{cartItem.product.stock}</small></p>
 
-                                        <h:commandLink action="#{cartItemBean.deleteAndSetEntity(cartItem)}" styleClass="btn btn-danger">
-                                            Sepeten Sil
-                                        </h:commandLink>
-                                        
-                                        
+                                        <h:commandButton value="Sepeten Sil" action="#{cartItemBean.deleteAndSetEntity(cartItem)}" styleClass="btn btn-danger">
+
+                                        </h:commandButton>
+
+
                                     </div>
                                 </div>
                             </div>
                         </ui:repeat>
                         <div>
-                            <h:commandLink action="#{orderBean.saveOrder(customerBean.entity)}" rendered="#{customerBean.entity.id!=null}" styleClass="btn btn-danger">
-                                            Sipariş ver
-                                        </h:commandLink>
+                            <h:commandLink action="#{orderBean.saveOrder(customerBean.entity)}" rendered="#{cartBean.cartControl(customerBean.entity) !=false}" styleClass="btn btn-success">
+                                Sipariş ver
+                            </h:commandLink>
+
                         </div>
+                        <h:panelGroup  rendered="#{cartBean.cartControl(customerBean.entity) !=true}">
+                        <div>
+                            <h1>Sepetinde ürün bulunmamaktadır.</h1> 
+                        </div>
+                            </h:panelGroup>
                     </div>
                 </h:form>
             </div>

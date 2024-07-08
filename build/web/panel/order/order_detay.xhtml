@@ -1,16 +1,14 @@
 <?xml version='1.0' encoding='UTF-8' ?>
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:f="http://xmlns.jcp.org/jsf/core"
-      xmlns:p="http://primefaces.org/ui"
-      xmlns:ui="http://java.sun.com/jsf/facelets">
-    <h:head>
-        <title>Sipariş Detayları</title>
-        <h:outputStylesheet library="css" name="bootstrap.min.css" />
-    </h:head>
-    <h:body>
-        <h1>Sipariş Detayları</h1>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                template="/panel/template/navbar.xhtml">
+   
+    
+    <ui:define name="content">
+       <h1>Sipariş Detayları</h1>
         <h:form id="orderForm">
             <table class="table">
                 <thead>
@@ -44,5 +42,5 @@
                 </tbody>
             </table>
         </h:form>
-    </h:body>
-</html>
+    </ui:define>
+</ui:composition>

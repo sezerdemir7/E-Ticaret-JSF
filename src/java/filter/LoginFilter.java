@@ -24,7 +24,7 @@ public class LoginFilter implements Filter {
     public void init(FilterConfig filterConfig) throws ServletException {
         allowedUrls = new HashSet<>();
         allowedUrls.add("/image"); // Allow access to /image URLs
-         allowedUrls.add("/panel/login/login.xhtml"); 
+        allowedUrls.add("/panel/login/login.xhtml"); 
     }
 
     @Override

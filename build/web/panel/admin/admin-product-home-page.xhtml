@@ -1,35 +1,24 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--
-Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
-Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/XHtml.xhtml to edit this template
--->
-<!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="jakarta.faces.html"
-      xmlns:f="http://xmlns.jcp.org/jsf/core"
-      xmlns:ui="http://java.sun.com/jsf/facelets"
-      template="/panel/template/navbar.xhtml">
-    <head>
-        <h:outputStylesheet library="css" name="bootstrap.min.css" />
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                template="/panel/template/navbar-admin.xhtml"
+                xmlns:f="http://xmlns.jcp.org/jsf/core">
 
-        <title>Admin Ürün İşlemleri</title>
-        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    </head>
-    <body>
+
+
+
+    <ui:define name="content">
         <h:form>
-            <h:commandButton value="Ürün Ekle"  class="buton-color"  action="/panel/product/product.xhtml"  />    
-            <h:commandButton value="Ürün Güncelle" styleClass="btn btn-succes" action="/panel/product/product.xhtml"/>
+            <h:commandButton value="Ürün Ekle"  styleClass="bt btn-primary" action="/panel/product/product.xhtml"  />    
 
-            <h:commandButton value="Ürün Listele"  class="buton-color"  action="#{productBean.getList()}" />
         </h:form>
-
-
-
 
         <div class="container-mt-3">
 
-            <div class="col-md-5">
-                <form>
+            <div class="col-md-7">
+                
                     <table class="table table-scriped table-hover">
                         <thead>
 
@@ -50,8 +39,6 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/XHtml.xhtml to edit t
                                     Fiyat
                                 </th>
                                 <th>
-                                    Kategori ID
-                                </th><th>
                                     Store ID
                                 </th> <th>
                                     Created Date
@@ -60,6 +47,9 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/XHtml.xhtml to edit t
                                 </th><th>
                                     Delete
                                 </th>
+                                <th>
+                                    Update
+                                </th>
 
 
 
@@ -67,21 +57,28 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/XHtml.xhtml to edit t
 
                         </thead>
                         <tbody>
-                            <ui:repeat value="#{productBean.getList()}" var="product" >
+                            <ui:repeat value="#{productBean.list}" var="product" >
                                 <tr>
                                     <td>#{product.id}</td>
                                     <td>#{product.name}</td>
                                     <td>#{product.stock}</td>
                                     <td>#{product.detail}</td>
                                     <td>#{product.price}</td>
-                                    <td>#{product.category_id}</td>
-                                    <td>#{product.store_id}</td>
+
+                                    <td>#{product.store.getId()}</td>
                                     <td>#{product.createdDate}</td>
                                     <td>#{product.lastModifiedDate}</td>
                                     <td>
-                                        <h:commandButton class="btn btn-danger" action="#{productBean.delete()}" value="Sil"/>
+                                        <h:form>
+                                            <h:commandButton styleClass="btn btn-danger" action="#{productBean.deleteProduct(product)}" value="Sil"/>
+                                        </h:form>
                                     </td>
+                                    <td>
 
+                                        <h:form>
+                                            <h:commandButton value="Ürün Güncelle" styleClass="btn btn-primary" action="/panel/product/product-update.xhtml}"  actionListener="#{productBean.setEntity(product)}"/>
+                                        </h:form>
+                                    </td>
 
                                 </tr>
 
@@ -91,17 +88,17 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/XHtml.xhtml to edit t
 
 
                     </table>
-                </form>
             </div>
 
 
         </div>
 
 
+          
 
 
+    </ui:define>
 
 
+</ui:composition>
 
-    </body>
-</html>
