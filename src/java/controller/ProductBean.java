@@ -1,15 +1,18 @@
 package controller;
 
 import dao.ProductDAO;
+import entity.BaseUser;
 import entity.Category;
 import entity.Product;
 import entity.Store;
 import jakarta.ejb.EJB;
 import jakarta.enterprise.context.SessionScoped;
+import jakarta.faces.context.FacesContext;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
 import java.io.Serializable;
 import java.util.List;
+
 @Named
 @SessionScoped
 public class ProductBean extends BaseBean<Product> implements Serializable {
@@ -18,6 +21,9 @@ public class ProductBean extends BaseBean<Product> implements Serializable {
     private ProductDAO dao;
     @Inject
     private ImageBean imageBean;
+
+    @Inject
+    private FacesContext fc;
 
     private Category selectedCategory;
     private List<Product> filteredProducts;
@@ -28,9 +34,14 @@ public class ProductBean extends BaseBean<Product> implements Serializable {
 
     @Override
     public void create() {
-        this.dao.create(this.getEntity());
-        this.clearForm();
-        refreshProducts();
+        if (hasPermission() == true) {
+            this.dao.create(this.getEntity());
+            this.clearForm();
+            refreshProducts();
+        } else {
+            throw new SecurityException("yetkisiz deneme.");
+        }
+
     }
 
     public void createProduct(Store store) {
@@ -41,16 +52,27 @@ public class ProductBean extends BaseBean<Product> implements Serializable {
 
     @Override
     public void update() {
-        this.dao.update(entity);
-        this.clearForm();
-        refreshProducts();
+        if (hasPermission() == true) {
+            this.dao.update(entity);
+            this.clearForm();
+            refreshProducts();
+        } else {
+            throw new SecurityException("yetkisiz deneme.");
+        }
+
     }
 
     @Override
     public void delete() {
-        this.dao.delete(entity);
-        this.clearForm();
-        refreshProducts();
+
+        if (hasPermission() == true) {
+            this.dao.delete(entity);
+            this.clearForm();
+            refreshProducts();
+        } else {
+            throw new SecurityException("yetkisiz deneme.");
+        }
+
     }
 
     @Override
@@ -62,12 +84,12 @@ public class ProductBean extends BaseBean<Product> implements Serializable {
     public Product getEntityById(Long id) {
         return this.dao.getEntityById(id);
     }
-    
-    public List<Product> getProductListByStoreId(Long StoreId){
+
+    public List<Product> getProductListByStoreId(Long StoreId) {
         return this.dao.getProductListByStoreId(StoreId);
     }
-    
-    public void deleteProduct(Product product){
+
+    public void deleteProduct(Product product) {
         this.dao.delete(product);
     }
 
@@ -92,7 +114,7 @@ public class ProductBean extends BaseBean<Product> implements Serializable {
         if (selectedCategory == null) {
             filteredProducts = this.dao.listele(this.getCp(), this.getEpp());
         } else {
-            filteredProducts = this.dao.getProductListByCategoryId(selectedCategory.getId(),this.getCp(),this.getEpp());
+            filteredProducts = this.dao.getProductListByCategoryId(selectedCategory.getId(), this.getCp(), this.getEpp());
         }
     }
 
@@ -138,5 +160,15 @@ public class ProductBean extends BaseBean<Product> implements Serializable {
             refreshProducts();
         }
     }
-}
 
+    private boolean hasPermission() {
+
+        BaseUser user = (BaseUser) fc.getExternalContext().getSessionMap().get("validUser");
+
+        if (user != null && (user.getRole().getRoleName().equals("Admin") || user.getRole().getRoleName().equals("Seller"))) {
+            return true;
+        }
+
+        return false;
+    }
+}

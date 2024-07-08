@@ -18,7 +18,7 @@ public abstract class BaseDAO<T> implements Serializable{
 
     @PersistenceContext(unitName = "deneme")
     protected EntityManager em;
-
+    
     private Class<T> entityClass;
 
     public BaseDAO(){
@@ -65,82 +65,3 @@ public abstract class BaseDAO<T> implements Serializable{
         }
     }
 }
-/*public void update(T entity) {
-        jpadao.executeTransaction(entityManager -> entityManager.merge(entity));
-    }
-
-    public void delete(T entity) {
-    jpadao.executeTransaction(entityManager -> {
-        T managedEntity = entity;
-        if (!entityManager.contains(entity)) {
-            managedEntity = entityManager.merge(entity);
-        }
-        entityManager.remove(managedEntity);
-    });
-}
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-/*
-import jakarta.inject.Inject;
-import jakarta.persistence.PersistenceContext;
-import java.util.List;
-
-/**
- *
- * @author Demirr
- *//*
-public abstract class BaseDAO<T> {
-    
-    //@PersistenceContext(unitName = "deneme")
-    
-    public void create(T entity){
-        
-    }
-    
-    
-    /*
-    public  void create(T entity);
-    public  void update(T entity);
-    public  void delete(T entity);
-    public  List<T> readList();
-    public  T getEntityById(Long id);
-
-
-}
- */

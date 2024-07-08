@@ -1,27 +1,31 @@
 <?xml version='1.0' encoding='UTF-8' ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="jakarta.faces.html"
-      xmlns:ui="http://java.sun.com/jsf/facelets">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                template="/panel/template/navbar-seller.xhtml"
 
 
-    <h:head>
-        <h:outputStylesheet library="css" name="bootstrap.min.css" />
+                xmlns:f="http://xmlns.jcp.org/jsf/core">
 
-        <title>Product List</title>
-    </h:head>
-    <h:body>
 
-        <!-- cretate store 
+
+
+    <ui:define name="content">
+        <!-- cretate store -->
         <div class="container">
             <h:form>
-                <div class="mb-3">
-                    <label for="exampleInputFirstName" class="form-label">Store Name</label>
-                    <h:inputText id="exampleInputFirstName" class="form-control" value="#{storeBean.entity.name}" />
-                </div>
+                <h:panelGroup rendered="#{sellerBean.getStoreBySellerId(sellerBean.entity.id) == null}">
+                    <div class="mb-3">
+                        <label for="exampleInputFirstName" class="form-label">Store Name</label>
+                        <h:inputText id="exampleInputFirstName"  class="form-control" value="#{storeBean.entity.name}" />
+                    </div>
 
 
-                <h:commandButton value="Mağaza Oluştur" class="btn btn-primary" action="#{storeBean.create(sellerBean.entity)}" />
+                    <h:commandButton value="Mağaza Oluştur" class="btn btn-primary" action="#{storeBean.createStore(sellerBean.entity)}" />
+                </h:panelGroup>
+
+
 
 
 
@@ -31,35 +35,70 @@
 
             </h:form>
         </div>
+
+
+        <!-- 
+        <ul>
+        <ui:repeat value="#entity.categories}" var="k">
+        <li> #{k.name}</li> 
+        </ui:repeat >
+        </ul>
+        
         -->
+
+
         <div class="container">
-            <h:form>
+            <h:form enctype="multipart/form-data" rendered="#{storeBean.getStoreBySellerId(sellerBean.entity.id) != null}">
                 <div class="mb-3">
                     <label for="productName" class="form-label">Ürün İsmi</label>
-                    <h:inputText id="productName" class="form-control" value="#{productBean.entity.name}" />
-                </div>
-                <div class="mb-3">
-                    <label for="stock" class="form-label">Stok sayısı</label>
-                    <h:inputText id="stock" class="form-control" value="#{productBean.entity.stock}" />
-                </div>
-                <div class="mb-3">
-                    <label for="price" class="form-label">Ürün Fiyatı</label>
-                    <h:inputText id="price" class="form-control" value="#{productBean.entity.price}" />
+                    <h:inputText  required="true" requiredMessage="Bu alan zorunludur" id="productName" class="form-control" value="#{productBean.entity.name}" />
+                    <h:message for="productName" style="color: red;" />
                 </div>
 
+                <div class="mb-3">
+                    <label for="storeName" class="form-label">Mağaza Adı:</label>
+                    <h:outputText  id="storeName" styleClass="border p-1" value="#{sellerBean.entity.store.name}" />
+                </div>
+
+                <div class="mb-3">
+                    <label for="categories" class="form-label">Kategori</label>
+                    <h:selectManyListbox id="categories" styleClass="form-select form-select-lg" aria-label=".form-select-lg example" value="#{productBean.entity.categories}" converter="categoryConverter" size="5">
+                        <f:selectItems value="#{categoryBean.list}" var="c" itemValue="#{c}" itemLabel="#{c.name}" />
+                    </h:selectManyListbox>
+                </div>
+
+                <div class="mb-3">
+                    <label for="fileUpload" class="form-label">Dosya Yükle</label>
+                    <h:inputFile id="fileUpload" value="#{imageBean.doc}" styleClass="custom-file" />
+
+
+                </div>
+
+                <div class="mb-3">
+                    <label for="stock" class="form-label">Stok sayısı</label>
+                    <h:inputText  required="true" requiredMessage="Stok sayısı alanı zorunludur" id="stock" class="form-control" value="#{productBean.entity.stock}" />
+                    <h:message for="stock"  style="color: red;" />
+                </div>
+
+                <div class="mb-3">
+                    <label for="price" class="form-label">Ürün Fiyatı</label>
+                    <h:inputText  required="true"  requiredMessage="Bu alan zorunludur" id="price" class="form-control" value="#{productBean.entity.price}" />
+                    <h:message for="price"  style="color: red;" />
+                </div>
 
                 <div class="mb-3">
                     <label for="detail" class="form-label">Ürün Detayı</label>
-                    <h:inputTextarea id="detail" class="form-control" value="#{productBean.entity.detail}" />
+                    <h:inputTextarea  required="true" requiredMessage="Bu alan zorunludur"  id="detail" class="form-control" value="#{productBean.entity.detail}" />
+                    <h:message for="detail"  style="color: red;" />
                 </div>
 
-                <h:commandButton value="Ürün Oluştur" class="btn btn-primary" action="#{productBean.create()}" />
+                <h:commandButton value="Ürün Oluştur" class="btn btn-primary" action="#{productBean.createProduct(sellerBean.entity.store)}" />
             </h:form>
         </div>
 
 
+    </ui:define>
 
 
+</ui:composition>
 
-    </h:body>
-</html>

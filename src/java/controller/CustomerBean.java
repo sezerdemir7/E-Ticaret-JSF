@@ -91,7 +91,7 @@ public class CustomerBean extends BaseBean<Customer> implements Serializable {
             if (u != null) {
                 
                 fc.getExternalContext().getSessionMap().put("validUser", u);
-                return "/index?faces-redirect=true";
+                return "/panel/product/product-list?faces-redirect=true";
             }else{
                 FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Username veya şifre hatalı"));
             }
@@ -106,11 +106,9 @@ public class CustomerBean extends BaseBean<Customer> implements Serializable {
         this.dao.delete(customer);
        
     }
-    private Customer entity;
+   
 
-    public void setEntity(Customer entity) {
-        this.entity = entity;
-    } 
+   
 
     public String login21() {
         Customer customerTest = this.dao.login(this.getEntity());
@@ -138,47 +136,4 @@ public class CustomerBean extends BaseBean<Customer> implements Serializable {
 
 }
 
-/*private CartDAO cartDAO;
 
-    public CustomerBean() {
-        super(Customer.class, CustomerDAO.class);
-    }
-
-
-    public void deleteCustomer(Customer customer){
-        setEntity(customer);
-        getDao().delete(getEntity());
-    }
-
-    public String login() {
-        Customer customerTest = this.getDao().login(this.getEntity());
-
-        if (customerTest != null && customerTest.getPassword().equals(this.getEntity().getPassword())) {
-            this.setEntity(customerTest);
-            
-            return "/panel/product/product-list.xhtml?faces-redirect=true";
-        } else {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Şifre Yanlış", "Şifre yanlış."));
-            return null; // Başarısız giriş durumunda null döndürüyor
-        }
-    }
-
-    @Override
-    public void create() {
-        super.create();
-    }
-
-
-    public CartDAO getCartDAO() {
-        if (this.cartDAO == null) {
-            cartDAO = new CartDAO();
-        }
-        return cartDAO;
-    }
-
-    public void setCartDAO(CartDAO cartDAO) {
-        this.cartDAO = cartDAO;
-    }
-
-}
- */

@@ -1,17 +1,17 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version='1.0' encoding='UTF-8' ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                template="/panel/template/navbar-admin.xhtml"
+                xmlns:f="http://xmlns.jcp.org/jsf/core">
 
-<html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="jakarta.faces.html"
-      xmlns:ui="http://java.sun.com/jsf/facelets">
 
-    <h:head>
-        <h:outputStylesheet library="css" name="bootstrap.min.css" />
 
-        <title>Admin Anasayfa</title>
-    </h:head>
-    <h:body>
-        <div class="container-mt-3">
+
+    <ui:define name="content">
+        <div class="container">
+             
             <h:form>
                 <div class="px-4 mt-3 ">
 
@@ -25,9 +25,16 @@
                 </div>
                
             </h:form>
+        
         </div>
-    </h:body>
-</html>
+          
+
+
+    </ui:define>
+
+
+</ui:composition>
+
 
 
 

@@ -15,10 +15,10 @@
         <!-- cretate store -->
         <div class="container">
             <h:form>
-                <h:panelGroup rendered="#{storeBean.getStoreBySellerId(sellerBean.entity.id) == null}">
+                <h:panelGroup rendered="#{sellerBean.getStoreBySellerId(sellerBean.entity.id) == null}">
                     <div class="mb-3">
                         <label for="exampleInputFirstName" class="form-label">Store Name</label>
-                        <h:inputText id="exampleInputFirstName" class="form-control" value="#{storeBean.entity.name}" />
+                        <h:inputText id="exampleInputFirstName"  class="form-control" value="#{storeBean.entity.name}" />
                     </div>
 
 
@@ -51,12 +51,13 @@
             <h:form enctype="multipart/form-data" rendered="#{storeBean.getStoreBySellerId(sellerBean.entity.id) != null}">
                 <div class="mb-3">
                     <label for="productName" class="form-label">Ürün İsmi</label>
-                    <h:inputText id="productName" class="form-control" value="#{productBean.entity.name}" />
+                    <h:inputText  required="true" requiredMessage="Bu alan zorunludur" id="productName" class="form-control" value="#{productBean.entity.name}" />
+                    <h:message for="productName" style="color: red;" />
                 </div>
 
                 <div class="mb-3">
                     <label for="storeName" class="form-label">Mağaza Adı:</label>
-                    <h:outputText id="storeName" styleClass="border p-1" value="#{sellerBean.entity.store.name}" />
+                    <h:outputText  id="storeName" styleClass="border p-1" value="#{sellerBean.entity.store.name}" />
                 </div>
 
                 <div class="mb-3">
@@ -75,18 +76,20 @@
 
                 <div class="mb-3">
                     <label for="stock" class="form-label">Stok sayısı</label>
-                    <h:inputText id="stock" class="form-control" value="#{productBean.entity.stock}" />
+                    <h:inputText  required="true" requiredMessage="Stok sayısı alanı zorunludur" id="stock" class="form-control" value="#{productBean.entity.stock}" />
+                    <h:message for="stock"  style="color: red;" />
                 </div>
 
                 <div class="mb-3">
                     <label for="price" class="form-label">Ürün Fiyatı</label>
-                    <h:inputText id="price" class="form-control" value="#{productBean.entity.price}" />
+                    <h:inputText  required="true"  requiredMessage="Bu alan zorunludur" id="price" class="form-control" value="#{productBean.entity.price}" />
+                    <h:message for="price"  style="color: red;" />
                 </div>
 
                 <div class="mb-3">
                     <label for="detail" class="form-label">Ürün Detayı</label>
-                    <h:inputTextarea id="detail" class="form-control" value="#{productBean.entity.detail}" />
-
+                    <h:inputTextarea  required="true" requiredMessage="Bu alan zorunludur"  id="detail" class="form-control" value="#{productBean.entity.detail}" />
+                    <h:message for="detail"  style="color: red;" />
                 </div>
 
                 <h:commandButton value="Ürün Oluştur" class="btn btn-primary" action="#{productBean.createProduct(sellerBean.entity.store)}" />

@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/XHtml.xhtml to edit this template
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="jakarta.faces.html"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+    <h:head>
+        <h:outputStylesheet library="css" name="bootstrap.min.css" />
+         
+    </h:head>
+    <h:body>
+       <div styleClass="container">
+             <h1 styleClass="text-center fs-4">Product Güncelleme Sayfası </h1>
+            <h:form>
+                <div styleClass="mb-3">
+                    <label for="exampleInputFirstName" styleClass="form-label">Name</label>
+                    <h:inputText id="exampleInputFirstName" styleClass="form-control" value="#{productBean.entity.name}" />
+                </div>
+                <div styleClass="mb-3">
+                    <label for="exampleInputLastName" styleClass="form-label">Stock</label>
+                    <h:inputText id="exampleInputLastName" styleClass="form-control" value="#{productBean.entity.stock}" />
+                </div>
+                <div styleClass="mb-3">
+                    <label for="exampleInputEmail1" styleClass="form-label">Detail</label>
+                    <h:inputText id="exampleInputEmail1" styleClass="form-control" value="#{productBean.entity.detail}" />
+                </div>
+                
+                <div styleClass="mb-3">
+                    <label for="exampleInputPassword1" styleClass="form-label">Price</label>
+                    <h:inputText id="exampleInputPassword1" styleClass="form-control" value="#{productBean.entity.price}" />
+                </div>
+               
+                <div styleClass="text-center">
+                    <h:commandButton value="Güncelle" styleClass="btn btn-primary" action="#{productBean.update()}"/>
+                </div>
+                <br/>
+
+            </h:form>
+        </div>
+    </h:body>
+</html>

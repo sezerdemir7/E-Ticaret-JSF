@@ -33,26 +33,7 @@ public class ImageBean implements Serializable {
 
     private String uploadTo = "C:\\Users\\Demirr\\Desktop\\files\\";
 
-    /*public Long upload() {
-        Long imageId ;
-        try {
-            InputStream input = doc.getInputStream();
-            File f = new File(uploadTo + doc.getSubmittedFileName());
-            Files.copy(input, f.toPath());
-
-            Image newImage = new Image();
-            newImage.setPath(f.getParent());
-            newImage.setName(f.getName());
-            newImage.setType(doc.getContentType());
-
-         return imageId=  getImageDAO().createImage(newImage);
-          
-
-        } catch (IOException e) {
-            System.out.println("Dosya yükleme hatası: " + e.getMessage());
-        }
-        return 2L;
-    }*/
+   
     public Image upload() {
        
         try {
